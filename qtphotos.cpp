@@ -136,14 +136,8 @@ void QtPhotos::on_actionCut_triggered()
 
 void QtPhotos::display(QImage imageToDisplay)
 {
-    QLabel* imgDisplayLabel = new QLabel("");
-    imgDisplayLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
-//    imgDisplayLabel->setScaledContents(true);
-//    imgDisplayLabel->adjustSize();
-    ui->scrollArea->setWidget(imgDisplayLabel);
-    ui->scrollArea->show();
-//    setCentralWidget(ui->scrollArea);
-    Q_ASSERT(imgDisplayLabel->pixmap());
+    ui->imageLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
+
     boundingRect.reset();
 }
 
