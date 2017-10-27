@@ -65,7 +65,7 @@ ApplicationWindow {
                 source: "icons/open.png"
             }
 
-            onClicked: BackEnd.openImage();
+            onClicked: BackEnd.openImage(imgLabel);
         }
 
         ToolButton {
@@ -89,15 +89,29 @@ ApplicationWindow {
         }
     }
 
-    Label {
-        id: imgLabel
-        x: 283
-        y: 151
-        width: 500
-        height: 100
-        text: qsTr("")
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+    Pane {
+        id: pane
+        anchors.top: toolBar.bottom
+        anchors.topMargin: 20
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 20
+        anchors.right: parent.right
+        anchors.rightMargin: 25
+        anchors.left: parent.left
+        anchors.leftMargin: 25
+
+        background: Rectangle {
+            color: "#2D2D2D"
+        }
+
+        Label {
+            id: imgLabel
+            x: 246
+            y: 94
+            text: qsTr("")
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
 }
