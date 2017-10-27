@@ -65,7 +65,7 @@ ApplicationWindow {
                 source: "icons/open.png"
             }
 
-            onClicked: console.log("OPEN")
+            onClicked: BackEnd.openImage();
         }
 
         ToolButton {
