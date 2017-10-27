@@ -11,6 +11,11 @@
 #include <QDebug>
 #include <QPainter>
 #include <QLabel>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QDesktopWidget>
+#include <QScrollBar>
+#include <QClipboard>
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
@@ -19,6 +24,20 @@ QtPhotos::QtPhotos(QWidget *parent) :
     ui(new Ui::QtPhotos)
 {
     ui->setupUi(this);
+    ui->imageLabel->setBackgroundRole(QPalette::Base);
+    ui->imageLabel->setScaledContents(true);
+
+    ui->scrollArea->setBackgroundRole(QPalette::Dark);
+
+    resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+    setGeometry(
+        QStyle::alignedRect(
+            Qt::LeftToRight,
+            Qt::AlignCenter,
+            size(),
+            qApp->desktop()->availableGeometry()
+        )
+    );
 }
 
 QtPhotos::~QtPhotos()
@@ -44,13 +63,18 @@ void QtPhotos::on_actionOpen_triggered()
         QImage image = reader.read();
         if (image.isNull())
             qDebug() << "Failed to open image";
-        QLabel* imgDisplayLabel = new QLabel("");
-        imgDisplayLabel->setPixmap(QPixmap::fromImage(image));
-        imgDisplayLabel->setScaledContents(true);
-        imgDisplayLabel->adjustSize();
-        ui->scrollArea->setWidget(imgDisplayLabel);
-        ui->scrollArea->show();
-        Q_ASSERT(imgDisplayLabel->pixmap());
+        QTransform trans;
+        trans.rotate(45);
+        //image = image.transformed(trans);
+        ui->imageLabel->setPixmap(QPixmap::fromImage(image));
+        //ui->imageLabel->setScaledContents(true);
+        //ui->imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+        //ui->imageLabel->adjustSize();
+        qDebug() << image.size();
+        qDebug() << ui->scrollArea->widget();
+        setWindowFilePath(fileName);
+        //ui->scrollArea->show();
+        Q_ASSERT(ui->imageLabel->pixmap());
     }
 }
 
@@ -77,12 +101,14 @@ void QtPhotos::on_actionPrint_triggered()
 
 void QtPhotos::on_actionExit_triggered()
 {
-
+    exit(0);
 }
 
 void QtPhotos::on_actioncopy_triggered()
 {
-
+    #ifndef QT_NO_CLIPBOARD
+        QGuiApplication::clipboard()->setPixmap(*ui->imageLabel->pixmap());
+    #endif // !QT_NO_CLIPBOARD
 }
 
 void QtPhotos::on_actionCut_triggered()
