@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 
 ApplicationWindow {
+
     id: applicationWindow
     visible: true
     width: 600
