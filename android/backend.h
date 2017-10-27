@@ -1,7 +1,7 @@
 #ifndef BACKEND_H
 #define BACKEND_H
 
-#include <QObject>
+#include <QtWidgets>
 
 class BackEnd : public QObject
 {

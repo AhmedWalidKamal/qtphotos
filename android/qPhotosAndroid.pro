@@ -1,4 +1,7 @@
-QT += quick
+QT += quick qml core gui androidextras
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -31,3 +34,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     backend.h
+
+DISTFILES += \
+    android-sources/AndroidManifest.xml \
+    android-sources/src/com/qtphotos/QtAndroidGallery/QtAndroidGallery.java
+
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
