@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        qtphotos.cpp
+        qtphotos.cpp \
+    boundingrectangle.cpp
 
 HEADERS += \
-        qtphotos.h
+        qtphotos.h \
+    boundingrectangle.h
 
 FORMS += \
         qtphotos.ui

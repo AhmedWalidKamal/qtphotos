@@ -1,3 +1,4 @@
+#include "boundingrectangle.h"
 #include "qtphotos.h"
 #include "ui_qtphotos.h"
 #include <QFileDialog>
@@ -11,6 +12,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QLabel>
+#include <QMouseEvent>
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
@@ -31,26 +33,42 @@ void QtPhotos::on_actionNew_triggered()
 
 }
 
+void QtPhotos::mousePressEvent(QMouseEvent *event)
+{
+    boundingRect.initBoundingRectangle(event->pos(), this);
+}
+
+void QtPhotos::mouseMoveEvent(QMouseEvent *event)
+{
+    boundingRect.updateRectPosition(event->pos());
+}
+
+void QtPhotos::mouseReleaseEvent(QMouseEvent *event)
+{
+    boundingRect.setRectDimensions();
+}
+
 void QtPhotos::on_actionOpen_triggered()
 {
     QFileDialog dialog(this, tr("Open Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     initImageDialog(dialog, QFileDialog::AcceptOpen);
-    dialog.exec();
-    for (const QString& fileName : dialog.selectedFiles()) {
-        qDebug() << fileName;
-        QImageReader reader(fileName);
-        reader.setAutoTransform(true);
-        QImage image = reader.read();
-        if (image.isNull())
-            qDebug() << "Failed to open image";
-        QLabel* imgDisplayLabel = new QLabel("");
-        imgDisplayLabel->setPixmap(QPixmap::fromImage(image));
-        imgDisplayLabel->setScaledContents(true);
-        imgDisplayLabel->adjustSize();
-        ui->scrollArea->setWidget(imgDisplayLabel);
-        ui->scrollArea->show();
-        Q_ASSERT(imgDisplayLabel->pixmap());
+    if (dialog.exec() == QDialog::Accepted) {
+        for (const QString& fileName : dialog.selectedFiles()) {
+            qDebug() << fileName;
+            QImageReader reader(fileName);
+            reader.setAutoTransform(true);
+            image = reader.read();
+            if (image.isNull())
+                qDebug() << "Failed to open image";
+            QLabel* imgDisplayLabel = new QLabel("");
+            imgDisplayLabel->setPixmap(QPixmap::fromImage(image));
+            imgDisplayLabel->setScaledContents(true);
+            imgDisplayLabel->adjustSize();
+            ui->scrollArea->setWidget(imgDisplayLabel);
+            ui->scrollArea->show();
+            Q_ASSERT(imgDisplayLabel->pixmap());
+        }
     }
 }
 
@@ -87,7 +105,21 @@ void QtPhotos::on_actioncopy_triggered()
 
 void QtPhotos::on_actionCut_triggered()
 {
+    QImage croppedImage = image.copy(boundingRect.getBoundingRect());
+    display(croppedImage);
+}
 
+void QtPhotos::display(QImage imageToDisplay)
+{
+    QLabel* imgDisplayLabel = new QLabel("");
+    imgDisplayLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
+//    imgDisplayLabel->setScaledContents(true);
+//    imgDisplayLabel->adjustSize();
+    ui->scrollArea->setWidget(imgDisplayLabel);
+    ui->scrollArea->show();
+//    setCentralWidget(ui->scrollArea);
+    Q_ASSERT(imgDisplayLabel->pixmap());
+    boundingRect.reset();
 }
 
 void QtPhotos::on_actionPaste_triggered()

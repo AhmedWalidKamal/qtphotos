@@ -1,7 +1,10 @@
 #ifndef QTPHOTOS_H
 #define QTPHOTOS_H
 
+#include "boundingrectangle.h"
+
 #include <QMainWindow>
+#include <QRubberBand>
 
 namespace Ui {
 class QtPhotos;
@@ -42,8 +45,17 @@ private slots:
 
     void on_actionAbout_triggered();
 
+    void mousePressEvent(QMouseEvent *event);
+
+    void mouseMoveEvent(QMouseEvent *event);
+
+    void mouseReleaseEvent(QMouseEvent *event);
 private:
     Ui::QtPhotos *ui;
+    boundingRectangle boundingRect;
+    QImage image;
+
+    void display(QImage imageToDisplay);
 };
 
 #endif // QTPHOTOS_H
