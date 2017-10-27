@@ -28,7 +28,6 @@ QtPhotos::QtPhotos(QWidget *parent) :
     ui->setupUi(this);
     ui->imageLabel->setBackgroundRole(QPalette::Base);
     ui->imageLabel->setScaledContents(true);
-
     ui->scrollArea->setBackgroundRole(QPalette::Dark);
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
@@ -54,17 +53,23 @@ void QtPhotos::on_actionNew_triggered()
 
 void QtPhotos::mousePressEvent(QMouseEvent *event)
 {
-    boundingRect.initBoundingRectangle(event->pos(), this);
+
 }
 
 void QtPhotos::mouseMoveEvent(QMouseEvent *event)
 {
-    boundingRect.updateRectPosition(event->pos());
+
 }
 
 void QtPhotos::mouseReleaseEvent(QMouseEvent *event)
 {
-    boundingRect.setRectDimensions();
+
+}
+
+void QtPhotos::saveImage(QImage &imageToSave, QString &imageFileName)
+{
+    QImageWriter writer(imageFileName);
+    writer.write(imageToSave);
 }
 
 void QtPhotos::on_actionOpen_triggered()
@@ -72,7 +77,9 @@ void QtPhotos::on_actionOpen_triggered()
     QFileDialog dialog(this, tr("Open Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     initImageDialog(dialog, QFileDialog::AcceptOpen);
-    dialog.exec();
+    int ret = dialog.exec();
+    if (ret != QFileDialog::Accepted)
+        return;
     for (const QString& fileName : dialog.selectedFiles()) {
         qDebug() << fileName;
         QImageReader reader(fileName);
@@ -97,7 +104,7 @@ void QtPhotos::on_actionOpen_triggered()
 
 void QtPhotos::on_actionSave_triggered()
 {
-
+    saveImage(image, fileName);
 }
 
 void QtPhotos::on_actionSave_as_triggered()
@@ -105,10 +112,16 @@ void QtPhotos::on_actionSave_as_triggered()
     QFileDialog dialog(this, tr("Save Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     initImageDialog(dialog, QFileDialog::AcceptSave);
-    dialog.exec();
+    int ret = dialog.exec();
+    if (ret != QFileDialog::Accepted)
+        return;
     for (const QString& str : dialog.selectedFiles()) {
         qDebug() << str;
     }
+    QString imageFileName = dialog.selectedFiles().first();
+    saveImage(image, imageFileName);
+    fileName = imageFileName;
+    setWindowFilePath(fileName);
 }
 
 void QtPhotos::on_actionPrint_triggered()
@@ -130,15 +143,15 @@ void QtPhotos::on_actioncopy_triggered()
 
 void QtPhotos::on_actionCut_triggered()
 {
-    QImage croppedImage = image.copy(boundingRect.getBoundingRect());
+    QImage croppedImage = image.copy(ui->imageLabel->boundingRect.getBoundingRect());
     display(croppedImage);
 }
 
-void QtPhotos::display(QImage imageToDisplay)
+void QtPhotos::display(QImage &imageToDisplay)
 {
     ui->imageLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
 
-    boundingRect.reset();
+    ui->imageLabel->boundingRect.reset();
 }
 
 void QtPhotos::on_actionPaste_triggered()

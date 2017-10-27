@@ -52,10 +52,11 @@ private slots:
     void mouseReleaseEvent(QMouseEvent *event);
 private:
     Ui::QtPhotos *ui;
-    boundingRectangle boundingRect;
     QImage image;
+    QString fileName;
 
-    void display(QImage imageToDisplay);
+    void display(QImage &imageToDisplay);
+    void saveImage(QImage &imageToSave, QString &imageFileName);
 };
 
 #endif // QTPHOTOS_H

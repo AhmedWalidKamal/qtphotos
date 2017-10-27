@@ -36,5 +36,7 @@ void boundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widg
 
 void boundingRectangle::updateRectPosition(QPoint newPoint)
 {
+    if (!rubberBand)
+        return;
     rubberBand->setGeometry(QRect(origin, newPoint).normalized());
 }

@@ -20,7 +20,7 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QLabel" name="imageLabel">
+      <widget class="QImageLabel" name="imageLabel">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -267,6 +267,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QImageLabel</class>
+   <extends>QLabel</extends>
+   <header>qimagelabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="qtphotos.qrc"/>
  </resources>
