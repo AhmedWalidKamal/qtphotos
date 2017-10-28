@@ -65,7 +65,7 @@ ApplicationWindow {
                 source: "icons/open.png"
             }
 
-            onClicked: BackEnd.openImage(imgLabel);
+            onClicked: BackEnd.openImage();
         }
 
         ToolButton {
@@ -104,13 +104,21 @@ ApplicationWindow {
             color: "#2D2D2D"
         }
 
-        Label {
-            id: imgLabel
-            x: 246
-            y: 94
-            text: qsTr("")
+//        Label {
+//            id: imgLabel
+//            x: 246
+//            y: 94
+//            text: qsTr("")
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            anchors.verticalCenter: parent.verticalCenter
+        //        }
+        Image {
+            id: img
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            fillMode: Image.PreserveAspectFit
+            source: ""
+
         }
     }
 
