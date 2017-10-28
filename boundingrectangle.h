@@ -15,6 +15,7 @@ public:
     void updateRectPosition(QPoint newPoint);
     void setRectDimensions();
     QRect getBoundingRect();
+    void scale(double scaleX, double scaleY);
     void reset();
 private:
     QPoint origin;

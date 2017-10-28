@@ -1,7 +1,7 @@
 #ifndef QIMAGELABEL_H
 #define QIMAGELABEL_H
 #include "boundingrectangle.h"
-
+#include <QPixmap>
 #include <QLabel>
 
 class QImageLabel : public QLabel
@@ -13,6 +13,8 @@ public:
     enum State {};
     ~QImageLabel();
     boundingRectangle boundingRect;
+    void crop();
+    //void setPixmap(QPixmap &pixmap);
 
 private slots:
     void mousePressEvent(QMouseEvent *event);
@@ -21,7 +23,7 @@ private slots:
 
     void mouseReleaseEvent(QMouseEvent *event);
 private:
-    //boundingRectangle boundingRect;
+
 };
 
 #endif // QIMAGELABEL_H

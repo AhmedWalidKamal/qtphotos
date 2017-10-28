@@ -40,3 +40,14 @@ void boundingRectangle::updateRectPosition(QPoint newPoint)
         return;
     rubberBand->setGeometry(QRect(origin, newPoint).normalized());
 }
+
+void boundingRectangle::scale(double scaleX, double scaleY) {
+    QPoint newTopLeft;
+    newTopLeft.setX(rubberBandRect.topLeft().x() * scaleX);
+    newTopLeft.setY(rubberBandRect.topLeft().y() * scaleY);
+    QPoint newBottomRight;
+    newBottomRight.setX(rubberBandRect.bottomRight().x() * scaleX);
+    newBottomRight.setY(rubberBandRect.bottomRight().y() * scaleY);
+    rubberBandRect.setTopLeft(newTopLeft);
+    rubberBandRect.setBottomRight(newBottomRight);
+}

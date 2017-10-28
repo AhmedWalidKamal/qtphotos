@@ -87,12 +87,10 @@ void QtPhotos::on_actionOpen_triggered()
         image = reader.read();
         if (image.isNull())
             qDebug() << "Failed to open image";
-        QTransform trans;
-        trans.rotate(45);
         //image = image.transformed(trans);
         ui->imageLabel->setPixmap(QPixmap::fromImage(image));
-        //ui->imageLabel->setScaledContents(true);
-        //ui->imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+//        QPainter painter(ui->imageLabel);
+//        painter.drawPixmap(ui->imageLabel->rect(), QPixmap::fromImage(image));
         //ui->imageLabel->adjustSize();
         qDebug() << image.size();
         qDebug() << ui->scrollArea->widget();
@@ -143,15 +141,16 @@ void QtPhotos::on_actioncopy_triggered()
 
 void QtPhotos::on_actionCut_triggered()
 {
-    QImage croppedImage = image.copy(ui->imageLabel->boundingRect.getBoundingRect());
-    display(croppedImage);
+    ui->imageLabel->crop();
+    //QImage croppedImage = image.copy(ui->imageLabel->boundingRect.getBoundingRect());
+    //display(croppedImage);
 }
 
 void QtPhotos::display(QImage &imageToDisplay)
 {
-    ui->imageLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
+    //ui->imageLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
 
-    ui->imageLabel->boundingRect.reset();
+    //ui->imageLabel->boundingRect.reset();
 }
 
 void QtPhotos::on_actionPaste_triggered()
