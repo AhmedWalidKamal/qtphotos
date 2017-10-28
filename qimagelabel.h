@@ -14,7 +14,8 @@ public:
     ~QImageLabel();
     boundingRectangle boundingRect;
     void crop();
-    //void setPixmap(QPixmap &pixmap);
+    void setPixmap(QPixmap &pixelmap);
+    void setPixmap(QPixmap &&pixelmap);
 
 private slots:
     void mousePressEvent(QMouseEvent *event);
@@ -23,7 +24,8 @@ private slots:
 
     void mouseReleaseEvent(QMouseEvent *event);
 private:
-
+    QPixmap *originalPixmap;
+    double rotation;
 };
 
 #endif // QIMAGELABEL_H

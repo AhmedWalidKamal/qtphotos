@@ -28,6 +28,7 @@ QtPhotos::QtPhotos(QWidget *parent) :
     ui->setupUi(this);
     ui->imageLabel->setBackgroundRole(QPalette::Base);
     ui->imageLabel->setScaledContents(true);
+    ui->imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     ui->scrollArea->setBackgroundRole(QPalette::Dark);
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
