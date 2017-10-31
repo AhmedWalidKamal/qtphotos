@@ -1,4 +1,5 @@
 #include "qimagelabel.h"
+#include "mathutil.h"
 
 #include <QMouseEvent>
 #include <QDebug>
@@ -6,7 +7,8 @@
 
 QImageLabel::QImageLabel(QWidget *parent): QLabel(parent)
 {
-    rotation = 0;
+    rotationDiff = 0;
+    curRotation = 0;
     originalPixmap = nullptr;
 }
 
@@ -26,9 +28,14 @@ void QImageLabel::setPixmap(QPixmap &&pixelmap) {
 
 void QImageLabel::mousePressEvent(QMouseEvent *event)
 {
+    QPoint endPoint = event->pos();
+    QPoint startingPoint = pos();
+    startingPoint.setX(startingPoint.x() +  width() / 2.0);
+    startingPoint.setY(startingPoint.y() +  height() / 2.0);
+    rotationDiff = curRotation - math::calculateAngle(startingPoint, endPoint);
     if (!pixmap())
         return;
-    boundingRect.initBoundingRectangle(event->pos(), this);
+    //boundingRect.initBoundingRectangle(event->pos(), this);
 }
 
 void QImageLabel::mouseMoveEvent(QMouseEvent *event)
@@ -37,33 +44,32 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         return;
     qDebug() << "Entered Mouse Move";
     //WARNING USE THIS SHIT!!!
-//    QTransform trans;
-//    QPoint endPoint = event->pos();
-//    QPoint startingPoint = pos();
-//    startingPoint.setX(startingPoint.x() +  width() / 2.0);
-//    startingPoint.setY(startingPoint.y() +  height() / 2.0);
-//    QPoint vec = endPoint - startingPoint;
-//    double angle = qAtan2(vec.y(), vec.x());
-//    double imageHeight = originalPixmap->height();
-//    double imageWidth = originalPixmap->width();
-//    trans.translate(imageWidth / 2.0, imageHeight / 2.0);
-//    //Qt::Axis axis;
-//    trans.rotateRadians(angle);
-//    qDebug() << "Center of Gravity: " << QPoint(imageWidth / 2.0, imageHeight / 2.0) << " Rotation Angle: " << angle;
-//    trans.translate(-imageWidth / 2.0, -imageHeight / 2.0);
-//    QPixmap pixelMap(*originalPixmap);
-//    pixelMap = pixelMap.transformed(trans, Qt::TransformationMode::SmoothTransformation);
-//    qDebug() << originalPixmap->rect() << "new: " << pixelMap.rect();
-//    QLabel::setPixmap(pixelMap);
-    boundingRect.updateRectPosition(event->pos());
+    QTransform trans;
+    QPoint endPoint = event->pos();
+    QPoint startingPoint = pos();
+    startingPoint.setX(startingPoint.x() +  width() / 2.0);
+    startingPoint.setY(startingPoint.y() +  height() / 2.0);
+    double angle = math::calculateAngle(startingPoint, endPoint);
+    double imageHeight = originalPixmap->height();
+    double imageWidth = originalPixmap->width();
+    trans.translate(imageWidth / 2.0, imageHeight / 2.0);
+    trans.rotateRadians(angle + rotationDiff);
+    curRotation = angle + rotationDiff;
+    qDebug() << "Center of Gravity: " << QPoint(imageWidth / 2.0, imageHeight / 2.0) << " Rotation Angle: " << angle;
+    trans.translate(-imageWidth / 2.0, -imageHeight / 2.0);
+    QPixmap pixelMap(*originalPixmap);
+    pixelMap = pixelMap.transformed(trans, Qt::TransformationMode::SmoothTransformation);
+    qDebug() << originalPixmap->rect() << "new: " << pixelMap.rect();
+    QLabel::setPixmap(pixelMap);
+//    boundingRect.updateRectPosition(event->pos());
 }
 
 void QImageLabel::mouseReleaseEvent(QMouseEvent *event)
 {
     if (!pixmap())
         return;
-    boundingRect.setRectDimensions();
-    qDebug() << "Selected Area: " << boundingRect.getBoundingRect();
+    //boundingRect.setRectDimensions();
+    //qDebug() << "Selected Area: " << boundingRect.getBoundingRect();
 }
 
 void QImageLabel::crop() {

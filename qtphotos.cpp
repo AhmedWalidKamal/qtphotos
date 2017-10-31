@@ -27,10 +27,11 @@ QtPhotos::QtPhotos(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->imageLabel->setBackgroundRole(QPalette::Base);
-    ui->imageLabel->setScaledContents(true);
-    ui->imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    //ui->imageLabel->setScaledContents(true);
+    //ui->imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    ui->imageLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     ui->scrollArea->setBackgroundRole(QPalette::Dark);
-
+    ui->scrollArea->setWidgetResizable(true);
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
     setGeometry(
         QStyle::alignedRect(

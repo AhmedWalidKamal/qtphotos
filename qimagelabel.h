@@ -25,7 +25,8 @@ private slots:
     void mouseReleaseEvent(QMouseEvent *event);
 private:
     QPixmap *originalPixmap;
-    double rotation;
+    double curRotation;
+    double rotationDiff;
 };
 
 #endif // QIMAGELABEL_H

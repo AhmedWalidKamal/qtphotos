@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         qtphotos.cpp \
     boundingrectangle.cpp \
-    qimagelabel.cpp
+    qimagelabel.cpp \
+    mathutil.cpp
 
 HEADERS += \
         qtphotos.h \
     boundingrectangle.h \
-    qimagelabel.h
+    qimagelabel.h \
+    mathutil.h
 
 FORMS += \
         qtphotos.ui
