@@ -64,8 +64,6 @@ ApplicationWindow {
                 width: 32
                 source: "icons/open.png"
             }
-
-            onClicked: BackEnd.openImage();
         }
 
         ToolButton {
@@ -120,6 +118,10 @@ ApplicationWindow {
             source: ""
 
         }
+    }
+    Connections {
+        target: openButton
+        onClicked: img.source = BackEnd.openImage()
     }
 
 }

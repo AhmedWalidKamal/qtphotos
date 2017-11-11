@@ -2,7 +2,6 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <backend.h>
-#include <qmlimageprovider.h>
 
 int main(int argc, char *argv[])
 {
@@ -10,10 +9,6 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-
-//    QmlImageProvider imgProvider;
-//    engine.rootContext()->setContextProperty("imgProvider", imgProvider);
-
 
     BackEnd backend;
     engine.rootContext()->setContextProperty("BackEnd", &backend);

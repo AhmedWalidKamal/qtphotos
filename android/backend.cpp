@@ -23,7 +23,8 @@ Java_com_qtphotos_QtAndroidGallery_QtAndroidGallery_fileSelected(JNIEnv */*env*/
 #ifdef __cplusplus
 }
 #endif
-void BackEnd::openImage() {
+QString BackEnd::openImage() {
+
     // label is always null for some reason, try other data types like QObject and stuff.
     imgPath = "#";
 
@@ -35,13 +36,19 @@ void BackEnd::openImage() {
 
         if(QFile(imgPath).exists())
         {
-            qDebug(imgPath.toLatin1());
+            return "file://"+imgPath;
+//            qDebug(imgPath.toLatin1());
 
-            QImageReader reader(imgPath);
-            reader.setAutoTransform(true);
-            QImage image = reader.read();
-            if (image.isNull())
-                qDebug() << reader.errorString();
+//            QImageReader reader(imgPath);
+//            reader.setAutoTransform(true);
+//            QImage image = reader.read();
+//            if (image.isNull())
+//                qDebug() << reader.errorString();
+
+//            imgLabel->setPixmap(QPixmap::fromImage(image));
+//            imgLabel->setScaledContents(true);
+//            imgLabel->adjustSize();
+//            imgLabel->show();
 
 //            imgLabel->setPixmap(QPixmap::fromImage(image));
 //            imgLabel->setScaledContents(true);

@@ -11,7 +11,7 @@ public:
     explicit BackEnd(QObject *parent = nullptr);
 
     // Added functions:
-    Q_INVOKABLE void openImage();
+    Q_INVOKABLE QString openImage();
 
 private:
 
