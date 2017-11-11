@@ -114,6 +114,7 @@ ApplicationWindow {
             id: img
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            anchors.fill: parent
             fillMode: Image.PreserveAspectFit
             source: ""
 
