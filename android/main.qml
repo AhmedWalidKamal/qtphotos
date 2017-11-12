@@ -10,6 +10,7 @@ ApplicationWindow {
     width: 600
     height: 320
     color: "#212121"
+    property alias image: image
     title: qsTr("Hello World")
 
     ToolBar {
@@ -110,23 +111,27 @@ ApplicationWindow {
         //            anchors.horizontalCenter: parent.horizontalCenter
         //            anchors.verticalCenter: parent.verticalCenter
         //        }
-        Image {
-            id: image
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-            source: ""
-
-        }
         PinchArea {
+            id: pinchArea
             anchors.fill: parent
             pinch.target: image
             pinch.minimumRotation: -360
             pinch.maximumRotation: 360
             pinch.minimumScale: 0.1
-            pinch.maximumScale: 10
+            pinch.maximumScale: parent.scale
             pinch.dragAxis: Pinch.XAndYAxis
+
+            Image {
+                id: image
+                x: 0
+                y: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: ""
+
+            }
         }
     }
     Connections {
