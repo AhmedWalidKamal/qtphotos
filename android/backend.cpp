@@ -36,6 +36,7 @@ QString BackEnd::openImage() {
 
         if(QFile(imgPath).exists())
         {
+            this->currentImage.load(imgPath);
             return "file://"+imgPath;
 //            qDebug(imgPath.toLatin1());
 
@@ -60,4 +61,5 @@ QString BackEnd::openImage() {
 //            label->adjustSize();
 //            label->show();
         }
+        return NULL;
 }

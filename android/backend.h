@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE QString openImage();
 
 private:
+    QImage currentImage;
 
 signals:
 

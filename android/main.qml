@@ -102,16 +102,16 @@ ApplicationWindow {
             color: "#2D2D2D"
         }
 
-//        Label {
-//            id: imgLabel
-//            x: 246
-//            y: 94
-//            text: qsTr("")
-//            anchors.horizontalCenter: parent.horizontalCenter
-//            anchors.verticalCenter: parent.verticalCenter
+        //        Label {
+        //            id: imgLabel
+        //            x: 246
+        //            y: 94
+        //            text: qsTr("")
+        //            anchors.horizontalCenter: parent.horizontalCenter
+        //            anchors.verticalCenter: parent.verticalCenter
         //        }
         Image {
-            id: img
+            id: image
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             anchors.fill: parent
@@ -119,10 +119,19 @@ ApplicationWindow {
             source: ""
 
         }
+        PinchArea {
+            anchors.fill: parent
+            pinch.target: image
+            pinch.minimumRotation: -360
+            pinch.maximumRotation: 360
+            pinch.minimumScale: 0.1
+            pinch.maximumScale: 10
+            pinch.dragAxis: Pinch.XAndYAxis
+        }
     }
     Connections {
         target: openButton
-        onClicked: img.source = BackEnd.openImage()
+        onClicked: image.source = BackEnd.openImage()
     }
 
 }
