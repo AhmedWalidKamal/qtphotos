@@ -10,7 +10,7 @@ class QImageLabel : public QLabel
 
 public:
     explicit QImageLabel(QWidget *parent = 0);
-    enum State {};
+    enum State {empty, active, selecting, rotating};
     ~QImageLabel();
     boundingRectangle boundingRect;
     void crop();
@@ -27,6 +27,7 @@ private:
     QPixmap *originalPixmap;
     double curRotation;
     double rotationDiff;
+    State currState;
 };
 
 #endif // QIMAGELABEL_H

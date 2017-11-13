@@ -10,6 +10,7 @@ QImageLabel::QImageLabel(QWidget *parent): QLabel(parent)
     rotationDiff = 0;
     curRotation = 0;
     originalPixmap = nullptr;
+    currState = empty;
 }
 
 QImageLabel::~QImageLabel()
