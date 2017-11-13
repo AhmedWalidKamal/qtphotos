@@ -47,6 +47,8 @@ private:
 
     void display(QImage &imageToDisplay);
     void saveImage(QImage &imageToSave, QString &imageFileName);
+    void disableButtonsInitially();
+    void enableButtons();
 };
 
 #endif // QTPHOTOS_H

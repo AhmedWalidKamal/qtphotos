@@ -41,6 +41,7 @@ QtPhotos::QtPhotos(QWidget *parent) :
             qApp->desktop()->availableGeometry()
         )
     );
+    disableButtonsInitially();
 }
 
 QtPhotos::~QtPhotos()
@@ -69,6 +70,24 @@ void QtPhotos::saveImage(QImage &imageToSave, QString &imageFileName)
     writer.write(imageToSave);
 }
 
+void QtPhotos::disableButtonsInitially()
+{
+    ui->actioncopy->setEnabled(false);
+    ui->actionCrop->setEnabled(false);
+    ui->actionPrint->setEnabled(false);
+    ui->actionSave->setEnabled(false);
+    ui->actionSave_as->setEnabled(false);
+}
+
+void QtPhotos::enableButtons()
+{
+    ui->actioncopy->setEnabled(true);
+    ui->actionCrop->setEnabled(true);
+    ui->actionPrint->setEnabled(true);
+    ui->actionSave->setEnabled(true);
+    ui->actionSave_as->setEnabled(true);
+}
+
 void QtPhotos::on_actionOpen_triggered()
 {
     QFileDialog dialog(this, tr("Open Image File"));
@@ -94,6 +113,8 @@ void QtPhotos::on_actionOpen_triggered()
         setWindowFilePath(fileName);
         //ui->scrollArea->show();
         Q_ASSERT(ui->imageLabel->pixmap());
+
+        enableButtons();
     }
 }
 
