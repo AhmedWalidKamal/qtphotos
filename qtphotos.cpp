@@ -136,7 +136,8 @@ void QtPhotos::on_actioncopy_triggered()
     #endif // !QT_NO_CLIPBOARD
 }
 
-void QtPhotos::on_actionCut_triggered()
+
+void QtPhotos::on_actionCrop_triggered()
 {
     ui->imageLabel->crop();
     //QImage croppedImage = image.copy(ui->imageLabel->boundingRect.getBoundingRect());
