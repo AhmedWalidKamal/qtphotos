@@ -127,6 +127,7 @@ ApplicationWindow {
                     source: ""
                     antialiasing: true
                     fillMode: Image.PreserveAspectFit
+
                     transform: Translate { y: transformY*visibleImg.scale; x: transformX*visibleImg.scale }
                     //                            anchors {
                     //                                fill: parent
@@ -134,6 +135,7 @@ ApplicationWindow {
                     //                                horizontalCenter: parent.horizontalCenter
                     //                                verticalCenter: parent.verticalCenter
                     //                            }
+
                 }
             }
 
@@ -149,6 +151,35 @@ ApplicationWindow {
 
 
             //            }
+        }
+
+        DropArea {
+//            property int prevX: 0
+//            property int prevY: 0
+            anchors.fill: parent
+//            entered: {
+//                prevX = selectRect.x
+//                prevY = selectRect.y
+//            }
+
+
+//            positionChanged: {
+//                var deltaX = selectRect.x - prevX;
+//                selectRect.x += deltaX;
+//                prevX = selectRect.x - deltaX;
+
+//                var deltaY = selectRect.y - prevY;
+//                selectRect.y += deltaY;
+//                prevY = selectRect.y - deltaY;
+//            }
+
+            Rectangle {
+                id: selectRect
+                color: "#00ffffff"
+                anchors.fill: parent
+                border.color: "#ff1f1f"
+//                Drag.YAxis
+            }
         }
     }
     Connections {
@@ -170,5 +201,6 @@ ApplicationWindow {
     //        visible: true
     //        border.color: "#bdbdbd"
     //    }
+
 
 }
