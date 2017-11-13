@@ -43,7 +43,7 @@ private:
     QString fileName;
 
     void display(QImage &imageToDisplay);
-    void saveImage(QImage &imageToSave, QString &imageFileName);
+    void saveImage(QString &imageFileName);
     void disableButtonsInitially();
     void enableButtons();
 };

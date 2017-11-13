@@ -5,11 +5,18 @@ boundingRectangle::boundingRectangle()
     rubberBand = NULL;
     rubberBandRect = QRect();
     origin = QPoint();
+    movingOffset = QPoint();
+    isMoving = false;
 }
 
 void boundingRectangle::setRectDimensions()
 {
     rubberBandRect = rubberBand->geometry().normalized();
+}
+
+void boundingRectangle::stopMoving()
+{
+    isMoving = false;
 }
 
 QRect boundingRectangle::getBoundingRect()
@@ -36,6 +43,16 @@ bool boundingRectangle::validSize()
             && rubberBandRect.size().height() > minimumHeight;
 }
 
+bool boundingRectangle::contains(QPoint point)
+{
+    return rubberBand->geometry().contains(point);
+}
+
+bool boundingRectangle::rubberBandIsMoving()
+{
+    return isMoving;
+}
+
 void boundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widget)
 {
     origin = initialPoint;
@@ -45,11 +62,22 @@ void boundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widg
     rubberBand->show();
 }
 
+void boundingRectangle::initMoving(QPoint point)
+{
+    movingOffset = point - rubberBand->pos();
+    isMoving = true;
+}
+
 void boundingRectangle::updateRectPosition(QPoint newPoint)
 {
     if (!rubberBand)
         return;
     rubberBand->setGeometry(QRect(origin, newPoint).normalized());
+}
+
+void boundingRectangle::moveRubberBand(QPoint point)
+{
+    rubberBand->move(point - movingOffset);
 }
 
 void boundingRectangle::scale(double scaleX, double scaleY) {

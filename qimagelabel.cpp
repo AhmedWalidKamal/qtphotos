@@ -44,7 +44,11 @@ void QImageLabel::resetBoundingRectangle()
 void QImageLabel::mousePressEvent(QMouseEvent *event)
 {
     if (currState == selecting) {
-        boundingRect.initBoundingRectangle(event->pos(), this);
+        if (!boundingRect.isEmpty() && boundingRect.contains(event->pos())) {
+            boundingRect.initMoving(event->pos());
+        } else {
+            boundingRect.initBoundingRectangle(event->pos(), this);
+        }
     } else {
         QPoint endPoint = event->pos();
         QPoint startingPoint = pos();
@@ -59,6 +63,9 @@ void QImageLabel::mousePressEvent(QMouseEvent *event)
 void QImageLabel::mouseMoveEvent(QMouseEvent *event)
 {
     if (currState == selecting) {
+        if (boundingRect.rubberBandIsMoving()) {
+            boundingRect.moveRubberBand(event->pos());
+        }
         boundingRect.updateRectPosition(event->pos());
     } else {
         if (!pixmap())
@@ -88,7 +95,11 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
 void QImageLabel::mouseReleaseEvent(QMouseEvent *event)
 {
     if (currState == selecting) {
-        boundingRect.setRectDimensions();
+        if (boundingRect.rubberBandIsMoving()) {
+            boundingRect.stopMoving();
+        } else {
+            boundingRect.setRectDimensions();
+        }
         qDebug() << "Selected Area: " << boundingRect.getBoundingRect();
     } else {
         if (!pixmap())

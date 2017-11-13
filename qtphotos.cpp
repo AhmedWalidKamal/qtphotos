@@ -50,10 +50,10 @@ QtPhotos::~QtPhotos()
     delete ui;
 }
 
-void QtPhotos::saveImage(QImage &imageToSave, QString &imageFileName)
+void QtPhotos::saveImage(QString &imageFileName)
 {
     QImageWriter writer(imageFileName);
-    writer.write(imageToSave);
+    writer.write(ui->imageLabel->pixmap()->toImage());
 }
 
 void QtPhotos::disableButtonsInitially()
@@ -104,11 +104,12 @@ void QtPhotos::on_actionOpen_triggered()
 
         enableButtons();
     }
+    fileName = dialog.selectedFiles().first();
 }
 
 void QtPhotos::on_actionSave_triggered()
 {
-    saveImage(image, fileName);
+    saveImage(fileName);
 }
 
 void QtPhotos::on_actionSave_as_triggered()
@@ -123,7 +124,7 @@ void QtPhotos::on_actionSave_as_triggered()
         qDebug() << str;
     }
     QString imageFileName = dialog.selectedFiles().first();
-    saveImage(image, imageFileName);
+    saveImage(imageFileName);
     fileName = imageFileName;
     setWindowFilePath(fileName);
 }
