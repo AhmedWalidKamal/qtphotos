@@ -136,35 +136,51 @@ ApplicationWindow {
                     source: ""
                     antialiasing: true
                     fillMode: Image.PreserveAspectFit
-                    transform: Translate { y: transformY*visibleImg.scale; x: transformX*visibleImg.scale }
+
                     anchors {
                         fill: parent
                         margins: 2
                         horizontalCenter: parent.horizontalCenter
                         verticalCenter: parent.verticalCenter
                     }
+
+
                 }
+            }
+        }
+
+        DropArea {
+//            property int prevX: 0
+//            property int prevY: 0
+            anchors.fill: parent
+//            entered: {
+//                prevX = selectRect.x
+//                prevY = selectRect.y
+//            }
+
+
+//            positionChanged: {
+//                var deltaX = selectRect.x - prevX;
+//                selectRect.x += deltaX;
+//                prevX = selectRect.x - deltaX;
+
+//                var deltaY = selectRect.y - prevY;
+//                selectRect.y += deltaY;
+//                prevY = selectRect.y - deltaY;
+//            }
+
+            Rectangle {
+                id: selectRect
+                color: "#00ffffff"
+                anchors.fill: parent
+                border.color: "#ff1f1f"
+//                Drag.YAxis
             }
         }
     }
     Connections {
         target: openButton
         onClicked: image.source = BackEnd.openImage()
-    }
-
-    Rectangle {
-        id: cropArea
-        color: "#05f5f5f5"
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 35
-        anchors.top: parent.top
-        anchors.topMargin: 85
-        anchors.left: parent.left
-        anchors.leftMargin: 200
-        anchors.right: parent.right
-        anchors.rightMargin: 200
-        visible: true
-        border.color: "#bdbdbd"
     }
 
 }
