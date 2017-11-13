@@ -33,11 +33,6 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void mousePressEvent(QMouseEvent *event);
-
-    void mouseMoveEvent(QMouseEvent *event);
-
-    void mouseReleaseEvent(QMouseEvent *event);
     void on_actionCrop_triggered();
 
     void on_actionSelect_triggered();

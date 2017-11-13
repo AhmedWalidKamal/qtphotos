@@ -25,6 +25,11 @@ void boundingRectangle::reset()
     rubberBandRect = QRect();
 }
 
+bool boundingRectangle::isEmpty()
+{
+    return rubberBand == NULL;
+}
+
 void boundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widget)
 {
     origin = initialPoint;

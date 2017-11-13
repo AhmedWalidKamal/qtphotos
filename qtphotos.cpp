@@ -50,21 +50,6 @@ QtPhotos::~QtPhotos()
     delete ui;
 }
 
-void QtPhotos::mousePressEvent(QMouseEvent *event)
-{
-
-}
-
-void QtPhotos::mouseMoveEvent(QMouseEvent *event)
-{
-
-}
-
-void QtPhotos::mouseReleaseEvent(QMouseEvent *event)
-{
-
-}
-
 void QtPhotos::saveImage(QImage &imageToSave, QString &imageFileName)
 {
     QImageWriter writer(imageFileName);
@@ -164,6 +149,8 @@ void QtPhotos::on_actioncopy_triggered()
 void QtPhotos::on_actionCrop_triggered()
 {
     ui->imageLabel->crop();
+    ui->actionSelect->setChecked(false);
+    ui->imageLabel->setState(QImageLabel::active);
     //QImage croppedImage = image.copy(ui->imageLabel->boundingRect.getBoundingRect());
     //display(croppedImage);
 }
@@ -227,6 +214,7 @@ void QtPhotos::on_actionSelect_triggered()
 {
     if (ui->imageLabel->getState() == QImageLabel::selecting) {
         ui->imageLabel->setState(QImageLabel::active);
+        ui->imageLabel->resetBoundingRectangle();
     } else {
         ui->imageLabel->setState(QImageLabel::selecting);
     }

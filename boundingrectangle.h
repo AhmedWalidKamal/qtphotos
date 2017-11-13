@@ -17,6 +17,7 @@ public:
     QRect getBoundingRect();
     void scale(double scaleX, double scaleY);
     void reset();
+    bool isEmpty();
 private:
     QPoint origin;
     QRubberBand *rubberBand;
