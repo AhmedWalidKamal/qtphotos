@@ -80,7 +80,9 @@
     </property>
     <addaction name="actionSelect"/>
     <addaction name="actioncopy"/>
+    <addaction name="actionPaste"/>
     <addaction name="actionCrop"/>
+    <addaction name="actionReset"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -110,8 +112,10 @@
    <addaction name="separator"/>
    <addaction name="actionSelect"/>
    <addaction name="actioncopy"/>
+   <addaction name="actionPaste"/>
    <addaction name="actionCrop"/>
    <addaction name="separator"/>
+   <addaction name="actionReset"/>
    <addaction name="actionExit"/>
   </widget>
   <action name="actionOpen">
@@ -219,6 +223,30 @@
    </property>
    <property name="toolTip">
     <string>select</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/edit_undo.png</normaloff>:/icons/edit_undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+   <property name="toolTip">
+    <string>reset</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="toolTip">
+    <string>paste</string>
    </property>
   </action>
  </widget>

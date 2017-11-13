@@ -37,6 +37,8 @@ private slots:
 
     void on_actionSelect_triggered();
 
+    void on_actionReset_triggered();
+
 private:
     Ui::QtPhotos *ui;
     QImage image;

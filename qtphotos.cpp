@@ -64,6 +64,8 @@ void QtPhotos::disableButtonsInitially()
     ui->actionSave->setEnabled(false);
     ui->actionSave_as->setEnabled(false);
     ui->actionSelect->setEnabled(false);
+    ui->actionReset->setEnabled(false);
+    ui->actionPaste->setEnabled(false);
 }
 
 void QtPhotos::enableButtons()
@@ -219,4 +221,9 @@ void QtPhotos::on_actionSelect_triggered()
     } else {
         ui->imageLabel->setState(QImageLabel::selecting);
     }
+}
+
+void QtPhotos::on_actionReset_triggered()
+{
+
 }
