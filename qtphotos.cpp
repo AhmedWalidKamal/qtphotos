@@ -48,11 +48,6 @@ QtPhotos::~QtPhotos()
     delete ui;
 }
 
-void QtPhotos::on_actionNew_triggered()
-{
-
-}
-
 void QtPhotos::mousePressEvent(QMouseEvent *event)
 {
 
@@ -153,26 +148,6 @@ void QtPhotos::display(QImage &imageToDisplay)
     //ui->imageLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
 
     //ui->imageLabel->boundingRect.reset();
-}
-
-void QtPhotos::on_actionPaste_triggered()
-{
-
-}
-
-void QtPhotos::on_actionUndo_triggered()
-{
-
-}
-
-void QtPhotos::on_actionRedo_triggered()
-{
-
-}
-
-void QtPhotos::on_actionFont_triggered()
-{
-
 }
 
 void QtPhotos::on_actionAbout_triggered()

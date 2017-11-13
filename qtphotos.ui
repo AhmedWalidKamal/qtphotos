@@ -68,7 +68,6 @@
     <property name="toolTipsVisible">
      <bool>false</bool>
     </property>
-    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
@@ -81,10 +80,6 @@
     </property>
     <addaction name="actioncopy"/>
     <addaction name="actionCut"/>
-    <addaction name="actionPaste"/>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
-    <addaction name="actionFont"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -107,7 +102,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="actionSave_as"/>
@@ -115,25 +109,9 @@
    <addaction name="separator"/>
    <addaction name="actioncopy"/>
    <addaction name="actionCut"/>
-   <addaction name="actionPaste"/>
-   <addaction name="actionUndo"/>
-   <addaction name="actionRedo"/>
-   <addaction name="actionFont"/>
    <addaction name="separator"/>
    <addaction name="actionExit"/>
   </widget>
-  <action name="actionNew">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/new.png</normaloff>:/icons/new.png</iconset>
-   </property>
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
-   </property>
-  </action>
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
@@ -216,54 +194,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
-   </property>
-  </action>
-  <action name="actionPaste">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
-   </property>
-   <property name="text">
-    <string>Paste</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+V</string>
-   </property>
-  </action>
-  <action name="actionUndo">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/edit_undo.png</normaloff>:/icons/edit_undo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Undo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="actionRedo">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/edit_redo.png</normaloff>:/icons/edit_redo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Redo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Y, Ctrl+Shift+Z</string>
-   </property>
-  </action>
-  <action name="actionFont">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/font.png</normaloff>:/icons/font.png</iconset>
-   </property>
-   <property name="text">
-    <string>Font</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+F</string>
    </property>
   </action>
   <action name="actionAbout">
