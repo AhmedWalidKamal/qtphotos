@@ -111,80 +111,53 @@ ApplicationWindow {
         //            anchors.horizontalCenter: parent.horizontalCenter
         //            anchors.verticalCenter: parent.verticalCenter
         //        }
-        PinchArea {
-            id: pinchArea
-            anchors.fill: parent
-            pinch.target: image
-            pinch.minimumRotation: -360
-            pinch.maximumRotation: 360
-            pinch.minimumScale: 0.1
-            pinch.maximumScale: 10
-            pinch.dragAxis: Pinch.XAndYAxis
-            ScrollView {
-                anchors.fill: parent
-                Image {
-                    id: image
-                    source: ""
-                    antialiasing: true
-                    fillMode: Image.PreserveAspectFit
+        ZoomableImage{
+            id:image
+            antialiasing: true
 
-                    transform: Translate { y: transformY*visibleImg.scale; x: transformX*visibleImg.scale }
-                    //                            anchors {
-                    //                                fill: parent
-                    //                                margins: 2
-                    //                                horizontalCenter: parent.horizontalCenter
-                    //                                verticalCenter: parent.verticalCenter
-                    //                            }
-
-                }
+            anchors {
+                fill: parent
+                margins: 2
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
             }
-
-
-            //            Rectangle {
-            //                id: borderRect
-            //                color: "#2D2D2D"
-            //                clip: true
-            //                anchors {
-            //                    fill: parent
-            //                    margins: 2
-            //                }
-
-
-            //            }
         }
 
         DropArea {
-//            property int prevX: 0
-//            property int prevY: 0
+            //            property int prevX: 0
+            //            property int prevY: 0
             anchors.fill: parent
-//            entered: {
-//                prevX = selectRect.x
-//                prevY = selectRect.y
-//            }
+            //            entered: {
+            //                prevX = selectRect.x
+            //                prevY = selectRect.y
+            //            }
 
 
-//            positionChanged: {
-//                var deltaX = selectRect.x - prevX;
-//                selectRect.x += deltaX;
-//                prevX = selectRect.x - deltaX;
+            //            positionChanged: {
+            //                var deltaX = selectRect.x - prevX;
+            //                selectRect.x += deltaX;
+            //                prevX = selectRect.x - deltaX;
 
-//                var deltaY = selectRect.y - prevY;
-//                selectRect.y += deltaY;
-//                prevY = selectRect.y - deltaY;
-//            }
+            //                var deltaY = selectRect.y - prevY;
+            //                selectRect.y += deltaY;
+            //                prevY = selectRect.y - deltaY;
+            //            }
 
             Rectangle {
                 id: selectRect
                 color: "#00ffffff"
                 anchors.fill: parent
                 border.color: "#ff1f1f"
-//                Drag.YAxis
+                //                Drag.YAxis
             }
         }
     }
     Connections {
         target: openButton
-        onClicked: image.source = BackEnd.openImage()
+        onClicked: {
+            image.source = BackEnd.openImage()
+            image.width = image.width
+        }
     }
 
     //    Rectangle {
