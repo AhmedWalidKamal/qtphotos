@@ -40,6 +40,8 @@ private slots:
     void mouseReleaseEvent(QMouseEvent *event);
     void on_actionCrop_triggered();
 
+    void on_actionSelect_triggered();
+
 private:
     Ui::QtPhotos *ui;
     QImage image;

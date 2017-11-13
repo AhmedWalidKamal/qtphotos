@@ -42,6 +42,7 @@ QtPhotos::QtPhotos(QWidget *parent) :
         )
     );
     disableButtonsInitially();
+    ui->imageLabel->setState(QImageLabel::idle);
 }
 
 QtPhotos::~QtPhotos()
@@ -77,6 +78,7 @@ void QtPhotos::disableButtonsInitially()
     ui->actionPrint->setEnabled(false);
     ui->actionSave->setEnabled(false);
     ui->actionSave_as->setEnabled(false);
+    ui->actionSelect->setEnabled(false);
 }
 
 void QtPhotos::enableButtons()
@@ -86,6 +88,7 @@ void QtPhotos::enableButtons()
     ui->actionPrint->setEnabled(true);
     ui->actionSave->setEnabled(true);
     ui->actionSave_as->setEnabled(true);
+    ui->actionSelect->setEnabled(true);
 }
 
 void QtPhotos::on_actionOpen_triggered()
@@ -217,5 +220,14 @@ void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {
     } else {
         dialog.selectMimeTypeFilter(defaultFilter);
         dialog.setDefaultSuffix("jpg");
+    }
+}
+
+void QtPhotos::on_actionSelect_triggered()
+{
+    if (ui->imageLabel->getState() == QImageLabel::selecting) {
+        ui->imageLabel->setState(QImageLabel::active);
+    } else {
+        ui->imageLabel->setState(QImageLabel::selecting);
     }
 }

@@ -10,7 +10,6 @@ QImageLabel::QImageLabel(QWidget *parent): QLabel(parent)
     rotationDiff = 0;
     curRotation = 0;
     originalPixmap = nullptr;
-    currState = empty;
 }
 
 QImageLabel::~QImageLabel()
@@ -25,6 +24,16 @@ void QImageLabel::setPixmap(QPixmap &pixelmap) {
 
 void QImageLabel::setPixmap(QPixmap &&pixelmap) {
     setPixmap(pixelmap);
+}
+
+QImageLabel::State QImageLabel::getState()
+{
+    return currState;
+}
+
+void QImageLabel::setState(QImageLabel::State state)
+{
+    currState = state;
 }
 
 void QImageLabel::mousePressEvent(QMouseEvent *event)

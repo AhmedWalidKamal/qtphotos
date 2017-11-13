@@ -10,12 +10,14 @@ class QImageLabel : public QLabel
 
 public:
     explicit QImageLabel(QWidget *parent = 0);
-    enum State {empty, active, selecting, rotating};
+    enum State {idle, active, selecting, rotating};
     ~QImageLabel();
     boundingRectangle boundingRect;
     void crop();
     void setPixmap(QPixmap &pixelmap);
     void setPixmap(QPixmap &&pixelmap);
+    State getState();
+    void setState(State state);
 
 private slots:
     void mousePressEvent(QMouseEvent *event);
