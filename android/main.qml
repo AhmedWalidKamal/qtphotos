@@ -118,25 +118,53 @@ ApplicationWindow {
             pinch.minimumRotation: -360
             pinch.maximumRotation: 360
             pinch.minimumScale: 0.1
-            pinch.maximumScale: parent.scale
+            pinch.maximumScale: 10
             pinch.dragAxis: Pinch.XAndYAxis
 
-            Image {
-                id: image
-                x: 0
-                y: 0
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.fill: parent
-                fillMode: Image.PreserveAspectFit
-                source: ""
 
+            Rectangle {
+                id: borderRect
+                color: "#2D2D2D"
+                clip: true
+                anchors {
+                    fill: parent
+                    margins: 2
+                }
+
+                Image {
+                    id: image
+                    source: ""
+                    antialiasing: true
+                    fillMode: Image.PreserveAspectFit
+                    transform: Translate { y: transformY*visibleImg.scale; x: transformX*visibleImg.scale }
+                    anchors {
+                        fill: parent
+                        margins: 2
+                        horizontalCenter: parent.horizontalCenter
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
             }
         }
     }
     Connections {
         target: openButton
         onClicked: image.source = BackEnd.openImage()
+    }
+
+    Rectangle {
+        id: cropArea
+        color: "#05f5f5f5"
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 35
+        anchors.top: parent.top
+        anchors.topMargin: 85
+        anchors.left: parent.left
+        anchors.leftMargin: 200
+        anchors.right: parent.right
+        anchors.rightMargin: 200
+        visible: true
+        border.color: "#bdbdbd"
     }
 
 }
