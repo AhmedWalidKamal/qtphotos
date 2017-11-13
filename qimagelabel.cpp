@@ -100,6 +100,10 @@ void QImageLabel::crop() {
     if (!pixmap() || boundingRect.isEmpty()) {
         return;
     }
+    if (!boundingRect.validSize()) {
+        boundingRect.reset();
+        return;
+    }
     double imageHeight = pixmap()->height();
     double imageWidth = pixmap()->width();
     double scaleX = imageWidth / width();

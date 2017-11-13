@@ -18,10 +18,13 @@ public:
     void scale(double scaleX, double scaleY);
     void reset();
     bool isEmpty();
+    bool validSize();
 private:
     QPoint origin;
     QRubberBand *rubberBand;
     QRect rubberBandRect;
+    const int minimumWidth = 10;
+    const int minimumHeight = 10;
 };
 
 #endif // BOUNDINGRECTANGLE_H

@@ -30,6 +30,12 @@ bool boundingRectangle::isEmpty()
     return rubberBand == NULL;
 }
 
+bool boundingRectangle::validSize()
+{
+    return rubberBandRect.size().width() > minimumWidth
+            && rubberBandRect.size().height() > minimumHeight;
+}
+
 void boundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widget)
 {
     origin = initialPoint;
