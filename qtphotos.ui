@@ -124,7 +124,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
+     <normaloff>:/icons/open.svg</normaloff>:/icons/open.svg</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -136,7 +136,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
+     <normaloff>:/icons/save.svg</normaloff>:/icons/save.svg</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -160,7 +160,7 @@
   <action name="actionPrint">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/print.png</normaloff>:/icons/print.png</iconset>
+     <normaloff>:/icons/print.svg</normaloff>:/icons/print.svg</iconset>
    </property>
    <property name="text">
     <string>Print</string>
@@ -172,7 +172,7 @@
   <action name="actionExit">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+     <normaloff>:/icons/exit.svg</normaloff>:/icons/exit.svg</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -184,7 +184,7 @@
   <action name="actioncopy">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+     <normaloff>:/icons/copy.svg</normaloff>:/icons/copy.svg</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -196,7 +196,7 @@
   <action name="actionCrop">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/cut.png</normaloff>:/icons/cut.png</iconset>
+     <normaloff>:/icons/crop.svg</normaloff>:/icons/crop.svg</iconset>
    </property>
    <property name="text">
     <string>Crop</string>
@@ -234,7 +234,7 @@
   <action name="actionReset">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/edit_undo.png</normaloff>:/icons/edit_undo.png</iconset>
+     <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
    </property>
    <property name="text">
     <string>Reset</string>
@@ -249,7 +249,7 @@
   <action name="actionPaste">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+     <normaloff>:/icons/paste.svg</normaloff>:/icons/paste.svg</iconset>
    </property>
    <property name="text">
     <string>Paste</string>

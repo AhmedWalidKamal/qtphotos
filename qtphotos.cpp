@@ -97,7 +97,7 @@ void QtPhotos::on_actionOpen_triggered()
     qDebug() << "File Name: " << fileName;
     QImageReader reader(fileName);
     reader.setAutoTransform(true);
-    image = reader.read();
+    QImage image = reader.read();
     if (image.isNull())
         qDebug() << "Failed to open image";
     qDebug() << "Image Size: " << image.size();
