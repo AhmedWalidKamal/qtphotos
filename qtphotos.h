@@ -1,7 +1,7 @@
 #ifndef QTPHOTOS_H
 #define QTPHOTOS_H
 
-#include "boundingrectangle.h"
+#include "qboundingrect.h"
 
 #include <QMainWindow>
 #include <QRubberBand>

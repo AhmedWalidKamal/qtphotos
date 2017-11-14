@@ -1,6 +1,6 @@
 #ifndef QIMAGELABEL_H
 #define QIMAGELABEL_H
-#include "boundingrectangle.h"
+#include "qboundingrect.h"
 #include <QPixmap>
 #include <QLabel>
 
@@ -28,7 +28,7 @@ private slots:
     void mouseReleaseEvent(QMouseEvent *event);
 private:
     QPixmap *originalPixmap;
-    boundingRectangle boundingRect;
+    QBoundingRectangle boundingRect;
     double curRotation;
     double rotationDiff;
     State currState;

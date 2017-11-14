@@ -112,7 +112,7 @@ void QImageLabel::mouseReleaseEvent(QMouseEvent *event)
         if (boundingRect.rubberBandIsMoving()) {
             boundingRect.stopMoving();
         } else {
-            boundingRect.setRectDimensions();
+            boundingRect.setupBoundingRect();
         }
         qDebug() << "Selected Area: " << boundingRect.getBoundingRect();
         break;
