@@ -98,6 +98,11 @@ void QtPhotos::closeEvent(QCloseEvent *event) {
 
 void QtPhotos::on_actionOpen_triggered()
 {
+    if (ui->imageLabel->isModified()) {
+        if (!promptForSaving()) {
+            return;
+        }
+    }
     QFileDialog dialog(this, tr("Open Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     initImageDialog(dialog, QFileDialog::AcceptOpen);
@@ -145,7 +150,7 @@ void QtPhotos::on_actionPrint_triggered()
 
 void QtPhotos::on_actionExit_triggered()
 {
-    QCoreApplication::quit();
+    close();
 }
 
 void QtPhotos::on_actioncopy_triggered()
@@ -178,7 +183,9 @@ void QtPhotos::display(QPixmap &&pixelMap) {
 
 void QtPhotos::on_actionAbout_triggered()
 {
-
+    QMessageBox::about(this, tr("About qtphotos"),
+                tr("<p><b>qtphotos</b> is an image viewer and editor "
+                   "developed in Qt.</p>"));
 }
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {
@@ -294,6 +301,11 @@ void QtPhotos::on_actionPaste_triggered()
     #ifndef QT_NO_CLIPBOARD
         if (QGuiApplication::clipboard()->pixmap().isNull()) {
             return;
+        }
+        if (ui->imageLabel->isModified()) {
+            if (!promptForSaving()) {
+                return;
+            }
         }
         display(QGuiApplication::clipboard()->pixmap());
     #endif

@@ -221,8 +221,15 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/about.svg</normaloff>:/icons/about.svg</iconset>
+   </property>
    <property name="text">
     <string>About</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
    </property>
   </action>
   <action name="actionSelect">

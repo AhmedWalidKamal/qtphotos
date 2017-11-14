@@ -28,5 +28,6 @@
         <file>icons/save.svg</file>
         <file>icons/open.svg</file>
         <file>icons/exit.svg</file>
+        <file>icons/about.svg</file>
     </qresource>
 </RCC>
