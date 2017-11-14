@@ -54,7 +54,7 @@ void QBoundingRectangle::resizeEvent(QResizeEvent *) {
 void QBoundingRectangle::initBoundingRectangle(QPoint initialPoint)
 {
     origin = initialPoint;
-//    setWindowFlags(Qt::SubWindow);
+    setWindowFlags(Qt::SubWindow);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     QSizeGrip* grip1 = new QSizeGrip(this);

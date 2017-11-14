@@ -20,5 +20,14 @@
         <file>icons/rotate_cursor.png</file>
         <file>icons/zoom_out.svg</file>
         <file>icons/zoom_in.svg</file>
+        <file>icons/crop.svg</file>
+        <file>icons/paste.svg</file>
+        <file>icons/copy.svg</file>
+        <file>icons/print.svg</file>
+        <file>icons/reset.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/open.svg</file>
+        <file>icons/exit.svg</file>
+        <file>icons/about.svg</file>
     </qresource>
 </RCC>

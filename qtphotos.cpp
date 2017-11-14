@@ -18,6 +18,14 @@
 #include <QDesktopWidget>
 #include <QScrollBar>
 #include <QClipboard>
+#include <QMessageBox>
+
+#if defined(QT_PRINTSUPPORT_LIB)
+#include <QtPrintSupport/qtprintsupportglobal.h>
+#if QT_CONFIG(printdialog)
+#include <QPrintDialog>
+#endif
+#endif
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
@@ -85,8 +93,23 @@ void QtPhotos::enableButtons()
     ui->actionReset->setEnabled(true);
 }
 
+void QtPhotos::closeEvent(QCloseEvent *event) {
+    if (ui->imageLabel->isModified()) {
+        if (promptForSaving()) {
+            event->accept();
+        } else {
+            event->ignore();
+        }
+    }
+}
+
 void QtPhotos::on_actionOpen_triggered()
 {
+    if (ui->imageLabel->isModified()) {
+        if (!promptForSaving()) {
+            return;
+        }
+    }
     QFileDialog dialog(this, tr("Open Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     initImageDialog(dialog, QFileDialog::AcceptOpen);
@@ -97,7 +120,7 @@ void QtPhotos::on_actionOpen_triggered()
     qDebug() << "File Name: " << fileName;
     QImageReader reader(fileName);
     reader.setAutoTransform(true);
-    image = reader.read();
+    QImage image = reader.read();
     if (image.isNull())
         qDebug() << "Failed to open image";
     qDebug() << "Image Size: " << image.size();
@@ -129,12 +152,24 @@ void QtPhotos::on_actionSave_as_triggered()
 
 void QtPhotos::on_actionPrint_triggered()
 {
-
+    Q_ASSERT(ui->imageLabel->pixmap());
+    #if QT_CONFIG(printdialog)
+        QPrintDialog dialog(&printer, this);
+        if (dialog.exec()) {
+            QPainter painter(&printer);
+            QRect rect = painter.viewport();
+            QSize size = ui->imageLabel->pixmap()->size();
+            size.scale(rect.size(), Qt::KeepAspectRatio);
+            painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
+            painter.setWindow(ui->imageLabel->pixmap()->rect());
+            painter.drawPixmap(0, 0, *ui->imageLabel->pixmap());
+        }
+    #endif
 }
 
 void QtPhotos::on_actionExit_triggered()
 {
-    exit(0);
+    close();
 }
 
 void QtPhotos::on_actioncopy_triggered()
@@ -167,7 +202,9 @@ void QtPhotos::display(QPixmap &&pixelMap) {
 
 void QtPhotos::on_actionAbout_triggered()
 {
-
+    QMessageBox::about(this, tr("About qtphotos"),
+                tr("<p><b>qtphotos</b> is an image viewer and editor "
+                   "developed in Qt.</p>"));
 }
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {
@@ -284,6 +321,33 @@ void QtPhotos::on_actionPaste_triggered()
         if (QGuiApplication::clipboard()->pixmap().isNull()) {
             return;
         }
+        if (ui->imageLabel->isModified()) {
+            if (!promptForSaving()) {
+                return;
+            }
+        }
         display(QGuiApplication::clipboard()->pixmap());
     #endif
+}
+
+bool QtPhotos::promptForSaving() {
+    const QMessageBox::StandardButton ret
+            = QMessageBox::warning(this, tr("qtphotos"),
+                                   tr("The image has been modified.\n"
+                                      "Do you want to save your changes?"),
+                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        switch (ret) {
+        case QMessageBox::Save:
+            if (fileName.isEmpty()) {
+                on_actionSave_as_triggered();
+            } else {
+                on_actionSave_triggered();
+            }
+            return true;
+        case QMessageBox::Cancel:
+            return false;
+        default:
+            break;
+        }
+        return true;
 }

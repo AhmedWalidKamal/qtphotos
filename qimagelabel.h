@@ -20,6 +20,7 @@ public:
     void resetBoundingRectangle();
     void zoom(double ratio, bool isZoomIn);
     void reset();
+    bool isModified();
 private slots:
     void mousePressEvent(QMouseEvent *event);
 
@@ -27,12 +28,14 @@ private slots:
 
     void mouseReleaseEvent(QMouseEvent *event);
 private:
+    QPixmap *resizedPixmap;
     QPixmap *originalPixmap;
     QBoundingRectangle *boundingRect;
     double curRotation;
     double rotationDiff;
     double scale;
     State currState;
+    bool imageIsModified;
 };
 
 #endif // QIMAGELABEL_H
