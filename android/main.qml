@@ -11,6 +11,7 @@ ApplicationWindow {
     height: 320
     color: "#212121"
     property alias image: image
+    property var selection: undefined
     title: qsTr("Hello World")
 
     ToolBar {
@@ -45,7 +46,17 @@ ApplicationWindow {
                 source: "icons/crop.png"
             }
 
-            onClicked: console.log("CROP");
+            onClicked: {
+                if (!selection) {
+                    console.log("CROP")
+
+                    selection = selectionComponent.createObject(boundingSelectionRect, {
+                                                                    "x": boundingSelectionRect.width / 4,
+                                                                    "y": boundingSelectionRect.height / 4,
+                                                                    "width": boundingSelectionRect.width / 2,
+                                                                    "height": boundingSelectionRect.width / 2})
+                }
+            }
         }
 
         ToolButton {
@@ -104,7 +115,7 @@ ApplicationWindow {
         }
 
 
-        ZoomableImage{
+        ZoomableImage {
             id:image
             antialiasing: true
 
@@ -116,8 +127,18 @@ ApplicationWindow {
             }
         }
 
+//        PinchArea {
+//            id: pinchSelection
+//            anchors.fill: parent
+//            pinch.target: selectRect
+//            pinch.minimumRotation: 0
+//            pinch.maximumRotation: 0
+//            pinch.minimumScale: 0.1
+//            pinch.maximumScale: pane.scale
+//            pinch.dragAxis: Pinch.XAndYAxis
+
         Rectangle {
-            id: boundingSelectionTriangle
+            id: boundingSelectionRect
             color: "#00ffffff"
             anchors.fill: parent
             width: parent.width
@@ -125,25 +146,146 @@ ApplicationWindow {
             x: parent.x
             y: parent.y
 
+//                Rectangle {
+//                    id: selectRect
+//                    color: "#00ffffff"
+//                    border.color: "#ff1f1f"
+//                    width: 200
+//                    height: 200
+//                    Drag.active: dragArea.drag.active
+
+//                    MouseArea {
+//                        id: dragArea
+//                        anchors.fill: parent
+//                        drag.target: parent
+//                        drag.minimumX: 0
+//                        drag.minimumY: 0
+//                        drag.maximumX: boundingSelectionRect.x + boundingSelectionRect.width - selectRect.width
+//                        drag.maximumY: boundingSelectionRect.y + boundingSelectionRect.height - selectRect.height
+//                    }
+//                }
+        }
+
+        Component {
+            id: selectionComponent
+
             Rectangle {
-                id: selectRect
-                color: "#00ffffff"
-                border.color: "#ff1f1f"
-                width: 200
-                height: 200
-                Drag.active: dragArea.drag.active
+                id: selCompRect
+                border {
+                    width: 2
+                    color: "steelblue"
+                }
+                color: "#354682B4"
+
+                property int rulersSize: 18
 
                 MouseArea {
-                    id: dragArea
                     anchors.fill: parent
-                    drag.target: parent
-                    drag.minimumX: 0
-                    drag.minimumY: 0
-                    drag.maximumX: boundingSelectionTriangle.x + boundingSelectionTriangle.width - selectRect.width
-                    drag.maximumY: boundingSelectionTriangle.y + boundingSelectionTriangle.height - selectRect.height
+                    drag {
+                        target: parent
+                        minimumX: 0
+                        minimumY: 0
+                        maximumX: parent.parent.width - parent.width
+                        maximumY: parent.parent.height - parent.height
+                        smoothed: true
+                    }
+                }
+
+                Rectangle {
+                    //left resizer
+                    width: rulersSize
+                    height: rulersSize
+                    radius: rulersSize
+                    color: "steelblue"
+                    anchors.horizontalCenter: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    MouseArea {
+                        anchors.fill: parent
+                        drag {target: parent; axis: Drag.XAxis}
+                        onMouseXChanged: {
+                            if (drag.active) {
+                                selCompRect.width = selCompRect.width - mouseX
+                                selCompRect.x = selCompRect.x + mouseX
+                                if (selCompRect.width < 30)
+                                    selCompRect.width = 30
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    //right resizer
+                    width: rulersSize
+                    height: rulersSize
+                    radius: rulersSize
+                    color: "steelblue"
+                    anchors.horizontalCenter: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    MouseArea {
+                        anchors.fill: parent
+                        drag {target: parent; axis: Drag.XAxis}
+                        onMouseXChanged: {
+                            if (drag.active) {
+                                selCompRect.width = selCompRect.width + mouseX
+                                if (selCompRect.width < 30)
+                                    selCompRect.width = 30
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    //Upper resizer
+                    width: rulersSize
+                    height: rulersSize
+                    radius: rulersSize
+                    x: parent.x / 2
+                    y: 0
+                    color: "steelblue"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.top
+
+                    MouseArea {
+                        anchors.fill: parent
+                        drag {target: parent; axis: Drag.YAxis}
+                        onMouseYChanged: {
+                            if (drag.active) {
+                                selCompRect.height = selCompRect.height - mouseY
+                                selCompRect.y = selCompRect.y + mouseY
+                                if (selCompRect.height < 30)
+                                    selCompRect.height = 30
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    //bottom resizer
+                    width: rulersSize
+                    height: rulersSize
+                    radius: rulersSize
+                    x: parent.x / 2
+                    y: parent.y
+                    color: "steelblue"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.bottom
+
+                    MouseArea {
+                        anchors.fill: parent
+                        drag {target: parent; axis: Drag.YAxis}
+                        onMouseYChanged: {
+                            if (drag.active) {
+                                selCompRect.height = selCompRect.height + mouseY
+                                selCompRect.x = selCompRect.x + mouseX
+                                    if (selCompRect.height < 30)
+                                        selCompRect.height = 30
+                            }
+                        }
+                    }
                 }
             }
-
         }
 
     }
@@ -157,4 +299,3 @@ ApplicationWindow {
     }
 
 }
-
