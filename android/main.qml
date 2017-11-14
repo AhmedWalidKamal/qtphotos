@@ -103,14 +103,6 @@ ApplicationWindow {
             color: "#2D2D2D"
         }
 
-        //        Label {
-        //            id: imgLabel
-        //            x: 246
-        //            y: 94
-        //            text: qsTr("")
-        //            anchors.horizontalCenter: parent.horizontalCenter
-        //            anchors.verticalCenter: parent.verticalCenter
-        //        }
         PinchArea {
             id: pinchArea
             anchors.fill: parent
@@ -120,87 +112,60 @@ ApplicationWindow {
             pinch.minimumScale: 0.1
             pinch.maximumScale: 10
             pinch.dragAxis: Pinch.XAndYAxis
+
             ScrollView {
                 anchors.fill: parent
+
                 Image {
                     id: image
                     source: ""
                     antialiasing: true
                     fillMode: Image.PreserveAspectFit
 
-                    transform: Translate { y: transformY*visibleImg.scale; x: transformX*visibleImg.scale }
-                    //                            anchors {
-                    //                                fill: parent
-                    //                                margins: 2
-                    //                                horizontalCenter: parent.horizontalCenter
-                    //                                verticalCenter: parent.verticalCenter
-                    //                            }
-
                 }
             }
-
-
-            //            Rectangle {
-            //                id: borderRect
-            //                color: "#2D2D2D"
-            //                clip: true
-            //                anchors {
-            //                    fill: parent
-            //                    margins: 2
-            //                }
-
-
-            //            }
         }
-
-        DropArea {
-//            property int prevX: 0
-//            property int prevY: 0
+        Rectangle {
+            id: boundingSelectionTriangle
+            color: "#00ffffff"
             anchors.fill: parent
-//            entered: {
-//                prevX = selectRect.x
-//                prevY = selectRect.y
-//            }
-
-
-//            positionChanged: {
-//                var deltaX = selectRect.x - prevX;
-//                selectRect.x += deltaX;
-//                prevX = selectRect.x - deltaX;
-
-//                var deltaY = selectRect.y - prevY;
-//                selectRect.y += deltaY;
-//                prevY = selectRect.y - deltaY;
-//            }
+            width: parent.width
+            height: parent.height
+            x: parent.x
+            y: parent.y
 
             Rectangle {
                 id: selectRect
                 color: "#00ffffff"
-                anchors.fill: parent
                 border.color: "#ff1f1f"
-//                Drag.YAxis
+                width: 200
+                height: 200
+                Drag.active: dragArea.drag.active
+
+                MouseArea {
+                    id: dragArea
+                    anchors.fill: parent
+                    drag.target: parent
+                    drag.minimumX: 0
+                    drag.minimumY: 0
+                    drag.maximumX: boundingSelectionTriangle.x + boundingSelectionTriangle.width - (selectRect.width)
+                    drag.maximumY: boundingSelectionTriangle.y + boundingSelectionTriangle.height - (selectRect.height)
+                    onPressed: {
+                        console.log(pane.y);
+                        console.log(pane.y + pane.height);
+                        console.log(pane.x);
+                        console.log(pane.x + pane.width);
+                    }
+                }
             }
+
         }
+
     }
+
     Connections {
         target: openButton
         onClicked: image.source = BackEnd.openImage()
     }
-
-    //    Rectangle {
-    //        id: cropArea
-    //        color: "#05f5f5f5"
-    //        anchors.bottom: parent.bottom
-    //        anchors.bottomMargin: 35
-    //        anchors.top: parent.top
-    //        anchors.topMargin: 85
-    //        anchors.left: parent.left
-    //        anchors.leftMargin: 200
-    //        anchors.right: parent.right
-    //        anchors.rightMargin: 200
-    //        visible: true
-    //        border.color: "#bdbdbd"
-    //    }
-
 
 }
