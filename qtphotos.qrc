@@ -17,5 +17,6 @@
         <file>icons/save.png</file>
         <file>icons/select.png</file>
         <file>icons/rotate.svg</file>
+        <file>icons/rotate_cursor.png</file>
     </qresource>
 </RCC>

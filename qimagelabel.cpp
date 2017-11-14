@@ -154,5 +154,12 @@ void QImageLabel::zoomIn() {
 }
 
 void QImageLabel::zoomOut() {
-
+    switch (currState) {
+    case ACTIVE:
+        break;
+    case SELECTING:
+        break;
+    default:
+        break;
+    }
 }

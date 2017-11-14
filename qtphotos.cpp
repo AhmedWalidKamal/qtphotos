@@ -224,21 +224,25 @@ void QtPhotos::on_actionRotate_toggled(bool active)
 {
     if (!active) {
         ui->imageLabel->setState(QImageLabel::ACTIVE);
+        setCursor(Qt::ArrowCursor);
     } else {
         ui->actionSelect->setChecked(false);
         ui->imageLabel->setState(QImageLabel::ROTATING);
+        QImageReader reader(":/icons/rotate_cursor.png");
+        QCursor cursor(QPixmap::fromImage(reader.read()));
+        setCursor(cursor);
     }
 }
 
 void QtPhotos::on_actionSelect_toggled(bool active)
 {
     if (!active) {
-        setCursor(Qt::ArrowCursor);
         ui->imageLabel->setState(QImageLabel::ACTIVE);
         ui->imageLabel->resetBoundingRectangle();
+        setCursor(Qt::ArrowCursor);
     } else {
-        setCursor(Qt::CrossCursor);
         ui->actionRotate->setChecked(false);
         ui->imageLabel->setState(QImageLabel::SELECTING);
+        setCursor(Qt::CrossCursor);
     }
 }
