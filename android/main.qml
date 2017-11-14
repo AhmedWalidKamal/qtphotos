@@ -133,16 +133,6 @@ ApplicationWindow {
             }
         }
 
-//        PinchArea {
-//            id: pinchSelection
-//            anchors.fill: parent
-//            pinch.target: selectRect
-//            pinch.minimumRotation: 0
-//            pinch.maximumRotation: 0
-//            pinch.minimumScale: 0.1
-//            pinch.maximumScale: pane.scale
-//            pinch.dragAxis: Pinch.XAndYAxis
-
         Rectangle {
             id: boundingSelectionRect
             color: "#00ffffff"
@@ -151,25 +141,6 @@ ApplicationWindow {
             height: parent.height
             x: parent.x
             y: parent.y
-
-//                Rectangle {
-//                    id: selectRect
-//                    color: "#00ffffff"
-//                    border.color: "#ff1f1f"
-//                    width: 200
-//                    height: 200
-//                    Drag.active: dragArea.drag.active
-
-//                    MouseArea {
-//                        id: dragArea
-//                        anchors.fill: parent
-//                        drag.target: parent
-//                        drag.minimumX: 0
-//                        drag.minimumY: 0
-//                        drag.maximumX: boundingSelectionRect.x + boundingSelectionRect.width - selectRect.width
-//                        drag.maximumY: boundingSelectionRect.y + boundingSelectionRect.height - selectRect.height
-//                    }
-//                }
         }
 
         Component {
@@ -179,7 +150,7 @@ ApplicationWindow {
                 id: selCompRect
                 border {
                     width: 2
-                    color: "steelblue"
+                    color: "lightslategray"
                 }
                 color: "#354682B4"
 
@@ -202,7 +173,7 @@ ApplicationWindow {
                     width: rulersSize
                     height: rulersSize
                     radius: rulersSize
-                    color: "steelblue"
+                    color: "lightslategray"
                     anchors.horizontalCenter: parent.left
                     anchors.verticalCenter: parent.verticalCenter
 
@@ -211,10 +182,12 @@ ApplicationWindow {
                         drag {target: parent; axis: Drag.XAxis}
                         onMouseXChanged: {
                             if (drag.active) {
-                                selCompRect.width = selCompRect.width - mouseX
-                                selCompRect.x = selCompRect.x + mouseX
-                                if (selCompRect.width < 30)
-                                    selCompRect.width = 30
+                                if (selCompRect.x + mouseX >= boundingSelectionRect.x) {
+                                    selCompRect.width = selCompRect.width - mouseX
+                                    selCompRect.x = selCompRect.x + mouseX
+                                    if (selCompRect.width < 30)
+                                        selCompRect.width = 30
+                                }
                             }
                         }
                     }
@@ -225,7 +198,7 @@ ApplicationWindow {
                     width: rulersSize
                     height: rulersSize
                     radius: rulersSize
-                    color: "steelblue"
+                    color: "lightslategray"
                     anchors.horizontalCenter: parent.right
                     anchors.verticalCenter: parent.verticalCenter
 
@@ -234,9 +207,11 @@ ApplicationWindow {
                         drag {target: parent; axis: Drag.XAxis}
                         onMouseXChanged: {
                             if (drag.active) {
-                                selCompRect.width = selCompRect.width + mouseX
-                                if (selCompRect.width < 30)
-                                    selCompRect.width = 30
+                                if (selCompRect.x + selCompRect.width + mouseX <= boundingSelectionRect.x + boundingSelectionRect.width) {
+                                    selCompRect.width = selCompRect.width + mouseX
+                                    if (selCompRect.width < 30)
+                                        selCompRect.width = 30
+                                }
                             }
                         }
                     }
@@ -249,7 +224,7 @@ ApplicationWindow {
                     radius: rulersSize
                     x: parent.x / 2
                     y: 0
-                    color: "steelblue"
+                    color: "lightslategray"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.top
 
@@ -258,10 +233,12 @@ ApplicationWindow {
                         drag {target: parent; axis: Drag.YAxis}
                         onMouseYChanged: {
                             if (drag.active) {
-                                selCompRect.height = selCompRect.height - mouseY
-                                selCompRect.y = selCompRect.y + mouseY
-                                if (selCompRect.height < 30)
-                                    selCompRect.height = 30
+                                if (selCompRect.y + mouseY >= boundingSelectionRect.y) {
+                                    selCompRect.height = selCompRect.height - mouseY
+                                    selCompRect.y = selCompRect.y + mouseY
+                                    if (selCompRect.height < 30)
+                                        selCompRect.height = 30
+                                }
                             }
                         }
                     }
@@ -274,7 +251,7 @@ ApplicationWindow {
                     radius: rulersSize
                     x: parent.x / 2
                     y: parent.y
-                    color: "steelblue"
+                    color: "lightslategray"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.bottom
 
@@ -283,10 +260,11 @@ ApplicationWindow {
                         drag {target: parent; axis: Drag.YAxis}
                         onMouseYChanged: {
                             if (drag.active) {
-                                selCompRect.height = selCompRect.height + mouseY
-                                selCompRect.x = selCompRect.x + mouseX
-                                    if (selCompRect.height < 30)
-                                        selCompRect.height = 30
+                                if (selCompRect.y + selCompRect.height + mouseY <= boundingSelectionRect.y + boundingSelectionRect.height) {
+                                    selCompRect.height = selCompRect.height + mouseY
+                                        if (selCompRect.height < 30)
+                                            selCompRect.height = 30
+                                }
                             }
                         }
                     }
