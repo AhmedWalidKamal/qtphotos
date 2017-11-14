@@ -18,7 +18,7 @@ Flickable {
         id: imageContainer
         width: Math.max(image.width * image.scale, flickable.width)
         height: Math.max(image.height * image.scale, flickable.height)
-        AnimatedImage {
+        Image {
             id: image
             property real prevScale
             smooth: !flickable.movingVertically
@@ -45,15 +45,15 @@ Flickable {
                 }
                 prevScale = scale;
             }
-            onStatusChanged: {
-                if (status == Image.Ready) {
-                    console.log(image.width);
-                    // calculateSize();
-                    playing = true
-                } else if (status == Image.Error &&image.source != remoteSource) {
-                    image.source = remoteSource
-                }
-            }
+//            onStatusChanged: {
+//                if (status == Image.Ready) {
+//                    console.log(image.width);
+//                    // calculateSize();
+//                    playing = true
+//                } else if (status == Image.Error &&image.source != remoteSource) {
+//                    image.source = remoteSource
+//                }
+//            }
             //            Behavior on scale {NumberAnimation{duration: 200}}
         }
     }

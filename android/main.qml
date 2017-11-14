@@ -3,6 +3,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls 2.0
 
 import QtQuick.Controls.Styles 1.4
+
+import com.qPhotosAndroid.types 1.0
 ApplicationWindow {
 
     id: applicationWindow
@@ -114,10 +116,14 @@ ApplicationWindow {
             color: "#2D2D2D"
         }
 
+        Pixmap {
+            id: pixMap
+        }
 
         ZoomableImage {
             id:image
             antialiasing: true
+            source: pixMap.data
 
             anchors {
                 fill: parent
@@ -293,8 +299,8 @@ ApplicationWindow {
     Connections {
         target: openButton
         onClicked: {
-            image.source = BackEnd.openImage()
-            image.width = image.width
+            pixMap.load(BackEnd.openImage());
+            console.log("Image loaded!");
         }
     }
 
