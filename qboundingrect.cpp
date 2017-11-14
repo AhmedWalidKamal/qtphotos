@@ -3,9 +3,8 @@
 #include <QSizeGrip>
 #include <QDebug>
 
-QBoundingRectangle::QBoundingRectangle(QWidget *parent): QWidget(parent)
+QBoundingRectangle::QBoundingRectangle(QWidget *parent): QRubberBand(QRubberBand::Rectangle, parent)
 {
-    rubberBand = NULL;
     rubberBandRect = QRect();
     origin = QPoint();
     movingOffset = QPoint();
@@ -14,7 +13,7 @@ QBoundingRectangle::QBoundingRectangle(QWidget *parent): QWidget(parent)
 
 void QBoundingRectangle::setupBoundingRect()
 {
-    rubberBandRect = rubberBand->geometry().normalized();
+    rubberBandRect = geometry().normalized();
 }
 
 void QBoundingRectangle::stopMoving()
@@ -29,19 +28,7 @@ QRect QBoundingRectangle::getBoundingRect()
 
 void QBoundingRectangle::reset()
 {
-    if (isEmpty()) {
-        return;
-    }
-    rubberBand->hide();
-    rubberBand = NULL;
-    origin = QPoint();
-    rubberBandRect = QRect();
-//    rubberBand->setLayout(NULL);
-}
-
-bool QBoundingRectangle::isEmpty()
-{
-    return rubberBand == NULL;
+    hide();
 }
 
 bool QBoundingRectangle::validSize()
@@ -52,7 +39,7 @@ bool QBoundingRectangle::validSize()
 
 bool QBoundingRectangle::contains(QPoint point)
 {
-    return rubberBand->geometry().contains(point);
+    return geometry().contains(point);
 }
 
 bool QBoundingRectangle::rubberBandIsMoving()
@@ -60,52 +47,41 @@ bool QBoundingRectangle::rubberBandIsMoving()
     return isMoving;
 }
 
-//void QRubberBand::resizeEvent(QResizeEvent *)
-//{
-//    QRubberBand.resize(size());
-//}
-
 void QBoundingRectangle::resizeEvent(QResizeEvent *) {
-    rubberBand->resize(size());
+    resize(size());
 }
 
-void QBoundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widget)
+void QBoundingRectangle::initBoundingRectangle(QPoint initialPoint)
 {
     origin = initialPoint;
 //    setWindowFlags(Qt::SubWindow);
-    QHBoxLayout* layout = new QHBoxLayout(rubberBand);
-//    this->layout()->setContentsMargins(0, 0, 0, 0);
-    QSizeGrip* grip1 = new QSizeGrip(rubberBand);
-    QSizeGrip* grip2 = new QSizeGrip(rubberBand);
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    QSizeGrip* grip1 = new QSizeGrip(this);
+    QSizeGrip* grip2 = new QSizeGrip(this);
     layout->addWidget(grip1, 0, Qt::AlignLeft | Qt::AlignTop);
     layout->addWidget(grip2, 0, Qt::AlignRight | Qt::AlignBottom);
 //    qDebug() << rubberBand->layout();
 //    this->layout()->addWidget(grip1);
 //    this->layout()->addWidget(grip2);
-    if (!rubberBand)
-        rubberBand = new QRubberBand(QRubberBand::Rectangle, widget);
-    rubberBand->setGeometry(QRect(origin, QSize()));
-    rubberBand->show();
-//    setFocus();
-//    show();
+    setGeometry(QRect(origin, QSize()));
+    show();
 }
 
 void QBoundingRectangle::initMoving(QPoint point)
 {
-    movingOffset = point - rubberBand->pos();
+    movingOffset = point - pos();
     isMoving = true;
 }
 
 void QBoundingRectangle::updateRectPosition(QPoint newPoint)
 {
-    if (!rubberBand)
-        return;
-    rubberBand->setGeometry(QRect(origin, newPoint).normalized());
+    setGeometry(QRect(origin, newPoint).normalized());
 }
 
 void QBoundingRectangle::moveRubberBand(QPoint point)
 {
-    rubberBand->move(point - movingOffset);
+    move(point - movingOffset);
 }
 
 void QBoundingRectangle::scale(double scaleX, double scaleY) {
