@@ -169,7 +169,7 @@ void QtPhotos::display(QImage &imageToDisplay)
 
 void QtPhotos::on_actionAbout_triggered()
 {
-
+    ui->imageLabel->zoomIn();
 }
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {

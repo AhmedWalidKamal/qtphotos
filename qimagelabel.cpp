@@ -144,8 +144,14 @@ void QImageLabel::crop() {
 
 void QImageLabel::zoomIn() {
     switch (currState) {
-    case ACTIVE:
+    case ACTIVE: {
+//        qDebug() << 1.25 * pixmap()->size();
+        QPixmap newMap = *pixmap();
+        newMap = newMap.scaled(1.25 * newMap.size(), Qt::KeepAspectRatio);
+        qDebug() << newMap.size();
+        setPixmap(newMap);
         break;
+    }
     case SELECTING:
         break;
     default:
