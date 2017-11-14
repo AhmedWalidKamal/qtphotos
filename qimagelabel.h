@@ -18,8 +18,7 @@ public:
     State getState();
     void setState(State state);
     void resetBoundingRectangle();
-    void zoomIn();
-    void zoomOut();
+    void zoom(double ratio, bool isZoomIn);
 private slots:
     void mousePressEvent(QMouseEvent *event);
 
@@ -31,6 +30,7 @@ private:
     boundingRectangle boundingRect;
     double curRotation;
     double rotationDiff;
+    double scale;
     State currState;
 };
 
