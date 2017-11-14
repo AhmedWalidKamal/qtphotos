@@ -1,4 +1,4 @@
-#include "boundingrectangle.h"
+#include "qboundingrect.h"
 #include "qtphotos.h"
 #include "ui_qtphotos.h"
 #include <QFileDialog>
