@@ -6,6 +6,10 @@
 #include <QMainWindow>
 #include <QRubberBand>
 
+#ifndef QT_NO_PRINTER
+#include <QPrinter>
+#endif
+
 namespace Ui {
 class QtPhotos;
 }
@@ -55,6 +59,12 @@ private:
     int INITIAL_ZOOM = 4;
     int curZoom;
     const int ZOOM_LEVELS_COUNT = 11;
+
+
+#ifndef QT_NO_PRINTER
+    QPrinter printer;
+#endif
+
     void display(QPixmap &pixelMap);
     void display(QPixmap &&pixelMap);
     void saveImage(QString &imageFileName);

@@ -20,6 +20,13 @@
 #include <QClipboard>
 #include <QMessageBox>
 
+#if defined(QT_PRINTSUPPORT_LIB)
+#include <QtPrintSupport/qtprintsupportglobal.h>
+#if QT_CONFIG(printdialog)
+#include <QPrintDialog>
+#endif
+#endif
+
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
 QtPhotos::QtPhotos(QWidget *parent) :
@@ -145,7 +152,19 @@ void QtPhotos::on_actionSave_as_triggered()
 
 void QtPhotos::on_actionPrint_triggered()
 {
-
+    Q_ASSERT(ui->imageLabel->pixmap());
+    #if QT_CONFIG(printdialog)
+        QPrintDialog dialog(&printer, this);
+        if (dialog.exec()) {
+            QPainter painter(&printer);
+            QRect rect = painter.viewport();
+            QSize size = ui->imageLabel->pixmap()->size();
+            size.scale(rect.size(), Qt::KeepAspectRatio);
+            painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
+            painter.setWindow(ui->imageLabel->pixmap()->rect());
+            painter.drawPixmap(0, 0, *ui->imageLabel->pixmap());
+        }
+    #endif
 }
 
 void QtPhotos::on_actionExit_triggered()

@@ -40,3 +40,5 @@ FORMS += \
         qtphotos.ui
 
 RESOURCES     += qtphotos.qrc
+
+QT += printsupport
