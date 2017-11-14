@@ -47,6 +47,7 @@ private slots:
 
     void on_actionPaste_triggered();
 
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::QtPhotos *ui;
     QString fileName;
@@ -59,6 +60,7 @@ private:
     void saveImage(QString &imageFileName);
     void disableButtonsInitially();
     void enableButtons();
+    bool promptForSaving();
 };
 
 #endif // QTPHOTOS_H

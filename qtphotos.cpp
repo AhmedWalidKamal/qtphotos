@@ -18,6 +18,7 @@
 #include <QDesktopWidget>
 #include <QScrollBar>
 #include <QClipboard>
+#include <QMessageBox>
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
@@ -85,6 +86,16 @@ void QtPhotos::enableButtons()
     ui->actionReset->setEnabled(true);
 }
 
+void QtPhotos::closeEvent(QCloseEvent *event) {
+    if (ui->imageLabel->isModified()) {
+        if (promptForSaving()) {
+            event->accept();
+        } else {
+            event->ignore();
+        }
+    }
+}
+
 void QtPhotos::on_actionOpen_triggered()
 {
     QFileDialog dialog(this, tr("Open Image File"));
@@ -134,7 +145,7 @@ void QtPhotos::on_actionPrint_triggered()
 
 void QtPhotos::on_actionExit_triggered()
 {
-    exit(0);
+    QCoreApplication::quit();
 }
 
 void QtPhotos::on_actioncopy_triggered()
@@ -286,4 +297,26 @@ void QtPhotos::on_actionPaste_triggered()
         }
         display(QGuiApplication::clipboard()->pixmap());
     #endif
+}
+
+bool QtPhotos::promptForSaving() {
+    const QMessageBox::StandardButton ret
+            = QMessageBox::warning(this, tr("qtphotos"),
+                                   tr("The image has been modified.\n"
+                                      "Do you want to save your changes?"),
+                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        switch (ret) {
+        case QMessageBox::Save:
+            if (fileName.isEmpty()) {
+                on_actionSave_as_triggered();
+            } else {
+                on_actionSave_triggered();
+            }
+            return true;
+        case QMessageBox::Cancel:
+            return false;
+        default:
+            break;
+        }
+        return true;
 }

@@ -13,6 +13,7 @@ QImageLabel::QImageLabel(QWidget *parent): QLabel(parent)
     originalPixmap = nullptr;
     scale = 1;
     setMinimumSize(1, 1);
+    imageIsModified = false;
 }
 
 QImageLabel::~QImageLabel()
@@ -35,6 +36,7 @@ void QImageLabel::setPixmap(QPixmap &pixelmap) {
     scale = 1;
     adjustSize();
     updateGeometry();
+    imageIsModified = false;
 }
 
 void QImageLabel::setPixmap(QPixmap &&pixelmap) {
@@ -130,6 +132,7 @@ void QImageLabel::mouseReleaseEvent(QMouseEvent *event)
         qDebug() << "Selected Area: " << boundingRect.getBoundingRect();
         break;
     case ROTATING:
+        imageIsModified = true;
         break;
     default:
         break;
@@ -156,6 +159,7 @@ void QImageLabel::crop() {
     resizedPixmap = new QPixmap(cropped);
     boundingRect.reset();
     adjustSize();
+    imageIsModified = true;
 }
 
 void QImageLabel::zoom(double ratio, bool isZoomIn) {
@@ -181,4 +185,8 @@ void QImageLabel::zoom(double ratio, bool isZoomIn) {
 
 void QImageLabel::reset() {
     setPixmap(*originalPixmap);
+}
+
+bool QImageLabel::isModified() {
+    return imageIsModified;
 }
