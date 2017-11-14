@@ -14,6 +14,7 @@ ApplicationWindow {
     color: "#212121"
     property alias image: image
     property var selection: undefined
+    property bool on: false
     title: qsTr("Hello World")
 
     ToolBar {
@@ -116,6 +117,16 @@ ApplicationWindow {
             color: "#2D2D2D"
         }
 
+        BusyIndicator{
+            id: busyBackGround
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -70
+            running: on
+            // platformStyle: BusyIndicatorStyle { size: "large" }
+            z:10
+        }
+
         Pixmap {
             id: pixMap
         }
@@ -131,6 +142,13 @@ ApplicationWindow {
                 horizontalCenter: parent.horizontalCenter
                 verticalCenter: parent.verticalCenter
             }
+            onStatusChanged: {
+                if(image.status==Image.Ready)
+                    on = false;
+                else
+                    on = true;
+            }
+
         }
 
         Rectangle {
@@ -262,8 +280,8 @@ ApplicationWindow {
                             if (drag.active) {
                                 if (selCompRect.y + selCompRect.height + mouseY <= boundingSelectionRect.y + boundingSelectionRect.height) {
                                     selCompRect.height = selCompRect.height + mouseY
-                                        if (selCompRect.height < 30)
-                                            selCompRect.height = 30
+                                    if (selCompRect.height < 30)
+                                        selCompRect.height = 30
                                 }
                             }
                         }
@@ -277,8 +295,12 @@ ApplicationWindow {
     Connections {
         target: openButton
         onClicked: {
-            pixMap.load(BackEnd.openImage());
-            console.log("Image loaded!");
+            var s = BackEnd.openImage();
+            if(s){
+                pixMap.clear();
+                pixMap.load(s);
+                console.log("Image loaded!");
+            }
         }
     }
 

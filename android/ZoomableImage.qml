@@ -25,14 +25,13 @@ Flickable {
             anchors.centerIn: parent
             fillMode: Image.PreserveAspectFit
             cache: false
-            onWidthChanged: console.log(width)
             function calculateSize() {
                 if(width==0)
                     width=600;
                 scale = Math.min(flickable.width / width, flickable.height / height) * 0.98;
-                console.log(scale)
                 pinchArea.minScale = scale;
                 prevScale = Math.min(scale, 1);
+                console.log(scale);
             }
             onScaleChanged: {
                 if ((width * scale) > flickable.width) {
