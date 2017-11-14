@@ -115,6 +115,8 @@
    <addaction name="actionPaste"/>
    <addaction name="actionCrop"/>
    <addaction name="actionRotate"/>
+   <addaction name="actionZoom_In"/>
+   <addaction name="actionZoom_Out"/>
    <addaction name="separator"/>
    <addaction name="actionReset"/>
    <addaction name="actionExit"/>
@@ -263,6 +265,30 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionZoom_In">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/zoom_in.svg</normaloff>:/icons/zoom_in.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="actionZoom_Out">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/zoom_out.svg</normaloff>:/icons/zoom_out.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
    </property>
   </action>
  </widget>

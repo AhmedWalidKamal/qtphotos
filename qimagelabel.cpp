@@ -10,6 +10,8 @@ QImageLabel::QImageLabel(QWidget *parent): QLabel(parent)
     rotationDiff = 0;
     curRotation = 0;
     originalPixmap = nullptr;
+    scale = 1;
+    setMinimumSize(1, 1);
 }
 
 QImageLabel::~QImageLabel()
@@ -19,7 +21,11 @@ QImageLabel::~QImageLabel()
 
 void QImageLabel::setPixmap(QPixmap &pixelmap) {
     QLabel::setPixmap(pixelmap);
+//    resize(pixelmap.size());
     originalPixmap = new QPixmap(pixelmap);
+    qDebug() << "Size Hint: " << sizeHint();
+    adjustSize();
+    updateGeometry();
 }
 
 void QImageLabel::setPixmap(QPixmap &&pixelmap) {
@@ -96,6 +102,7 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         pixelMap = pixelMap.transformed(trans, Qt::TransformationMode::SmoothTransformation);
         qDebug() << originalPixmap->rect() << "new: " << pixelMap.rect();
         QLabel::setPixmap(pixelMap);
+        adjustSize();
         break;
     }
     default:
@@ -142,21 +149,18 @@ void QImageLabel::crop() {
     boundingRect.reset();
 }
 
-void QImageLabel::zoomIn() {
+void QImageLabel::zoom(double ratio, bool isZoomIn) {
     switch (currState) {
-    case ACTIVE:
-        break;
-    case SELECTING:
-        break;
-    default:
+    case ACTIVE: {
+        //scale = ratio / scale;
+        //qDebug() << scale * pixmap()->size();
+        //QPixmap newMap = *pixmap();
+        //newMap = newMap.scaled(scale * newMap.size(), Qt::KeepAspectRatio);
+        //qDebug() << newMap.size();
+        //QLabel::setPixmap(newMap);
+        resize(ratio * pixmap()->size());
         break;
     }
-}
-
-void QImageLabel::zoomOut() {
-    switch (currState) {
-    case ACTIVE:
-        break;
     case SELECTING:
         break;
     default:

@@ -27,11 +27,13 @@ QtPhotos::QtPhotos(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->imageLabel->setBackgroundRole(QPalette::Base);
-    //ui->imageLabel->setScaledContents(true);
-    //ui->imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    ui->imageLabel->setScaledContents(true);
+    ui->imageLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     ui->imageLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    ui->imageLabel->setVisible(false);
     ui->scrollArea->setBackgroundRole(QPalette::Dark);
-    ui->scrollArea->setWidgetResizable(true);
+    ui->scrollArea->setWidgetResizable(false);
+    ui->scrollArea->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
     setGeometry(
         QStyle::alignedRect(
@@ -67,6 +69,8 @@ void QtPhotos::disableButtonsInitially()
     ui->actionReset->setEnabled(false);
     ui->actionPaste->setEnabled(false);
     ui->actionRotate->setEnabled(false);
+    ui->actionZoom_In->setEnabled(false);
+    ui->actionZoom_Out->setEnabled(false);
 }
 
 void QtPhotos::enableButtons()
@@ -78,10 +82,13 @@ void QtPhotos::enableButtons()
     ui->actionSave_as->setEnabled(true);
     ui->actionSelect->setEnabled(true);
     ui->actionRotate->setEnabled(true);
+    ui->actionZoom_In->setEnabled(true);
+    ui->actionZoom_Out->setEnabled(true);
 }
 
 void QtPhotos::on_actionOpen_triggered()
 {
+    ui->imageLabel->setVisible(true);
     QFileDialog dialog(this, tr("Open Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     initImageDialog(dialog, QFileDialog::AcceptOpen);
@@ -112,6 +119,7 @@ void QtPhotos::on_actionOpen_triggered()
     setCursor(Qt::ArrowCursor);
     ui->actionRotate->setChecked(false);
     ui->actionSelect->setChecked(false);
+    curZoom = INITIAL_ZOOM;
 }
 
 void QtPhotos::on_actionSave_triggered()
@@ -248,4 +256,31 @@ void QtPhotos::on_actionSelect_toggled(bool active)
         ui->imageLabel->setState(QImageLabel::SELECTING);
         setCursor(Qt::CrossCursor);
     }
+}
+
+void QtPhotos::on_actionZoom_In_triggered()
+{
+    if (curZoom == ZOOM_LEVELS_COUNT - 1) {
+        return;
+    }
+    if (ui->imageLabel->getState() == QImageLabel::SELECTING) {
+
+    } else {
+        curZoom++;
+    }
+    ui->imageLabel->zoom(zoomLevel[curZoom], true);
+
+}
+
+void QtPhotos::on_actionZoom_Out_triggered()
+{
+    if (curZoom == 0) {
+        return;
+    }
+    if (ui->imageLabel->getState() == QImageLabel::SELECTING) {
+
+    } else {
+        curZoom--;
+    }
+    ui->imageLabel->zoom(zoomLevel[curZoom], false);
 }

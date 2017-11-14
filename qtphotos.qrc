@@ -18,5 +18,7 @@
         <file>icons/select.png</file>
         <file>icons/rotate.svg</file>
         <file>icons/rotate_cursor.png</file>
+        <file>icons/zoom_out.svg</file>
+        <file>icons/zoom_in.svg</file>
     </qresource>
 </RCC>
