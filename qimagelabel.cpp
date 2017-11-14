@@ -9,6 +9,7 @@ QImageLabel::QImageLabel(QWidget *parent): QLabel(parent)
 {
     rotationDiff = 0;
     curRotation = 0;
+    resizedPixmap = nullptr;
     originalPixmap = nullptr;
     scale = 1;
     setMinimumSize(1, 1);
@@ -16,12 +17,16 @@ QImageLabel::QImageLabel(QWidget *parent): QLabel(parent)
 
 QImageLabel::~QImageLabel()
 {
+    delete resizedPixmap;
     delete originalPixmap;
 }
 
 void QImageLabel::setPixmap(QPixmap &pixelmap) {
     QLabel::setPixmap(pixelmap);
 //    resize(pixelmap.size());
+    delete originalPixmap;
+    delete resizedPixmap;
+    resizedPixmap = new QPixmap(pixelmap);
     originalPixmap = new QPixmap(pixelmap);
     qDebug() << "Size Hint: " << sizeHint();
     currState = ACTIVE;
@@ -92,14 +97,14 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         QPoint endPoint = event->pos();
         QPoint startingPoint = QPoint(width() / 2.0, height() / 2.0);
         double angle = math::calculateAngle(startingPoint, endPoint);
-        double imageHeight = originalPixmap->height();
-        double imageWidth = originalPixmap->width();
+        double imageHeight = resizedPixmap->height();
+        double imageWidth = resizedPixmap->width();
         trans.translate(imageWidth / 2.0, imageHeight / 2.0);
         trans.rotateRadians(angle + rotationDiff);
         curRotation = angle + rotationDiff;
         qDebug() << "Center of Gravity: " << QPoint(imageWidth / 2.0, imageHeight / 2.0) << " Rotation Angle: " << angle;
         trans.translate(-imageWidth / 2.0, -imageHeight / 2.0);
-        QPixmap pixelMap(*originalPixmap);
+        QPixmap pixelMap(*resizedPixmap);
         pixelMap = pixelMap.transformed(trans, Qt::TransformationMode::SmoothTransformation);
         QLabel::setPixmap(pixelMap);
         adjustSize();
@@ -146,8 +151,11 @@ void QImageLabel::crop() {
     boundingRect.scale(scaleX, scaleY);
 //    qDebug() << "Selected Area After Scaling: " << boundingRect.getBoundingRect();
     QPixmap cropped = pixmap()->copy(boundingRect.getBoundingRect());
-    setPixmap(cropped);
+    QLabel::setPixmap(cropped);
+    delete resizedPixmap;
+    resizedPixmap = new QPixmap(cropped);
     boundingRect.reset();
+    adjustSize();
 }
 
 void QImageLabel::zoom(double ratio, bool isZoomIn) {

@@ -27,6 +27,7 @@ private slots:
 
     void mouseReleaseEvent(QMouseEvent *event);
 private:
+    QPixmap *resizedPixmap;
     QPixmap *originalPixmap;
     QBoundingRectangle boundingRect;
     double curRotation;
