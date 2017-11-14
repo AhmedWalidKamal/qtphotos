@@ -59,9 +59,8 @@ void QImageLabel::mousePressEvent(QMouseEvent *event)
         break;
     case ROTATING: {
         QPoint endPoint = event->pos();
-        QPoint startingPoint = pos();
-        startingPoint.setX(startingPoint.x() +  width() / 2.0);
-        startingPoint.setY(startingPoint.y() +  height() / 2.0);
+        QPoint startingPoint = QPoint(width() / 2.0, height() / 2.0);
+        qDebug() << "Pos" << pos() <<  "Start" << startingPoint << "End" << endPoint;
         rotationDiff = curRotation - math::calculateAngle(startingPoint, endPoint);
         if (!pixmap())
             return;
@@ -87,9 +86,7 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         qDebug() << "Rotating: Entered Mouse Move";
         QTransform trans;
         QPoint endPoint = event->pos();
-        QPoint startingPoint = pos();
-        startingPoint.setX(startingPoint.x() +  width() / 2.0);
-        startingPoint.setY(startingPoint.y() +  height() / 2.0);
+        QPoint startingPoint = QPoint(width() / 2.0, height() / 2.0);
         double angle = math::calculateAngle(startingPoint, endPoint);
         double imageHeight = originalPixmap->height();
         double imageWidth = originalPixmap->width();
@@ -100,9 +97,9 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         trans.translate(-imageWidth / 2.0, -imageHeight / 2.0);
         QPixmap pixelMap(*originalPixmap);
         pixelMap = pixelMap.transformed(trans, Qt::TransformationMode::SmoothTransformation);
-        qDebug() << originalPixmap->rect() << "new: " << pixelMap.rect();
         QLabel::setPixmap(pixelMap);
         adjustSize();
+        resize(scale * pixelMap.size());
         break;
     }
     default:
@@ -158,6 +155,8 @@ void QImageLabel::zoom(double ratio, bool isZoomIn) {
         //newMap = newMap.scaled(scale * newMap.size(), Qt::KeepAspectRatio);
         //qDebug() << newMap.size();
         //QLabel::setPixmap(newMap);
+        scale = ratio;
+        qDebug() << "Zoom Ratio: " << ratio;
         resize(ratio * pixmap()->size());
         break;
     }
