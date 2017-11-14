@@ -103,28 +103,19 @@ ApplicationWindow {
             color: "#2D2D2D"
         }
 
-        PinchArea {
-            id: pinchArea
-            anchors.fill: parent
-            pinch.target: image
-            pinch.minimumRotation: -360
-            pinch.maximumRotation: 360
-            pinch.minimumScale: 0.1
-            pinch.maximumScale: 10
-            pinch.dragAxis: Pinch.XAndYAxis
 
-            ScrollView {
-                anchors.fill: parent
+        ZoomableImage{
+            id:image
+            antialiasing: true
 
-                Image {
-                    id: image
-                    source: ""
-                    antialiasing: true
-                    fillMode: Image.PreserveAspectFit
-
-                }
+            anchors {
+                fill: parent
+                margins: 2
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
             }
         }
+
         Rectangle {
             id: boundingSelectionTriangle
             color: "#00ffffff"
@@ -148,14 +139,8 @@ ApplicationWindow {
                     drag.target: parent
                     drag.minimumX: 0
                     drag.minimumY: 0
-                    drag.maximumX: boundingSelectionTriangle.x + boundingSelectionTriangle.width - (selectRect.width)
-                    drag.maximumY: boundingSelectionTriangle.y + boundingSelectionTriangle.height - (selectRect.height)
-                    onPressed: {
-                        console.log(pane.y);
-                        console.log(pane.y + pane.height);
-                        console.log(pane.x);
-                        console.log(pane.x + pane.width);
-                    }
+                    drag.maximumX: boundingSelectionTriangle.x + boundingSelectionTriangle.width - selectRect.width
+                    drag.maximumY: boundingSelectionTriangle.y + boundingSelectionTriangle.height - selectRect.height
                 }
             }
 
@@ -165,7 +150,11 @@ ApplicationWindow {
 
     Connections {
         target: openButton
-        onClicked: image.source = BackEnd.openImage()
+        onClicked: {
+            image.source = BackEnd.openImage()
+            image.width = image.width
+        }
     }
 
 }
+
