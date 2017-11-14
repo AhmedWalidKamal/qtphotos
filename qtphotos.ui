@@ -114,6 +114,7 @@
    <addaction name="actioncopy"/>
    <addaction name="actionPaste"/>
    <addaction name="actionCrop"/>
+   <addaction name="actionRotate"/>
    <addaction name="separator"/>
    <addaction name="actionReset"/>
    <addaction name="actionExit"/>
@@ -247,6 +248,21 @@
    </property>
    <property name="toolTip">
     <string>paste</string>
+   </property>
+  </action>
+  <action name="actionRotate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/rotate.svg</normaloff>:/icons/rotate.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>

@@ -42,7 +42,7 @@ QtPhotos::QtPhotos(QWidget *parent) :
         )
     );
     disableButtonsInitially();
-    ui->imageLabel->setState(QImageLabel::idle);
+    ui->imageLabel->setState(QImageLabel::IDLE);
 }
 
 QtPhotos::~QtPhotos()
@@ -66,6 +66,7 @@ void QtPhotos::disableButtonsInitially()
     ui->actionSelect->setEnabled(false);
     ui->actionReset->setEnabled(false);
     ui->actionPaste->setEnabled(false);
+    ui->actionRotate->setEnabled(false);
 }
 
 void QtPhotos::enableButtons()
@@ -76,6 +77,7 @@ void QtPhotos::enableButtons()
     ui->actionSave->setEnabled(true);
     ui->actionSave_as->setEnabled(true);
     ui->actionSelect->setEnabled(true);
+    ui->actionRotate->setEnabled(true);
 }
 
 void QtPhotos::on_actionOpen_triggered()
@@ -153,7 +155,7 @@ void QtPhotos::on_actionCrop_triggered()
 {
     ui->imageLabel->crop();
     ui->actionSelect->setChecked(false);
-    ui->imageLabel->setState(QImageLabel::active);
+    ui->imageLabel->setState(QImageLabel::ACTIVE);
     //QImage croppedImage = image.copy(ui->imageLabel->boundingRect.getBoundingRect());
     //display(croppedImage);
 }
@@ -213,17 +215,30 @@ void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {
     }
 }
 
-void QtPhotos::on_actionSelect_triggered()
-{
-    if (ui->imageLabel->getState() == QImageLabel::selecting) {
-        ui->imageLabel->setState(QImageLabel::active);
-        ui->imageLabel->resetBoundingRectangle();
-    } else {
-        ui->imageLabel->setState(QImageLabel::selecting);
-    }
-}
-
 void QtPhotos::on_actionReset_triggered()
 {
 
+}
+
+void QtPhotos::on_actionRotate_toggled(bool active)
+{
+    if (!active) {
+        ui->imageLabel->setState(QImageLabel::ACTIVE);
+    } else {
+        ui->actionSelect->setChecked(false);
+        ui->imageLabel->setState(QImageLabel::ROTATING);
+    }
+}
+
+void QtPhotos::on_actionSelect_toggled(bool active)
+{
+    if (!active) {
+        setCursor(Qt::ArrowCursor);
+        ui->imageLabel->setState(QImageLabel::ACTIVE);
+        ui->imageLabel->resetBoundingRectangle();
+    } else {
+        setCursor(Qt::CrossCursor);
+        ui->actionRotate->setChecked(false);
+        ui->imageLabel->setState(QImageLabel::SELECTING);
+    }
 }

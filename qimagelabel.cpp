@@ -43,13 +43,15 @@ void QImageLabel::resetBoundingRectangle()
 
 void QImageLabel::mousePressEvent(QMouseEvent *event)
 {
-    if (currState == selecting) {
+    switch(currState) {
+    case SELECTING:
         if (!boundingRect.isEmpty() && boundingRect.contains(event->pos())) {
             boundingRect.initMoving(event->pos());
         } else {
             boundingRect.initBoundingRectangle(event->pos(), this);
         }
-    } else {
+        break;
+    case ROTATING: {
         QPoint endPoint = event->pos();
         QPoint startingPoint = pos();
         startingPoint.setX(startingPoint.x() +  width() / 2.0);
@@ -57,21 +59,26 @@ void QImageLabel::mousePressEvent(QMouseEvent *event)
         rotationDiff = curRotation - math::calculateAngle(startingPoint, endPoint);
         if (!pixmap())
             return;
+        break;
+    }
+    default:
+        break;
     }
 }
 
 void QImageLabel::mouseMoveEvent(QMouseEvent *event)
 {
-    if (currState == selecting) {
+    if (!pixmap())
+        return;
+    switch(currState) {
+    case SELECTING:
         if (boundingRect.rubberBandIsMoving()) {
             boundingRect.moveRubberBand(event->pos());
         }
         boundingRect.updateRectPosition(event->pos());
-    } else {
-        if (!pixmap())
-            return;
-        qDebug() << "Entered Mouse Move";
-        //WARNING USE THIS SHIT!!!
+        break;
+    case ROTATING: {
+        qDebug() << "Rotating: Entered Mouse Move";
         QTransform trans;
         QPoint endPoint = event->pos();
         QPoint startingPoint = pos();
@@ -89,21 +96,30 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         pixelMap = pixelMap.transformed(trans, Qt::TransformationMode::SmoothTransformation);
         qDebug() << originalPixmap->rect() << "new: " << pixelMap.rect();
         QLabel::setPixmap(pixelMap);
+        break;
+    }
+    default:
+        break;
     }
 }
 
 void QImageLabel::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (currState == selecting) {
+    if (!pixmap())
+        return;
+    switch(currState) {
+    case SELECTING:
         if (boundingRect.rubberBandIsMoving()) {
             boundingRect.stopMoving();
         } else {
             boundingRect.setRectDimensions();
         }
         qDebug() << "Selected Area: " << boundingRect.getBoundingRect();
-    } else {
-        if (!pixmap())
-            return;
+        break;
+    case ROTATING:
+        break;
+    default:
+        break;
     }
 }
 
@@ -124,4 +140,19 @@ void QImageLabel::crop() {
     QPixmap cropped = pixmap()->copy(boundingRect.getBoundingRect());
     setPixmap(cropped);
     boundingRect.reset();
+}
+
+void QImageLabel::zoomIn() {
+    switch (currState) {
+    case ACTIVE:
+        break;
+    case SELECTING:
+        break;
+    default:
+        break;
+    }
+}
+
+void QImageLabel::zoomOut() {
+
 }

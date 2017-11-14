@@ -35,9 +35,11 @@ private slots:
 
     void on_actionCrop_triggered();
 
-    void on_actionSelect_triggered();
-
     void on_actionReset_triggered();
+
+    void on_actionRotate_toggled(bool arg1);
+
+    void on_actionSelect_toggled(bool arg1);
 
 private:
     Ui::QtPhotos *ui;

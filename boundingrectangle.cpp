@@ -26,6 +26,9 @@ QRect boundingRectangle::getBoundingRect()
 
 void boundingRectangle::reset()
 {
+    if (isEmpty()) {
+        return;
+    }
     rubberBand->hide();
     rubberBand = NULL;
     origin = QPoint();
