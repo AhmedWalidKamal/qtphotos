@@ -82,6 +82,7 @@ void QtPhotos::enableButtons()
     ui->actionRotate->setEnabled(true);
     ui->actionZoom_In->setEnabled(true);
     ui->actionZoom_Out->setEnabled(true);
+    ui->actionReset->setEnabled(true);
 }
 
 void QtPhotos::on_actionOpen_triggered()
@@ -153,7 +154,6 @@ void QtPhotos::display(QPixmap &pixelMap)
 {
     ui->imageLabel->setPixmap(pixelMap);
     enableButtons();
-    ui->imageLabel->setState(QImageLabel::ACTIVE);
     setCursor(Qt::ArrowCursor);
     ui->actionRotate->setChecked(false);
     ui->actionSelect->setChecked(false);
@@ -215,7 +215,11 @@ void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {
 
 void QtPhotos::on_actionReset_triggered()
 {
-
+    setCursor(Qt::ArrowCursor);
+    ui->actionRotate->setChecked(false);
+    ui->actionSelect->setChecked(false);
+    curZoom = INITIAL_ZOOM;
+    ui->imageLabel->reset();
 }
 
 void QtPhotos::on_actionRotate_toggled(bool active)

@@ -24,6 +24,10 @@ void QImageLabel::setPixmap(QPixmap &pixelmap) {
 //    resize(pixelmap.size());
     originalPixmap = new QPixmap(pixelmap);
     qDebug() << "Size Hint: " << sizeHint();
+    currState = ACTIVE;
+    curRotation = 0;
+    rotationDiff = 0;
+    scale = 1;
     adjustSize();
     updateGeometry();
 }
@@ -165,4 +169,8 @@ void QImageLabel::zoom(double ratio, bool isZoomIn) {
     default:
         break;
     }
+}
+
+void QImageLabel::reset() {
+    setPixmap(*originalPixmap);
 }

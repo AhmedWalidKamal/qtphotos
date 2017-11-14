@@ -19,6 +19,7 @@ public:
     void setState(State state);
     void resetBoundingRectangle();
     void zoom(double ratio, bool isZoomIn);
+    void reset();
 private slots:
     void mousePressEvent(QMouseEvent *event);
 
