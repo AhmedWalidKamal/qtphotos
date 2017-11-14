@@ -105,10 +105,13 @@ void QtPhotos::on_actionOpen_triggered()
         setWindowFilePath(fileName);
         //ui->scrollArea->show();
         Q_ASSERT(ui->imageLabel->pixmap());
-
-        enableButtons();
     }
+    enableButtons();
     fileName = dialog.selectedFiles().first();
+    ui->imageLabel->setState(QImageLabel::ACTIVE);
+    setCursor(Qt::ArrowCursor);
+    ui->actionRotate->setChecked(false);
+    ui->actionSelect->setChecked(false);
 }
 
 void QtPhotos::on_actionSave_triggered()
