@@ -67,7 +67,6 @@ void QtPhotos::disableButtonsInitially()
     ui->actionSave_as->setEnabled(false);
     ui->actionSelect->setEnabled(false);
     ui->actionReset->setEnabled(false);
-    ui->actionPaste->setEnabled(false);
     ui->actionRotate->setEnabled(false);
     ui->actionZoom_In->setEnabled(false);
     ui->actionZoom_Out->setEnabled(false);
@@ -76,7 +75,6 @@ void QtPhotos::disableButtonsInitially()
 void QtPhotos::enableButtons()
 {
     ui->actioncopy->setEnabled(true);
-    ui->actionCrop->setEnabled(true);
     ui->actionPrint->setEnabled(true);
     ui->actionSave->setEnabled(true);
     ui->actionSave_as->setEnabled(true);
@@ -88,38 +86,22 @@ void QtPhotos::enableButtons()
 
 void QtPhotos::on_actionOpen_triggered()
 {
-    ui->imageLabel->setVisible(true);
     QFileDialog dialog(this, tr("Open Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     initImageDialog(dialog, QFileDialog::AcceptOpen);
     int ret = dialog.exec();
     if (ret != QFileDialog::Accepted)
         return;
-    for (const QString& fileName : dialog.selectedFiles()) {
-        qDebug() << fileName;
-        QImageReader reader(fileName);
-        reader.setAutoTransform(true);
-        image = reader.read();
-        if (image.isNull())
-            qDebug() << "Failed to open image";
-        //image = image.transformed(trans);
-        ui->imageLabel->setPixmap(QPixmap::fromImage(image));
-//        QPainter painter(ui->imageLabel);
-//        painter.drawPixmap(ui->imageLabel->rect(), QPixmap::fromImage(image));
-        //ui->imageLabel->adjustSize();
-        qDebug() << image.size();
-        qDebug() << ui->scrollArea->widget();
-        setWindowFilePath(fileName);
-        //ui->scrollArea->show();
-        Q_ASSERT(ui->imageLabel->pixmap());
-    }
-    enableButtons();
     fileName = dialog.selectedFiles().first();
-    ui->imageLabel->setState(QImageLabel::ACTIVE);
-    setCursor(Qt::ArrowCursor);
-    ui->actionRotate->setChecked(false);
-    ui->actionSelect->setChecked(false);
-    curZoom = INITIAL_ZOOM;
+    qDebug() << "File Name: " << fileName;
+    QImageReader reader(fileName);
+    reader.setAutoTransform(true);
+    image = reader.read();
+    if (image.isNull())
+        qDebug() << "Failed to open image";
+    qDebug() << "Image Size: " << image.size();
+    display(QPixmap::fromImage(image));
+    setWindowFilePath(fileName);
 }
 
 void QtPhotos::on_actionSave_triggered()
@@ -165,17 +147,22 @@ void QtPhotos::on_actioncopy_triggered()
 void QtPhotos::on_actionCrop_triggered()
 {
     ui->imageLabel->crop();
-    ui->actionSelect->setChecked(false);
-    ui->imageLabel->setState(QImageLabel::ACTIVE);
-    //QImage croppedImage = image.copy(ui->imageLabel->boundingRect.getBoundingRect());
-    //display(croppedImage);
 }
 
-void QtPhotos::display(QImage &imageToDisplay)
+void QtPhotos::display(QPixmap &pixelMap)
 {
-    //ui->imageLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
+    ui->imageLabel->setPixmap(pixelMap);
+    enableButtons();
+    ui->imageLabel->setState(QImageLabel::ACTIVE);
+    setCursor(Qt::ArrowCursor);
+    ui->actionRotate->setChecked(false);
+    ui->actionSelect->setChecked(false);
+    curZoom = INITIAL_ZOOM;
+    ui->imageLabel->setVisible(true);
+}
 
-    //ui->imageLabel->boundingRect.reset();
+void QtPhotos::display(QPixmap &&pixelMap) {
+    display(pixelMap);
 }
 
 void QtPhotos::on_actionAbout_triggered()
@@ -251,10 +238,12 @@ void QtPhotos::on_actionSelect_toggled(bool active)
         ui->imageLabel->setState(QImageLabel::ACTIVE);
         ui->imageLabel->resetBoundingRectangle();
         setCursor(Qt::ArrowCursor);
+        ui->actionCrop->setEnabled(false);
     } else {
         ui->actionRotate->setChecked(false);
         ui->imageLabel->setState(QImageLabel::SELECTING);
         setCursor(Qt::CrossCursor);
+        ui->actionCrop->setEnabled(true);
     }
 }
 
@@ -283,4 +272,14 @@ void QtPhotos::on_actionZoom_Out_triggered()
         curZoom--;
     }
     ui->imageLabel->zoom(zoomLevel[curZoom], false);
+}
+
+void QtPhotos::on_actionPaste_triggered()
+{
+    #ifndef QT_NO_CLIPBOARD
+        if (QGuiApplication::clipboard()->pixmap().isNull()) {
+            return;
+        }
+        display(QGuiApplication::clipboard()->pixmap());
+    #endif
 }

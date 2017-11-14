@@ -227,6 +227,9 @@
    <property name="toolTip">
     <string>select</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
   </action>
   <action name="actionReset">
    <property name="icon">
@@ -250,6 +253,9 @@
    </property>
    <property name="toolTip">
     <string>paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="actionRotate">

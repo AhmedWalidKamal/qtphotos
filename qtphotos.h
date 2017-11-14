@@ -45,6 +45,8 @@ private slots:
 
     void on_actionZoom_Out_triggered();
 
+    void on_actionPaste_triggered();
+
 private:
     Ui::QtPhotos *ui;
     QImage image;
@@ -53,7 +55,8 @@ private:
     int INITIAL_ZOOM = 4;
     int curZoom;
     const int ZOOM_LEVELS_COUNT = 11;
-    void display(QImage &imageToDisplay);
+    void display(QPixmap &pixelMap);
+    void display(QPixmap &&pixelMap);
     void saveImage(QString &imageFileName);
     void disableButtonsInitially();
     void enableButtons();

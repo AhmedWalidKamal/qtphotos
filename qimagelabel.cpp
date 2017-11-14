@@ -156,8 +156,8 @@ void QImageLabel::zoom(double ratio, bool isZoomIn) {
         //qDebug() << newMap.size();
         //QLabel::setPixmap(newMap);
         scale = ratio;
-        qDebug() << "Zoom Ratio: " << ratio;
         resize(ratio * pixmap()->size());
+        qDebug() << "Zoom Ratio: " << ratio << "Label Size: " << size();
         break;
     }
     case SELECTING:
