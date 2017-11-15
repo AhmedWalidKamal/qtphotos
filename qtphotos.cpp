@@ -55,7 +55,7 @@ QtPhotos::QtPhotos(QWidget *parent) :
     );
     disableButtonsInitially();
     ui->imageLabel->setState(QImageLabel::IDLE);
-    iconTheme = QString("flat");
+    iconTheme = QString("color");
     setIcons();
 }
 
@@ -390,7 +390,7 @@ void QtPhotos::setIcons() {
     ui->actionRotate->setIcon(QIcon(tr(":/icons/%1/rotate.png").arg(iconTheme)));
     ui->actionZoom_In->setIcon(QIcon(tr(":/icons/%1/zoom_in.png").arg(iconTheme)));
     ui->actionZoom_Out->setIcon(QIcon(tr(":/icons/%1/zoom_out.png").arg(iconTheme)));
-    ui->actionAbout->setIcon(QIcon(tr(":/icons/%1/open.png").arg(iconTheme)));
+    ui->actionAbout->setIcon(QIcon(tr(":/icons/%1/about.png").arg(iconTheme)));
     ui->actionChoose_Icon_Theme->setIcon(QIcon(tr(":/icons/%1/choose_icon_theme.png").arg(iconTheme)));
     ui->actionExit->setIcon(QIcon(tr(":/icons/%1/exit.png").arg(iconTheme)));
 }

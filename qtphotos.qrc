@@ -31,5 +31,80 @@
         <file>icons/flat/choose_icon_theme.png</file>
         <file>icons/flat/save_as.png</file>
         <file>icons/flat/select.png</file>
+        <file>icons/ios glyphs/choose_icon_theme.png</file>
+        <file>icons/ios glyphs/about.png</file>
+        <file>icons/ios glyphs/exit.png</file>
+        <file>icons/ios glyphs/reset.png</file>
+        <file>icons/ios glyphs/zoom_out.png</file>
+        <file>icons/ios glyphs/zoom_in.png</file>
+        <file>icons/ios glyphs/rotate.png</file>
+        <file>icons/ios glyphs/crop.png</file>
+        <file>icons/ios glyphs/select.png</file>
+        <file>icons/ios glyphs/print.png</file>
+        <file>icons/ios glyphs/paste.png</file>
+        <file>icons/ios glyphs/copy.png</file>
+        <file>icons/ios glyphs/save_as.png</file>
+        <file>icons/ios glyphs/save.png</file>
+        <file>icons/ios glyphs/open.png</file>
+        <file>icons/color/about.png</file>
+        <file>icons/color/rotate.png</file>
+        <file>icons/color/choose_icon_theme.png</file>
+        <file>icons/color/zoom_in.png</file>
+        <file>icons/color/zoom_out.png</file>
+        <file>icons/color/select.png</file>
+        <file>icons/color/crop.png</file>
+        <file>icons/color/paste.png</file>
+        <file>icons/color/copy.png</file>
+        <file>icons/color/exit.png</file>
+        <file>icons/color/print.png</file>
+        <file>icons/color/save_as.png</file>
+        <file>icons/color/save.png</file>
+        <file>icons/color/open.png</file>
+        <file>icons/color/reset.png</file>
+        <file>icons/ice cream/about.png</file>
+        <file>icons/ice cream/rotate.png</file>
+        <file>icons/ice cream/choose_icon_theme.png</file>
+        <file>icons/ice cream/zoom_in.png</file>
+        <file>icons/ice cream/zoom_out.png</file>
+        <file>icons/ice cream/select.png</file>
+        <file>icons/ice cream/crop.png</file>
+        <file>icons/ice cream/paste.png</file>
+        <file>icons/ice cream/copy.png</file>
+        <file>icons/ice cream/exit.png</file>
+        <file>icons/ice cream/print.png</file>
+        <file>icons/ice cream/save_as.png</file>
+        <file>icons/ice cream/save.png</file>
+        <file>icons/ice cream/open.png</file>
+        <file>icons/ice cream/reset.png</file>
+        <file>icons/material/about.png</file>
+        <file>icons/material/rotate.png</file>
+        <file>icons/material/choose_icon_theme.png</file>
+        <file>icons/material/zoom_in.png</file>
+        <file>icons/material/zoom_out.png</file>
+        <file>icons/material/select.png</file>
+        <file>icons/material/crop.png</file>
+        <file>icons/material/paste.png</file>
+        <file>icons/material/copy.png</file>
+        <file>icons/material/exit.png</file>
+        <file>icons/material/print.png</file>
+        <file>icons/material/save_as.png</file>
+        <file>icons/material/save.png</file>
+        <file>icons/material/open.png</file>
+        <file>icons/material/reset.png</file>
+        <file>icons/nolan/about.png</file>
+        <file>icons/nolan/rotate.png</file>
+        <file>icons/nolan/choose_icon_theme.png</file>
+        <file>icons/nolan/zoom_in.png</file>
+        <file>icons/nolan/zoom_out.png</file>
+        <file>icons/nolan/select.png</file>
+        <file>icons/nolan/crop.png</file>
+        <file>icons/nolan/paste.png</file>
+        <file>icons/nolan/copy.png</file>
+        <file>icons/nolan/exit.png</file>
+        <file>icons/nolan/print.png</file>
+        <file>icons/nolan/save_as.png</file>
+        <file>icons/nolan/save.png</file>
+        <file>icons/nolan/open.png</file>
+        <file>icons/nolan/reset.png</file>
     </qresource>
 </RCC>

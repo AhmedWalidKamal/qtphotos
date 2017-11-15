@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>494</width>
+    <width>492</width>
     <height>339</height>
    </rect>
   </property>
@@ -25,7 +25,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>474</width>
+         <width>472</width>
          <height>243</height>
         </rect>
        </property>
@@ -51,7 +51,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>494</width>
+     <width>492</width>
      <height>22</height>
     </rect>
    </property>
@@ -131,6 +131,8 @@
    <addaction name="actionRotate"/>
    <addaction name="actionZoom_In"/>
    <addaction name="actionZoom_Out"/>
+   <addaction name="separator"/>
+   <addaction name="actionChoose_Icon_Theme"/>
    <addaction name="separator"/>
    <addaction name="actionReset"/>
    <addaction name="actionExit"/>
