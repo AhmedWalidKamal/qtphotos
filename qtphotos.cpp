@@ -208,8 +208,8 @@ void QtPhotos::display(QPixmap &&pixelMap) {
 
 void QtPhotos::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, tr("About qtphotos"),
-                tr("<p><b>qtphotos</b> is an image viewer and editor "
+    QMessageBox::about(this, tr("About Qt Photos"),
+                tr("<p><b>Qt Photos</b> is an image viewer and editor "
                    "developed in Qt.</p>"));
 }
 
@@ -334,7 +334,7 @@ void QtPhotos::on_actionPaste_triggered()
 
 bool QtPhotos::promptForSaving() {
     const QMessageBox::StandardButton ret
-            = QMessageBox::warning(this, tr("qtphotos"),
+            = QMessageBox::warning(this, tr("Qt Photos"),
                                    tr("The image has been modified.\n"
                                       "Do you want to save your changes?"),
                                    QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);

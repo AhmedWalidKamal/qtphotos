@@ -106,5 +106,6 @@
         <file>icons/nolan/save.png</file>
         <file>icons/nolan/open.png</file>
         <file>icons/nolan/reset.png</file>
+        <file>icons/rotate_cursor.png</file>
     </qresource>
 </RCC>

@@ -3,6 +3,7 @@
 #include <QSizeGrip>
 #include <QDebug>
 #include <QMouseEvent>
+#include <algorithm>
 
 QBoundingRectangle::QBoundingRectangle(QWidget *parent): QRubberBand(QRubberBand::Rectangle, parent)
 {
@@ -48,10 +49,9 @@ void QBoundingRectangle::mousePressEvent(QMouseEvent *event) {
 
 void QBoundingRectangle::mouseMoveEvent(QMouseEvent *event) {
     QPoint topLeft = event->pos() - movingOffset + rubberBandRect.topLeft();
-    if (!outOfBounds(topLeft)) {
-        move(event->pos() - movingOffset + rubberBandRect.topLeft());
-        rubberBandRect = geometry().normalized();
-    }
+    fixBounds(topLeft);
+    move(topLeft);
+    rubberBandRect = geometry().normalized();
 }
 
 void QBoundingRectangle::mouseReleaseEvent(QMouseEvent *event) {
@@ -80,17 +80,14 @@ bool QBoundingRectangle::rubberBandIsMoving()
     return isMoving;
 }
 
-bool QBoundingRectangle::outOfBounds(QPoint topLeft)
+void QBoundingRectangle::fixBounds(QPoint &topLeft)
 {
-//    qDebug() << "Parent Widget Size: " << parentWidget()->size();
-//    qDebug() << "Top Left point " << topLeft;
-//    qDebug() << "height: " << height() << ", width: " << width();
-    if (topLeft.x() < 0 || topLeft.y() < 0
-            || topLeft.y() + height() > parentWidget()->size().height()
-            || topLeft.x() + width() > parentWidget()->size().width()) {
-        return true;
-    }
-    return false;
+    qDebug() << "Before bound fixing: " << topLeft;
+    topLeft.setX(std::max(0, topLeft.x()));
+    topLeft.setY(std::max(0, topLeft.y()));
+    topLeft.setX(std::min(parentWidget()->width() - width(), topLeft.x()));
+    topLeft.setY(std::min(parentWidget()->height() - height(), topLeft.y()));
+    qDebug() << "After bound fixing: " << topLeft;
 }
 
 void QBoundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widget)

@@ -40,7 +40,7 @@ private:
     QPoint movingOffset;
 
     void resizeEvent(QResizeEvent *);
-    bool outOfBounds(QPoint topLeft);
+    void fixBounds(QPoint &topLeft);
 };
 
 #endif // BOUNDINGRECTANGLE_H
