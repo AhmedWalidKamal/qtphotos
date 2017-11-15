@@ -53,14 +53,12 @@ void QBoundingRectangle::resizeEvent(QResizeEvent *) {
 
 bool QBoundingRectangle::outOfBounds(QPoint topLeft)
 {
-//    if (topLeft.x() < parentWidget()->pos().x() || topLeft.y() < parentWidget()->pos().y()
-//            || topLeft.x() + height() > parentWidget()->pos().x() + parentWidget()->height()
-//            || topLeft.y() + width() > parentWidget()->pos().y() + parentWidget()->width()) {
-//        return true;
-//    }
-//    return false;
-
-    if (rubberBandRect.topLeft().x() < parentWidget()->pos().x()) {
+    qDebug() << "Parent Widget Size: " << parentWidget()->size();
+    qDebug() << "Top Left point " << topLeft;
+    qDebug() << "height: " << height() << ", width: " << width();
+    if (topLeft.x() < 0 || topLeft.y() < 0
+            || topLeft.y() + height() > parentWidget()->size().height()
+            || topLeft.x() + width() > parentWidget()->size().width()) {
         return true;
     }
     return false;
