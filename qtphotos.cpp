@@ -34,6 +34,7 @@ QtPhotos::QtPhotos(QWidget *parent) :
     ui(new Ui::QtPhotos)
 {
     ui->setupUi(this);
+    setWindowIcon(QIcon(":/icons/qtphotos.png"));
     ui->imageLabel->setBackgroundRole(QPalette::Base);
     ui->imageLabel->setScaledContents(true);
     ui->imageLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -191,7 +192,7 @@ void QtPhotos::display(QPixmap &pixelMap)
 {
     ui->imageLabel->setPixmap(pixelMap);
     enableButtons();
-    setCursor(Qt::ArrowCursor);
+    ui->imageLabel->setCursor(Qt::ArrowCursor);
     ui->actionRotate->setChecked(false);
     ui->actionSelect->setChecked(false);
     curZoom = INITIAL_ZOOM;
@@ -254,7 +255,7 @@ void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {
 
 void QtPhotos::on_actionReset_triggered()
 {
-    setCursor(Qt::ArrowCursor);
+    ui->imageLabel->setCursor(Qt::ArrowCursor);
     ui->actionRotate->setChecked(false);
     ui->actionSelect->setChecked(false);
     curZoom = INITIAL_ZOOM;
@@ -265,13 +266,13 @@ void QtPhotos::on_actionRotate_toggled(bool active)
 {
     if (!active) {
         ui->imageLabel->setState(QImageLabel::ACTIVE);
-        setCursor(Qt::ArrowCursor);
+        ui->imageLabel->setCursor(Qt::ArrowCursor);
     } else {
         ui->actionSelect->setChecked(false);
         ui->imageLabel->setState(QImageLabel::ROTATING);
         QImageReader reader(":/icons/rotate_cursor.png");
         QCursor cursor(QPixmap::fromImage(reader.read()));
-        setCursor(cursor);
+        ui->imageLabel->setCursor(cursor);
     }
 }
 
@@ -280,12 +281,12 @@ void QtPhotos::on_actionSelect_toggled(bool active)
     if (!active) {
         ui->imageLabel->setState(QImageLabel::ACTIVE);
         ui->imageLabel->resetBoundingRectangle();
-        setCursor(Qt::ArrowCursor);
+        ui->imageLabel->setCursor(Qt::ArrowCursor);
         ui->actionCrop->setEnabled(false);
     } else {
         ui->actionRotate->setChecked(false);
         ui->imageLabel->setState(QImageLabel::SELECTING);
-        setCursor(Qt::CrossCursor);
+        ui->imageLabel->setCursor(Qt::CrossCursor);
         ui->actionCrop->setEnabled(true);
     }
 }

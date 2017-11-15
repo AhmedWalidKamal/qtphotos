@@ -29,5 +29,6 @@
         <file>icons/open.svg</file>
         <file>icons/exit.svg</file>
         <file>icons/about.svg</file>
+	<file>icons/qtphotos.png</file>
     </qresource>
 </RCC>
