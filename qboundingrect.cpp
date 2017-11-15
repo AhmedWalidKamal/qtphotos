@@ -9,13 +9,20 @@ QBoundingRectangle::QBoundingRectangle(QWidget *parent): QRubberBand(QRubberBand
     origin = QPoint();
     movingOffset = QPoint();
     isMoving = false;
-    setWindowFlags(windowFlags() | Qt::SubWindow);
+    setWindowFlags(Qt::SubWindow);
+    setAttribute(Qt::WA_TransparentForMouseEvents, false);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     QSizeGrip* grip1 = new QSizeGrip(this);
     QSizeGrip* grip2 = new QSizeGrip(this);
     layout->addWidget(grip1, 0, Qt::AlignLeft | Qt::AlignTop);
     layout->addWidget(grip2, 0, Qt::AlignRight | Qt::AlignBottom);
+    setCursor(Qt::DragMoveCursor);
+}
+
+
+QBoundingRectangle::~QBoundingRectangle() {
+
 }
 
 void QBoundingRectangle::setupBoundingRect()
@@ -36,6 +43,18 @@ QRect QBoundingRectangle::getBoundingRect()
 void QBoundingRectangle::reset()
 {
     hide();
+}
+
+void QBoundingRectangle::mousePressEvent(QMouseEvent *event) {
+    qDebug() << "Mouse pressed on rect, hurray";
+}
+
+void QBoundingRectangle::mouseMoveEvent(QMouseEvent *event) {
+
+}
+
+void QBoundingRectangle::mouseReleaseEvent(QMouseEvent *event) {
+
 }
 
 bool QBoundingRectangle::validSize()

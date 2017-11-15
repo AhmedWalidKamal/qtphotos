@@ -8,8 +8,11 @@
 
 class QBoundingRectangle : public QRubberBand
 {
+    Q_OBJECT
+
 public:
     QBoundingRectangle(QWidget *parent);
+    virtual ~QBoundingRectangle();
 
     void initBoundingRectangle(QPoint initialPoint, QWidget *widget);
     void initMoving(QPoint point);
@@ -23,6 +26,14 @@ public:
     bool validSize();
     bool contains(QPoint point);
     bool rubberBandIsMoving();
+
+private slots:
+    void mousePressEvent(QMouseEvent *event);
+
+    void mouseMoveEvent(QMouseEvent *event);
+
+    void mouseReleaseEvent(QMouseEvent *event);
+
 private:
     QPoint origin;
     QRect rubberBandRect;
