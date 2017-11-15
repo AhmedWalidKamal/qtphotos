@@ -18,7 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     backend.cpp \
     pixmap.cpp \
-    pixmapprovider.cpp
+    pixmapprovider.cpp \
+    util.cpp
 RESOURCES += qml.qrc \
     icons.qrc
 
@@ -36,7 +37,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     backend.h \
     pixmap.h \
-    pixmapprovider.h
+    pixmapprovider.h \
+    util.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml \
