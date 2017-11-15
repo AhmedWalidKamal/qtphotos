@@ -52,9 +52,13 @@ private slots:
     void on_actionPaste_triggered();
 
     void closeEvent(QCloseEvent *event);
+
+    void on_actionChoose_Icon_Theme_triggered();
+
 private:
     Ui::QtPhotos *ui;
     QString fileName;
+    QString iconTheme;
     const double zoomLevel[11] = {0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4};
     int INITIAL_ZOOM = 4;
     int curZoom;
@@ -71,6 +75,7 @@ private:
     void disableButtonsInitially();
     void enableButtons();
     bool promptForSaving();
+    void setIcons();
 };
 
 #endif // QTPHOTOS_H

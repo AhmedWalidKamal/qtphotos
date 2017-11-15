@@ -23,6 +23,7 @@
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>
 #if QT_CONFIG(printdialog)
+#include <QInputDialog>
 #include <QPrintDialog>
 #endif
 #endif
@@ -54,6 +55,8 @@ QtPhotos::QtPhotos(QWidget *parent) :
     );
     disableButtonsInitially();
     ui->imageLabel->setState(QImageLabel::IDLE);
+    iconTheme = QString("flat");
+    setIcons();
 }
 
 QtPhotos::~QtPhotos()
@@ -349,4 +352,45 @@ bool QtPhotos::promptForSaving() {
             break;
         }
         return true;
+}
+
+void QtPhotos::on_actionChoose_Icon_Theme_triggered()
+{
+    QInputDialog dialog;
+    QStringList iconThemes;
+    iconThemes << QString("color");
+    iconThemes << QString("flat");
+    iconThemes << QString("ice cream");
+    iconThemes << QString("ios");
+    iconThemes << QString("ios glyphs");
+    iconThemes << QString("material");
+    iconThemes << QString("nolan");
+    dialog.setOptions(QInputDialog::UseListViewForComboBoxItems);
+    dialog.setComboBoxItems(iconThemes);
+    dialog.setWindowTitle(tr("Choose Icon Theme"));
+    dialog.setTextValue(iconTheme);
+    if (dialog.exec())
+    {
+       qDebug() << "Selected Theme: " << dialog.textValue();
+       iconTheme = dialog.textValue();
+       setIcons();
+    }
+}
+
+void QtPhotos::setIcons() {
+    ui->actionOpen->setIcon(QIcon(tr(":/icons/%1/open.png").arg(iconTheme)));
+    ui->actioncopy->setIcon(QIcon(tr(":/icons/%1/copy.png").arg(iconTheme)));
+    ui->actionPaste->setIcon(QIcon(tr(":/icons/%1/paste.png").arg(iconTheme)));
+    ui->actionCrop->setIcon(QIcon(tr(":/icons/%1/crop.png").arg(iconTheme)));
+    ui->actionPrint->setIcon(QIcon(tr(":/icons/%1/print.png").arg(iconTheme)));
+    ui->actionSave->setIcon(QIcon(tr(":/icons/%1/save.png").arg(iconTheme)));
+    ui->actionSave_as->setIcon(QIcon(tr(":/icons/%1/save_as.png").arg(iconTheme)));
+    ui->actionSelect->setIcon(QIcon(tr(":/icons/%1/select.png").arg(iconTheme)));
+    ui->actionReset->setIcon(QIcon(tr(":/icons/%1/reset.png").arg(iconTheme)));
+    ui->actionRotate->setIcon(QIcon(tr(":/icons/%1/rotate.png").arg(iconTheme)));
+    ui->actionZoom_In->setIcon(QIcon(tr(":/icons/%1/zoom_in.png").arg(iconTheme)));
+    ui->actionZoom_Out->setIcon(QIcon(tr(":/icons/%1/zoom_out.png").arg(iconTheme)));
+    ui->actionAbout->setIcon(QIcon(tr(":/icons/%1/open.png").arg(iconTheme)));
+    ui->actionChoose_Icon_Theme->setIcon(QIcon(tr(":/icons/%1/choose_icon_theme.png").arg(iconTheme)));
+    ui->actionExit->setIcon(QIcon(tr(":/icons/%1/exit.png").arg(iconTheme)));
 }

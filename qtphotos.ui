@@ -26,7 +26,7 @@
          <x>0</x>
          <y>0</y>
          <width>474</width>
-         <height>236</height>
+         <height>243</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -85,6 +85,8 @@
     <addaction name="actionZoom_In"/>
     <addaction name="actionZoom_Out"/>
     <addaction name="actionReset"/>
+    <addaction name="separator"/>
+    <addaction name="actionChoose_Icon_Theme"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -134,10 +136,6 @@
    <addaction name="actionExit"/>
   </widget>
   <action name="actionOpen">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/open.svg</normaloff>:/icons/open.svg</iconset>
-   </property>
    <property name="text">
     <string>Open</string>
    </property>
@@ -146,10 +144,6 @@
    </property>
   </action>
   <action name="actionSave">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/save.svg</normaloff>:/icons/save.svg</iconset>
-   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -158,10 +152,6 @@
    </property>
   </action>
   <action name="actionSave_as">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/save_as.png</normaloff>:/icons/save_as.png</iconset>
-   </property>
    <property name="text">
     <string>Save as</string>
    </property>
@@ -170,10 +160,6 @@
    </property>
   </action>
   <action name="actionPrint">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/print.svg</normaloff>:/icons/print.svg</iconset>
-   </property>
    <property name="text">
     <string>Print</string>
    </property>
@@ -182,10 +168,6 @@
    </property>
   </action>
   <action name="actionExit">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/exit.svg</normaloff>:/icons/exit.svg</iconset>
-   </property>
    <property name="text">
     <string>Exit</string>
    </property>
@@ -194,10 +176,6 @@
    </property>
   </action>
   <action name="actioncopy">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/copy.svg</normaloff>:/icons/copy.svg</iconset>
-   </property>
    <property name="text">
     <string>Copy</string>
    </property>
@@ -206,10 +184,6 @@
    </property>
   </action>
   <action name="actionCrop">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/crop.svg</normaloff>:/icons/crop.svg</iconset>
-   </property>
    <property name="text">
     <string>Crop</string>
    </property>
@@ -221,10 +195,6 @@
    </property>
   </action>
   <action name="actionAbout">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/about.svg</normaloff>:/icons/about.svg</iconset>
-   </property>
    <property name="text">
     <string>About</string>
    </property>
@@ -235,10 +205,6 @@
   <action name="actionSelect">
    <property name="checkable">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/select.png</normaloff>:/icons/select.png</iconset>
    </property>
    <property name="text">
     <string>Select</string>
@@ -251,10 +217,6 @@
    </property>
   </action>
   <action name="actionReset">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
-   </property>
    <property name="text">
     <string>Reset</string>
    </property>
@@ -266,10 +228,6 @@
    </property>
   </action>
   <action name="actionPaste">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/paste.svg</normaloff>:/icons/paste.svg</iconset>
-   </property>
    <property name="text">
     <string>Paste</string>
    </property>
@@ -284,10 +242,6 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/rotate.svg</normaloff>:/icons/rotate.svg</iconset>
-   </property>
    <property name="text">
     <string>Rotate</string>
    </property>
@@ -296,10 +250,6 @@
    </property>
   </action>
   <action name="actionZoom_In">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/zoom_in.svg</normaloff>:/icons/zoom_in.svg</iconset>
-   </property>
    <property name="text">
     <string>Zoom In</string>
    </property>
@@ -308,15 +258,22 @@
    </property>
   </action>
   <action name="actionZoom_Out">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/zoom_out.svg</normaloff>:/icons/zoom_out.svg</iconset>
-   </property>
    <property name="text">
     <string>Zoom Out</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionChoose_Icon_Theme">
+   <property name="text">
+    <string>Choose Icon Theme</string>
+   </property>
+   <property name="toolTip">
+    <string>Choose Icon Theme</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+T</string>
    </property>
   </action>
  </widget>
@@ -328,8 +285,6 @@
    <header>qimagelabel.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="qtphotos.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
