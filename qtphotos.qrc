@@ -1,19 +1,32 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-    <file>icons/copy.png</file>
-    <file>icons/create.png</file>
-    <file>icons/cut.png</file>
-    <file>icons/edit_redo.png</file>
-    <file>icons/edit_undo.png</file>
-    <file>icons/exit.png</file>
-    <file>icons/font.png</file>
-    <file>icons/info.png</file>
-    <file>icons/new.png</file>
-    <file>icons/open.png</file>
-    <file>icons/paste.png</file>
-    <file>icons/pencil.png</file>
-    <file>icons/print.png</file>
-    <file>icons/save_as.png</file>
-    <file>icons/save.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>icons/copy.png</file>
+        <file>icons/create.png</file>
+        <file>icons/cut.png</file>
+        <file>icons/edit_redo.png</file>
+        <file>icons/edit_undo.png</file>
+        <file>icons/exit.png</file>
+        <file>icons/font.png</file>
+        <file>icons/info.png</file>
+        <file>icons/new.png</file>
+        <file>icons/open.png</file>
+        <file>icons/paste.png</file>
+        <file>icons/pencil.png</file>
+        <file>icons/print.png</file>
+        <file>icons/save_as.png</file>
+        <file>icons/save.png</file>
+        <file>icons/select.png</file>
+        <file>icons/rotate.svg</file>
+        <file>icons/rotate_cursor.png</file>
+        <file>icons/zoom_out.svg</file>
+        <file>icons/zoom_in.svg</file>
+        <file>icons/crop.svg</file>
+        <file>icons/paste.svg</file>
+        <file>icons/copy.svg</file>
+        <file>icons/print.svg</file>
+        <file>icons/reset.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/open.svg</file>
+        <file>icons/exit.svg</file>
+    </qresource>
 </RCC>

@@ -58,6 +58,17 @@ ApplicationWindow {
                                                                     "y": boundingSelectionRect.height / 4,
                                                                     "width": boundingSelectionRect.width / 2,
                                                                     "height": boundingSelectionRect.height / 2})
+                } else {
+                    console.log(selection.x)
+                    console.log(selection.y)
+                    console.log(selection.width)
+                    console.log(selection.height)
+
+                    console.log(image.x)
+                    console.log(image.y)
+                    console.log(image.width)
+                    console.log(image.height)
+                    console.log(image.scale)
                 }
             }
         }
@@ -99,11 +110,28 @@ ApplicationWindow {
             }
 
             onClicked: {
-                pixMap.crop(selection.x * image.width / image.paintedWidth,
-                                   selection.y * image.height / image.paintedHeight,
-                                   (selection.x + selection.width) * image.width / image.paintedWidth,
-                                   (selection.y + selection.height) * image.height /image.paintedHeight)
 
+                var imgHeight = image.sourceHeight * (image.width / image.sourceWidth)
+
+                var cropX = selection.x * image.scale * image.sourceWidth / image.width
+                var cropWidth = selection.width * image.scale * image.sourceWidth / image.width
+
+                var marginY = (boundingSelectionRect.height - (imgHeight * image.scale)) / 2
+                var cropY = Math.max(0, selection.y * image.scale - marginY) * image.sourceHeight / imgHeight
+
+                var cropHeight = selection.height * image.scale * image.sourceHeight / imgHeight
+                if (cropY + cropHeight > image.sourceHeight)
+                    cropHeight = image.sourceHeight - cropY
+
+
+
+                console.log("CropX: ", cropX)
+                console.log("CropY: ", cropY)
+                console.log("marginY", marginY)
+                console.log("CropWidth: ", cropWidth)
+                console.log("CropHeight", cropHeight)
+
+                pixMap.crop(cropX, cropY, cropWidth, cropHeight)
             }
         }
     }

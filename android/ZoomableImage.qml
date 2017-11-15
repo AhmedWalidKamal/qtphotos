@@ -2,24 +2,37 @@ import QtQuick 2.7
 
 Flickable {
     id: flickable
+
     clip: true
     contentHeight: imageContainer.height
     contentWidth: imageContainer.width
     onHeightChanged: image.calculateSize()
+
     property alias source: image.source
     property alias status: image.status
     property alias progress: image.progress
     property alias paintedWidth: image.paintedWidth
     property alias paintedHeight: image.paintedHeight
+    property alias sourceWidth: image.sourceSize.width
+    property alias sourceHeight: image.sourceSize.height
+    property alias containerWidth: imageContainer.width
+    property alias containerHeight: imageContainer.height
+
+    property real dragX: 0
+    property real dragY: 0
+
     property string remoteSource: ''
     property string localSource: ''
+
     signal swipeLeft()
     signal swipeRight()
     signal imageClicked();
+
     Item {
         id: imageContainer
         width: Math.max(image.width * image.scale, flickable.width)
         height: Math.max(image.height * image.scale, flickable.height)
+
         Image {
             id: image
             property real prevScale
@@ -51,8 +64,8 @@ Flickable {
                     image.rotation = 0;
                 }
 
+
             }
-            //            Behavior on scale {NumberAnimation{duration: 200}}
         }
     }
     PinchArea {
@@ -67,6 +80,7 @@ Flickable {
         pinch.maximumScale: 10
         onPinchFinished: flickable.returnToBounds()
         pinch.dragAxis: Pinch.XAndYAxis
+
         MouseArea {
             anchors.fill : parent
             scrollGestureEnabled: false
@@ -111,9 +125,9 @@ Flickable {
             onReleased: {
                 if (image.scale === startScale) {
                     var deltaX = (mouse.x / image.scale) - startX
+                    dragX += deltaX
                     var deltaY = (mouse.y / image.scale) - startY
-                    console.log(deltaX);
-                    console.log(deltaY);
+                    dragY += deltaY
                     // Swipe is only allowed when we're not zoomed in
                     if (image.scale == pinchArea.minScale &&
                             (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50)) {

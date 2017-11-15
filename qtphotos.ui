@@ -20,7 +20,7 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QLabel" name="imageLabel">
+      <widget class="QImageLabel" name="imageLabel">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -30,13 +30,16 @@
         </rect>
        </property>
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
        </property>
       </widget>
      </widget>
@@ -65,7 +68,6 @@
     <property name="toolTipsVisible">
      <bool>false</bool>
     </property>
-    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
@@ -76,12 +78,13 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionSelect"/>
     <addaction name="actioncopy"/>
-    <addaction name="actionCut"/>
     <addaction name="actionPaste"/>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
-    <addaction name="actionFont"/>
+    <addaction name="actionCrop"/>
+    <addaction name="actionZoom_In"/>
+    <addaction name="actionZoom_Out"/>
+    <addaction name="actionReset"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -89,8 +92,17 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionZoom_In"/>
+    <addaction name="actionZoom_Out"/>
+    <addaction name="actionRotate"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -104,37 +116,27 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="actionSave_as"/>
-   <addaction name="actionPrint"/>
    <addaction name="separator"/>
    <addaction name="actioncopy"/>
-   <addaction name="actionCut"/>
    <addaction name="actionPaste"/>
-   <addaction name="actionUndo"/>
-   <addaction name="actionRedo"/>
-   <addaction name="actionFont"/>
+   <addaction name="actionPrint"/>
    <addaction name="separator"/>
+   <addaction name="actionSelect"/>
+   <addaction name="actionCrop"/>
+   <addaction name="actionRotate"/>
+   <addaction name="actionZoom_In"/>
+   <addaction name="actionZoom_Out"/>
+   <addaction name="separator"/>
+   <addaction name="actionReset"/>
    <addaction name="actionExit"/>
   </widget>
-  <action name="actionNew">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/new.png</normaloff>:/icons/new.png</iconset>
-   </property>
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
-   </property>
-  </action>
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
+     <normaloff>:/icons/open.svg</normaloff>:/icons/open.svg</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -146,7 +148,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
+     <normaloff>:/icons/save.svg</normaloff>:/icons/save.svg</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -163,11 +165,14 @@
    <property name="text">
     <string>Save as</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
   </action>
   <action name="actionPrint">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/print.png</normaloff>:/icons/print.png</iconset>
+     <normaloff>:/icons/print.svg</normaloff>:/icons/print.svg</iconset>
    </property>
    <property name="text">
     <string>Print</string>
@@ -179,7 +184,7 @@
   <action name="actionExit">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+     <normaloff>:/icons/exit.svg</normaloff>:/icons/exit.svg</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -191,7 +196,7 @@
   <action name="actioncopy">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+     <normaloff>:/icons/copy.svg</normaloff>:/icons/copy.svg</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -200,64 +205,19 @@
     <string>Ctrl+C</string>
    </property>
   </action>
-  <action name="actionCut">
+  <action name="actionCrop">
    <property name="icon">
     <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/cut.png</normaloff>:/icons/cut.png</iconset>
+     <normaloff>:/icons/crop.svg</normaloff>:/icons/crop.svg</iconset>
    </property>
    <property name="text">
-    <string>Cut</string>
+    <string>Crop</string>
+   </property>
+   <property name="toolTip">
+    <string>Crop</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
-   </property>
-  </action>
-  <action name="actionPaste">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
-   </property>
-   <property name="text">
-    <string>Paste</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+V</string>
-   </property>
-  </action>
-  <action name="actionUndo">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/edit_undo.png</normaloff>:/icons/edit_undo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Undo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="actionRedo">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/edit_redo.png</normaloff>:/icons/edit_redo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Redo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Y, Ctrl+Shift+Z</string>
-   </property>
-  </action>
-  <action name="actionFont">
-   <property name="icon">
-    <iconset resource="qtphotos.qrc">
-     <normaloff>:/icons/font.png</normaloff>:/icons/font.png</iconset>
-   </property>
-   <property name="text">
-    <string>Font</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+F</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -265,8 +225,102 @@
     <string>About</string>
    </property>
   </action>
+  <action name="actionSelect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/select.png</normaloff>:/icons/select.png</iconset>
+   </property>
+   <property name="text">
+    <string>Select</string>
+   </property>
+   <property name="toolTip">
+    <string>select</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+   <property name="toolTip">
+    <string>reset</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+R</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/paste.svg</normaloff>:/icons/paste.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="toolTip">
+    <string>paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionRotate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/rotate.svg</normaloff>:/icons/rotate.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionZoom_In">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/zoom_in.svg</normaloff>:/icons/zoom_in.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="actionZoom_Out">
+   <property name="icon">
+    <iconset resource="qtphotos.qrc">
+     <normaloff>:/icons/zoom_out.svg</normaloff>:/icons/zoom_out.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QImageLabel</class>
+   <extends>QLabel</extends>
+   <header>qimagelabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="qtphotos.qrc"/>
  </resources>

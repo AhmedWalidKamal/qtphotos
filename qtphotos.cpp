@@ -1,4 +1,4 @@
-#include "boundingrectangle.h"
+#include "qboundingrect.h"
 #include "qtphotos.h"
 #include "ui_qtphotos.h"
 #include <QFileDialog>
@@ -18,6 +18,7 @@
 #include <QDesktopWidget>
 #include <QScrollBar>
 #include <QClipboard>
+#include <QMessageBox>
 
 void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
@@ -28,9 +29,12 @@ QtPhotos::QtPhotos(QWidget *parent) :
     ui->setupUi(this);
     ui->imageLabel->setBackgroundRole(QPalette::Base);
     ui->imageLabel->setScaledContents(true);
-
+    ui->imageLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    ui->imageLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    ui->imageLabel->setVisible(false);
     ui->scrollArea->setBackgroundRole(QPalette::Dark);
-
+    ui->scrollArea->setWidgetResizable(false);
+    ui->scrollArea->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
     setGeometry(
         QStyle::alignedRect(
@@ -40,6 +44,8 @@ QtPhotos::QtPhotos(QWidget *parent) :
             qApp->desktop()->availableGeometry()
         )
     );
+    disableButtonsInitially();
+    ui->imageLabel->setState(QImageLabel::IDLE);
 }
 
 QtPhotos::~QtPhotos()
@@ -47,24 +53,47 @@ QtPhotos::~QtPhotos()
     delete ui;
 }
 
-void QtPhotos::on_actionNew_triggered()
+void QtPhotos::saveImage(QString &imageFileName)
 {
-
+    QImageWriter writer(imageFileName);
+    writer.write(ui->imageLabel->pixmap()->toImage());
 }
 
-void QtPhotos::mousePressEvent(QMouseEvent *event)
+void QtPhotos::disableButtonsInitially()
 {
-    boundingRect.initBoundingRectangle(event->pos(), this);
+    ui->actioncopy->setEnabled(false);
+    ui->actionCrop->setEnabled(false);
+    ui->actionPrint->setEnabled(false);
+    ui->actionSave->setEnabled(false);
+    ui->actionSave_as->setEnabled(false);
+    ui->actionSelect->setEnabled(false);
+    ui->actionReset->setEnabled(false);
+    ui->actionRotate->setEnabled(false);
+    ui->actionZoom_In->setEnabled(false);
+    ui->actionZoom_Out->setEnabled(false);
 }
 
-void QtPhotos::mouseMoveEvent(QMouseEvent *event)
+void QtPhotos::enableButtons()
 {
-    boundingRect.updateRectPosition(event->pos());
+    ui->actioncopy->setEnabled(true);
+    ui->actionPrint->setEnabled(true);
+    ui->actionSave->setEnabled(true);
+    ui->actionSave_as->setEnabled(true);
+    ui->actionSelect->setEnabled(true);
+    ui->actionRotate->setEnabled(true);
+    ui->actionZoom_In->setEnabled(true);
+    ui->actionZoom_Out->setEnabled(true);
+    ui->actionReset->setEnabled(true);
 }
 
-void QtPhotos::mouseReleaseEvent(QMouseEvent *event)
-{
-    boundingRect.setRectDimensions();
+void QtPhotos::closeEvent(QCloseEvent *event) {
+    if (ui->imageLabel->isModified()) {
+        if (promptForSaving()) {
+            event->accept();
+        } else {
+            event->ignore();
+        }
+    }
 }
 
 void QtPhotos::on_actionOpen_triggered()
@@ -72,32 +101,24 @@ void QtPhotos::on_actionOpen_triggered()
     QFileDialog dialog(this, tr("Open Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     initImageDialog(dialog, QFileDialog::AcceptOpen);
-    dialog.exec();
-    for (const QString& fileName : dialog.selectedFiles()) {
-        qDebug() << fileName;
-        QImageReader reader(fileName);
-        reader.setAutoTransform(true);
-        image = reader.read();
-        if (image.isNull())
-            qDebug() << "Failed to open image";
-        QTransform trans;
-        trans.rotate(45);
-        //image = image.transformed(trans);
-        ui->imageLabel->setPixmap(QPixmap::fromImage(image));
-        //ui->imageLabel->setScaledContents(true);
-        //ui->imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-        //ui->imageLabel->adjustSize();
-        qDebug() << image.size();
-        qDebug() << ui->scrollArea->widget();
-        setWindowFilePath(fileName);
-        //ui->scrollArea->show();
-        Q_ASSERT(ui->imageLabel->pixmap());
-    }
+    int ret = dialog.exec();
+    if (ret != QFileDialog::Accepted)
+        return;
+    fileName = dialog.selectedFiles().first();
+    qDebug() << "File Name: " << fileName;
+    QImageReader reader(fileName);
+    reader.setAutoTransform(true);
+    QImage image = reader.read();
+    if (image.isNull())
+        qDebug() << "Failed to open image";
+    qDebug() << "Image Size: " << image.size();
+    display(QPixmap::fromImage(image));
+    setWindowFilePath(fileName);
 }
 
 void QtPhotos::on_actionSave_triggered()
 {
-
+    saveImage(fileName);
 }
 
 void QtPhotos::on_actionSave_as_triggered()
@@ -105,10 +126,16 @@ void QtPhotos::on_actionSave_as_triggered()
     QFileDialog dialog(this, tr("Save Image File"));
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     initImageDialog(dialog, QFileDialog::AcceptSave);
-    dialog.exec();
+    int ret = dialog.exec();
+    if (ret != QFileDialog::Accepted)
+        return;
     for (const QString& str : dialog.selectedFiles()) {
         qDebug() << str;
     }
+    QString imageFileName = dialog.selectedFiles().first();
+    saveImage(imageFileName);
+    fileName = imageFileName;
+    setWindowFilePath(fileName);
 }
 
 void QtPhotos::on_actionPrint_triggered()
@@ -118,7 +145,7 @@ void QtPhotos::on_actionPrint_triggered()
 
 void QtPhotos::on_actionExit_triggered()
 {
-    exit(0);
+    QCoreApplication::quit();
 }
 
 void QtPhotos::on_actioncopy_triggered()
@@ -128,37 +155,25 @@ void QtPhotos::on_actioncopy_triggered()
     #endif // !QT_NO_CLIPBOARD
 }
 
-void QtPhotos::on_actionCut_triggered()
+
+void QtPhotos::on_actionCrop_triggered()
 {
-    QImage croppedImage = image.copy(boundingRect.getBoundingRect());
-    display(croppedImage);
+    ui->imageLabel->crop();
 }
 
-void QtPhotos::display(QImage imageToDisplay)
+void QtPhotos::display(QPixmap &pixelMap)
 {
-    ui->imageLabel->setPixmap(QPixmap::fromImage(imageToDisplay));
-
-    boundingRect.reset();
+    ui->imageLabel->setPixmap(pixelMap);
+    enableButtons();
+    setCursor(Qt::ArrowCursor);
+    ui->actionRotate->setChecked(false);
+    ui->actionSelect->setChecked(false);
+    curZoom = INITIAL_ZOOM;
+    ui->imageLabel->setVisible(true);
 }
 
-void QtPhotos::on_actionPaste_triggered()
-{
-
-}
-
-void QtPhotos::on_actionUndo_triggered()
-{
-
-}
-
-void QtPhotos::on_actionRedo_triggered()
-{
-
-}
-
-void QtPhotos::on_actionFont_triggered()
-{
-
+void QtPhotos::display(QPixmap &&pixelMap) {
+    display(pixelMap);
 }
 
 void QtPhotos::on_actionAbout_triggered()
@@ -207,4 +222,101 @@ void initImageDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode) {
         dialog.selectMimeTypeFilter(defaultFilter);
         dialog.setDefaultSuffix("jpg");
     }
+}
+
+void QtPhotos::on_actionReset_triggered()
+{
+    setCursor(Qt::ArrowCursor);
+    ui->actionRotate->setChecked(false);
+    ui->actionSelect->setChecked(false);
+    curZoom = INITIAL_ZOOM;
+    ui->imageLabel->reset();
+}
+
+void QtPhotos::on_actionRotate_toggled(bool active)
+{
+    if (!active) {
+        ui->imageLabel->setState(QImageLabel::ACTIVE);
+        setCursor(Qt::ArrowCursor);
+    } else {
+        ui->actionSelect->setChecked(false);
+        ui->imageLabel->setState(QImageLabel::ROTATING);
+        QImageReader reader(":/icons/rotate_cursor.png");
+        QCursor cursor(QPixmap::fromImage(reader.read()));
+        setCursor(cursor);
+    }
+}
+
+void QtPhotos::on_actionSelect_toggled(bool active)
+{
+    if (!active) {
+        ui->imageLabel->setState(QImageLabel::ACTIVE);
+        ui->imageLabel->resetBoundingRectangle();
+        setCursor(Qt::ArrowCursor);
+        ui->actionCrop->setEnabled(false);
+    } else {
+        ui->actionRotate->setChecked(false);
+        ui->imageLabel->setState(QImageLabel::SELECTING);
+        setCursor(Qt::CrossCursor);
+        ui->actionCrop->setEnabled(true);
+    }
+}
+
+void QtPhotos::on_actionZoom_In_triggered()
+{
+    if (curZoom == ZOOM_LEVELS_COUNT - 1) {
+        return;
+    }
+    if (ui->imageLabel->getState() == QImageLabel::SELECTING) {
+
+    } else {
+        curZoom++;
+    }
+    ui->imageLabel->zoom(zoomLevel[curZoom], true);
+
+}
+
+void QtPhotos::on_actionZoom_Out_triggered()
+{
+    if (curZoom == 0) {
+        return;
+    }
+    if (ui->imageLabel->getState() == QImageLabel::SELECTING) {
+
+    } else {
+        curZoom--;
+    }
+    ui->imageLabel->zoom(zoomLevel[curZoom], false);
+}
+
+void QtPhotos::on_actionPaste_triggered()
+{
+    #ifndef QT_NO_CLIPBOARD
+        if (QGuiApplication::clipboard()->pixmap().isNull()) {
+            return;
+        }
+        display(QGuiApplication::clipboard()->pixmap());
+    #endif
+}
+
+bool QtPhotos::promptForSaving() {
+    const QMessageBox::StandardButton ret
+            = QMessageBox::warning(this, tr("qtphotos"),
+                                   tr("The image has been modified.\n"
+                                      "Do you want to save your changes?"),
+                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        switch (ret) {
+        case QMessageBox::Save:
+            if (fileName.isEmpty()) {
+                on_actionSave_as_triggered();
+            } else {
+                on_actionSave_triggered();
+            }
+            return true;
+        case QMessageBox::Cancel:
+            return false;
+        default:
+            break;
+        }
+        return true;
 }
