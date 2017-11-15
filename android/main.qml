@@ -111,25 +111,28 @@ ApplicationWindow {
 
             onClicked: {
 
-                var imgHeight = image.sourceHeight * (image.width / image.sourceWidth)
+                var imgHeight = image.sourceHeight * image.imgScale
+                var imgWidth = image.sourceWidth * image.imgScale
 
-                var cropX = selection.x * image.scale * image.sourceWidth / image.width
-                var cropWidth = selection.width * image.scale * image.sourceWidth / image.width
+                var cropX = selection.x * image.sourceWidth / imgWidth
+                var cropWidth = selection.width * image.sourceWidth / imgWidth
 
-                var marginY = (boundingSelectionRect.height - (imgHeight * image.scale)) / 2
-                var cropY = Math.max(0, selection.y * image.scale - marginY) * image.sourceHeight / imgHeight
+                var marginY = (boundingSelectionRect.height - imgHeight) / 2
 
-                var cropHeight = selection.height * image.scale * image.sourceHeight / imgHeight
-                if (cropY + cropHeight > image.sourceHeight)
-                    cropHeight = image.sourceHeight - cropY
+                var cropY = (selection.y - marginY) * image.sourceHeight / imgWidth
+                var cropHeight = selection.height * image.sourceHeight / imgWidth
 
+//                var imgHeight = image.sourceHeight * (image.width / image.sourceWidth) * image.imgScale
 
+//                var cropX = selection.x * image.imgScale * image.sourceWidth / image.width
+//                var cropWidth = selection.width / image.imgScale * image.sourceWidth / image.width
 
-                console.log("CropX: ", cropX)
-                console.log("CropY: ", cropY)
-                console.log("marginY", marginY)
-                console.log("CropWidth: ", cropWidth)
-                console.log("CropHeight", cropHeight)
+//                var marginY = (boundingSelectionRect.height - imgHeight) / 2
+//                var cropY = Math.max(0, selection.y * image.imgScale - marginY) * image.sourceHeight / imgHeight
+
+//                var cropHeight = selection.height * image.imgScale * image.sourceHeight / imgHeight
+//                if (cropY + cropHeight > image.sourceHeight)
+//                    cropHeight = image.sourceHeight - cropY
 
                 pixMap.crop(cropX, cropY, cropWidth, cropHeight)
             }

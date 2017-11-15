@@ -17,6 +17,7 @@ Flickable {
     property alias sourceHeight: image.sourceSize.height
     property alias containerWidth: imageContainer.width
     property alias containerHeight: imageContainer.height
+    property real imgScale: 0
 
     property real dragX: 0
     property real dragY: 0
@@ -56,6 +57,7 @@ Flickable {
                     flickable.contentY = yoff - flickable.height / 2;
                 }
                 prevScale = scale;
+                imgScale = scale
             }
             onStatusChanged: {
                 if(image.status==Image.Ready){
