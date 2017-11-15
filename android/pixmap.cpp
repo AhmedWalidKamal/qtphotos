@@ -49,8 +49,8 @@ void Pixmap::crop(const float x, const float y, const float width, const float h
     QPixmap * old = nullptr;
     if (pixmap)
         old = pixmap;
-    QRect rect(x, y, width-x, height-y);
-    QPixmap cropped = pixmap->copy(rect);
+
+    QPixmap cropped = pixmap->copy(x, y, width, height);
     pixmap = new QPixmap(cropped);
     // url = QString("/storage/emulated/0/Pictures/Screenshots/hesham.jpg");
     save(url);
