@@ -42,10 +42,10 @@ void Pixmap::clear(){
 }
 
 void Pixmap::crop(const float x, const float y, const float width, const float height){
-    qDebug(QString::number(x).toLatin1());
-    qDebug(QString::number(y).toLatin1());
-    qDebug(QString::number(width).toLatin1());
-    qDebug(QString::number(height).toLatin1());
+//    qDebug(QString::number(x).toLatin1());
+//    qDebug(QString::number(y).toLatin1());
+//    qDebug(QString::number(width).toLatin1());
+//    qDebug(QString::number(height).toLatin1());
     QPixmap * old = nullptr;
     if (pixmap)
         old = pixmap;
@@ -53,7 +53,7 @@ void Pixmap::crop(const float x, const float y, const float width, const float h
     QPixmap cropped = pixmap->copy(rect);
     pixmap = new QPixmap(cropped);
     // url = QString("/storage/emulated/0/Pictures/Screenshots/hesham.jpg");
-    save(url);
+    //save(url);
     qDebug(url.toLatin1());
     emit dataChanged();
     if(old)

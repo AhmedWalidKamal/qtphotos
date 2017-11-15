@@ -98,10 +98,13 @@ ApplicationWindow {
                 source: "icons/save.png"
             }
 
-            onClicked: pixMap.crop(selection.x * image.width / image.paintedWidth,
+            onClicked: {
+                pixMap.crop(selection.x * image.width / image.paintedWidth,
                                    selection.y * image.height / image.paintedHeight,
                                    (selection.x + selection.width) * image.width / image.paintedWidth,
                                    (selection.y + selection.height) * image.height /image.paintedHeight)
+
+            }
         }
     }
 

@@ -28,9 +28,7 @@ Flickable {
             fillMode: Image.PreserveAspectFit
             cache: false
             function calculateSize() {
-                if(width==0)
-                    width=600;
-                scale = Math.min(flickable.width / width, flickable.height / height) * 0.98;
+                scale = Math.min(flickable.width / width, Math.min(flickable.height / height, pinchArea.lastScale)) * 0.98;
                 pinchArea.minScale = scale;
                 prevScale = Math.min(scale, 1);
                 console.log(scale);
@@ -47,6 +45,11 @@ Flickable {
                 prevScale = scale;
             }
             onStatusChanged: {
+                if(image.status==Image.Ready){
+//                    image.sourceChanged();
+                    calculateSize();
+                    image.rotation = 0;
+                }
 
             }
             //            Behavior on scale {NumberAnimation{duration: 200}}
@@ -109,6 +112,8 @@ Flickable {
                 if (image.scale === startScale) {
                     var deltaX = (mouse.x / image.scale) - startX
                     var deltaY = (mouse.y / image.scale) - startY
+                    console.log(deltaX);
+                    console.log(deltaY);
                     // Swipe is only allowed when we're not zoomed in
                     if (image.scale == pinchArea.minScale &&
                             (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50)) {
