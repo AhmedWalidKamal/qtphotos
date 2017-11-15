@@ -17,6 +17,7 @@ Flickable {
     property alias sourceHeight: image.sourceSize.height
     property alias containerWidth: imageContainer.width
     property alias containerHeight: imageContainer.height
+    property alias rotate: image.rotation
     property real imgScale: 0
 
     property real dragX: 0

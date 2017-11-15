@@ -39,15 +39,10 @@ void Pixmap::clear(){
     if (pixmap)
         delete pixmap;
     pixmap = nullptr;
-    original_url = temp_url = QString();
     emit dataChanged();
 }
 
 void Pixmap::crop(const float x, const float y, const float width, const float height){
-//    qDebug(QString::number(x).toLatin1());
-//    qDebug(QString::number(y).toLatin1());
-//    qDebug(QString::number(width).toLatin1());
-//    qDebug(QString::number(height).toLatin1());
     QPixmap * old = nullptr;
     if (pixmap)
         old = pixmap;
@@ -67,10 +62,8 @@ void Pixmap::save()
 }
 
 void Pixmap::reset(){
-    if(pixmap)
-        delete pixmap;
-    pixmap = new QPixmap(original_url);
-    temp_url = original_url;
+    clear();
+    load(original_url);
     emit dataChanged();
 }
 

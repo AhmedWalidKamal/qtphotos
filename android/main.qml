@@ -371,7 +371,7 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-
+                    image.rotation += -90;
                 }
             }
 
@@ -423,7 +423,7 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-
+                    image.rotation += 90;
                 }
             }
 
