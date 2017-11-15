@@ -131,6 +131,7 @@ void QtPhotos::on_actionOpen_triggered()
 void QtPhotos::on_actionSave_triggered()
 {
     saveImage(fileName);
+    ui->imageLabel->setModified(false);
 }
 
 void QtPhotos::on_actionSave_as_triggered()
@@ -148,6 +149,7 @@ void QtPhotos::on_actionSave_as_triggered()
     saveImage(imageFileName);
     fileName = imageFileName;
     setWindowFilePath(fileName);
+    ui->imageLabel->setModified(false);
 }
 
 void QtPhotos::on_actionPrint_triggered()

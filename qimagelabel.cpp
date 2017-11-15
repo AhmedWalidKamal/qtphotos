@@ -24,9 +24,11 @@ QImageLabel::~QImageLabel()
 }
 
 void QImageLabel::setPixmap(QPixmap &pixelmap) {
-    QLabel::setPixmap(pixelmap);
 //    resize(pixelmap.size());
-    delete originalPixmap;
+    QLabel::setPixmap(pixelmap);
+    if (originalPixmap != &pixelmap) {
+        delete originalPixmap;
+    }
     delete resizedPixmap;
     resizedPixmap = new QPixmap(pixelmap);
     originalPixmap = new QPixmap(pixelmap);
@@ -56,9 +58,11 @@ void QImageLabel::setState(QImageLabel::State state)
 
 void QImageLabel::resetBoundingRectangle()
 {
-    boundingRect->reset();
-    delete boundingRect;
-    boundingRect = nullptr;
+    if (boundingRect != nullptr) {
+        boundingRect->reset();
+        delete boundingRect;
+        boundingRect = nullptr;
+    }
 }
 
 void QImageLabel::mousePressEvent(QMouseEvent *event)
@@ -79,9 +83,9 @@ void QImageLabel::mousePressEvent(QMouseEvent *event)
         break;
     case ROTATING: {
         QPoint endPoint = event->pos();
-        QPoint startingPoint = QPoint(width() / 2.0, height() / 2.0);
-        qDebug() << "Pos" << pos() <<  "Start" << startingPoint << "End" << endPoint;
-        rotationDiff = curRotation - math::calculateAngle(startingPoint, endPoint);
+        QPoint pivot = QPoint(width() / 2.0, height() / 2.0);
+        qDebug() << "Pos" << pos() <<  "Start" << pivot << "End" << endPoint;
+        rotationDiff = curRotation - math::calculateAngle(pivot, endPoint);
         if (!pixmap())
             return;
         break;
@@ -109,8 +113,8 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         qDebug() << "Rotating: Entered Mouse Move";
         QTransform trans;
         QPoint endPoint = event->pos();
-        QPoint startingPoint = QPoint(width() / 2.0, height() / 2.0);
-        double angle = math::calculateAngle(startingPoint, endPoint);
+        QPoint pivot = QPoint(width() / 2.0, height() / 2.0);
+        double angle = math::calculateAngle(pivot, endPoint);
         double imageHeight = resizedPixmap->height();
         double imageWidth = resizedPixmap->width();
         trans.translate(imageWidth / 2.0, imageHeight / 2.0);
@@ -141,8 +145,11 @@ void QImageLabel::mouseReleaseEvent(QMouseEvent *event)
         } else {
             boundingRect->setupBoundingRect();
         }
+        boundingRect->raise();
+        lower();
         qDebug() << "Selected Area: " << boundingRect->getBoundingRect();
         break;
+
     case ROTATING:
         imageIsModified = true;
         break;
@@ -166,7 +173,6 @@ void QImageLabel::crop() {
     double scaleX = imageWidth / width();
     double scaleY = imageHeight / height();
     boundingRect->scale(scaleX, scaleY);
-//    qDebug() << "Selected Area After Scaling: " << boundingRect.getBoundingRect();
     QPixmap cropped = pixmap()->copy(boundingRect->getBoundingRect());
     QLabel::setPixmap(cropped);
     delete resizedPixmap;
@@ -181,12 +187,6 @@ void QImageLabel::crop() {
 void QImageLabel::zoom(double ratio, bool isZoomIn) {
     switch (currState) {
     case ACTIVE: {
-        //scale = ratio / scale;
-        //qDebug() << scale * pixmap()->size();
-        //QPixmap newMap = *pixmap();
-        //newMap = newMap.scaled(scale * newMap.size(), Qt::KeepAspectRatio);
-        //qDebug() << newMap.size();
-        //QLabel::setPixmap(newMap);
         scale = ratio;
         resize(ratio * pixmap()->size());
         qDebug() << "Zoom Ratio: " << ratio << "Label Size: " << size();
@@ -201,8 +201,13 @@ void QImageLabel::zoom(double ratio, bool isZoomIn) {
 
 void QImageLabel::reset() {
     setPixmap(*originalPixmap);
+    qDebug() << originalPixmap;
 }
 
 bool QImageLabel::isModified() {
     return imageIsModified;
+}
+
+bool QImageLabel::setModified(bool modified) {
+    imageIsModified = modified;
 }

@@ -21,6 +21,7 @@ public:
     void zoom(double ratio, bool isZoomIn);
     void reset();
     bool isModified();
+    bool setModified(bool modified);
 private slots:
     void mousePressEvent(QMouseEvent *event);
 
