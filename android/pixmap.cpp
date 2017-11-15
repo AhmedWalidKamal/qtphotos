@@ -54,18 +54,16 @@ void Pixmap::crop(const float x, const float y, const float width, const float h
     QPixmap cropped = pixmap->copy(x, y, width, height);
     pixmap = new QPixmap(cropped);
     temp_url = QString::fromStdString(extractPath(temp_url.toStdString()) + "/.qAndroidcache.jpg");
-    save(temp_url);
+    saveFileAs(temp_url);
     qDebug(temp_url.toLatin1());
     emit dataChanged();
     if(old)
         delete old;
 }
 
-void Pixmap::save(QString &imageFileName)
+void Pixmap::save()
 {
-    QImageWriter writer(imageFileName);
-    if(writer.write(pixmap->toImage()))
-        qDebug("Image saved");
+    saveFileAs(original_url);
 }
 
 void Pixmap::reset(){
@@ -74,4 +72,10 @@ void Pixmap::reset(){
     pixmap = new QPixmap(original_url);
     temp_url = original_url;
     emit dataChanged();
+}
+
+void Pixmap::saveFileAs(QString &imageFileName){
+    QImageWriter writer(imageFileName);
+    if(writer.write(pixmap->toImage()))
+        qDebug("Image saved");
 }

@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>ZoomableImage.qml</file>
+        <file>a.qml</file>
     </qresource>
 </RCC>
