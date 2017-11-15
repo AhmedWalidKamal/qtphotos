@@ -11,7 +11,7 @@ class QBoundingRectangle : public QRubberBand
 public:
     QBoundingRectangle(QWidget *parent);
 
-    void initBoundingRectangle(QPoint initialPoint);
+    void initBoundingRectangle(QPoint initialPoint, QWidget *widget);
     void initMoving(QPoint point);
     void updateRectPosition(QPoint newPoint);
     void moveRubberBand(QPoint point);
