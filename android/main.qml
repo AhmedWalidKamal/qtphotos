@@ -57,7 +57,7 @@ ApplicationWindow {
                                                                     "x": boundingSelectionRect.width / 4,
                                                                     "y": boundingSelectionRect.height / 4,
                                                                     "width": boundingSelectionRect.width / 2,
-                                                                    "height": boundingSelectionRect.width / 2})
+                                                                    "height": boundingSelectionRect.height / 2})
                 }
             }
         }
@@ -98,7 +98,10 @@ ApplicationWindow {
                 source: "icons/save.png"
             }
 
-            onClicked: console.log("SAVE")
+            onClicked: pixMap.crop(selection.x * image.width / image.paintedWidth,
+                                   selection.y * image.height / image.paintedHeight,
+                                   (selection.x + selection.width) * image.width / image.paintedWidth,
+                                   (selection.y + selection.height) * image.height /image.paintedHeight)
         }
     }
 
@@ -166,13 +169,15 @@ ApplicationWindow {
 
             Rectangle {
                 id: selCompRect
+                property int rulersSize: 18
+
                 border {
                     width: 2
                     color: "lightslategray"
                 }
                 color: "#354682B4"
 
-                property int rulersSize: 18
+
 
                 MouseArea {
                     anchors.fill: parent

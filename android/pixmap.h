@@ -11,6 +11,8 @@ public:
     explicit Pixmap(QObject *parent = nullptr);
     ~Pixmap();
     QString data();
+    Q_INVOKABLE void crop(const float x, const float y, const float width, const float height);
+    Q_INVOKABLE void save(QString &imageFileName);
 
 signals:
     void dataChanged();
