@@ -51,6 +51,21 @@ void QBoundingRectangle::resizeEvent(QResizeEvent *) {
     resize(size());
 }
 
+bool QBoundingRectangle::outOfBounds(QPoint topLeft)
+{
+//    if (topLeft.x() < parentWidget()->pos().x() || topLeft.y() < parentWidget()->pos().y()
+//            || topLeft.x() + height() > parentWidget()->pos().x() + parentWidget()->height()
+//            || topLeft.y() + width() > parentWidget()->pos().y() + parentWidget()->width()) {
+//        return true;
+//    }
+//    return false;
+
+    if (rubberBandRect.topLeft().x() < parentWidget()->pos().x()) {
+        return true;
+    }
+    return false;
+}
+
 void QBoundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *widget)
 {
     origin = initialPoint;
@@ -79,8 +94,11 @@ void QBoundingRectangle::updateRectPosition(QPoint newPoint)
 
 void QBoundingRectangle::moveRubberBand(QPoint point)
 {
-    move(point - movingOffset);
-    rubberBandRect = geometry().normalized();
+    QPoint topLeft = point - movingOffset;
+    if (!outOfBounds(topLeft)) {
+        move(point - movingOffset);
+        rubberBandRect = geometry().normalized();
+    }
 }
 
 void QBoundingRectangle::scale(double scaleX, double scaleY) {

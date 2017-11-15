@@ -23,7 +23,6 @@ public:
     bool validSize();
     bool contains(QPoint point);
     bool rubberBandIsMoving();
-    void resizeEvent(QResizeEvent *);
 private:
     QPoint origin;
     QRect rubberBandRect;
@@ -32,7 +31,8 @@ private:
     bool isMoving;
     QPoint movingOffset;
 
-//    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *);
+    bool outOfBounds(QPoint topLeft);
 };
 
 #endif // BOUNDINGRECTANGLE_H

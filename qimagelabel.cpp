@@ -56,9 +56,11 @@ void QImageLabel::setState(QImageLabel::State state)
 
 void QImageLabel::resetBoundingRectangle()
 {
-    boundingRect->reset();
-    delete boundingRect;
-    boundingRect = nullptr;
+    if (boundingRect != nullptr) {
+        boundingRect->reset();
+        delete boundingRect;
+        boundingRect = nullptr;
+    }
 }
 
 void QImageLabel::mousePressEvent(QMouseEvent *event)
