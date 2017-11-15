@@ -55,6 +55,7 @@ Flickable {
                     var yoff = (flickable.height / 2 + flickable.contentY) * scale / prevScale;
                     flickable.contentY = yoff - flickable.height / 2;
                 }
+                console.log(scale);
                 prevScale = scale;
             }
             onStatusChanged: {

@@ -13,6 +13,7 @@ public:
     QString data();
     Q_INVOKABLE void crop(const float x, const float y, const float width, const float height);
     Q_INVOKABLE void save(QString &imageFileName);
+    Q_INVOKABLE void reset();
 
 signals:
     void dataChanged();
@@ -23,7 +24,9 @@ public slots:
 
 private:
     QPixmap * pixmap;
-    QString url;
+    QString original_url;
+    QString temp_url;
+
 };
 
 #endif // PIXMAP_H

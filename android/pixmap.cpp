@@ -1,6 +1,7 @@
 #include <QPixmap>
 #include <QImageWriter>
 #include "pixmap.h"
+#include "util.h"
 
 Pixmap::Pixmap(QObject *parent) : QObject(parent), pixmap(nullptr)
 {
@@ -16,7 +17,7 @@ Pixmap::~Pixmap()
 QString Pixmap::data(){
     qDebug("Data requested");
     if (pixmap)
-        return "image://pixmap/" + url;
+        return "image://pixmap/" + temp_url;
     else
         return QString();
 }
@@ -24,11 +25,11 @@ QString Pixmap::data(){
 
 void Pixmap::load(QString url){
     QPixmap * old = nullptr;
-    this->url = url;
+    this->original_url = this->temp_url = url;
     if (pixmap)
         old = pixmap;
     qDebug("Loading Image...");
-    pixmap = new QPixmap(url);
+    pixmap =  new QPixmap(url);
     emit dataChanged();
     if (old)
         delete old;
@@ -38,6 +39,7 @@ void Pixmap::clear(){
     if (pixmap)
         delete pixmap;
     pixmap = nullptr;
+    original_url = temp_url = QString();
     emit dataChanged();
 }
 
@@ -49,12 +51,11 @@ void Pixmap::crop(const float x, const float y, const float width, const float h
     QPixmap * old = nullptr;
     if (pixmap)
         old = pixmap;
-
     QPixmap cropped = pixmap->copy(x, y, width, height);
     pixmap = new QPixmap(cropped);
-    // url = QString("/storage/emulated/0/Pictures/Screenshots/hesham.jpg");
-    //save(url);
-    qDebug(url.toLatin1());
+    temp_url = QString::fromStdString(extractPath(temp_url.toStdString()) + "/.qAndroidcache.jpg");
+    save(temp_url);
+    qDebug(temp_url.toLatin1());
     emit dataChanged();
     if(old)
         delete old;
@@ -67,3 +68,10 @@ void Pixmap::save(QString &imageFileName)
         qDebug("Image saved");
 }
 
+void Pixmap::reset(){
+    if(pixmap)
+        delete pixmap;
+    pixmap = new QPixmap(original_url);
+    temp_url = original_url;
+    emit dataChanged();
+}
