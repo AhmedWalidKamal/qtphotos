@@ -1,4 +1,5 @@
 #include <QPixmap>
+#include <QImageWriter>
 #include "pixmap.h"
 
 Pixmap::Pixmap(QObject *parent) : QObject(parent), pixmap(nullptr)
@@ -27,7 +28,7 @@ void Pixmap::load(QString url){
     if (pixmap)
         old = pixmap;
     qDebug("Loading Image...");
-    pixmap = new QPixmap("file://" + url);
+    pixmap = new QPixmap(url);
     emit dataChanged();
     if (old)
         delete old;
@@ -38,5 +39,31 @@ void Pixmap::clear(){
         delete pixmap;
     pixmap = nullptr;
     emit dataChanged();
+}
+
+void Pixmap::crop(const float x, const float y, const float width, const float height){
+    qDebug(QString::number(x).toLatin1());
+    qDebug(QString::number(y).toLatin1());
+    qDebug(QString::number(width).toLatin1());
+    qDebug(QString::number(height).toLatin1());
+    QPixmap * old = nullptr;
+    if (pixmap)
+        old = pixmap;
+    QRect rect(x, y, width-x, height-y);
+    QPixmap cropped = pixmap->copy(rect);
+    pixmap = new QPixmap(cropped);
+    // url = QString("/storage/emulated/0/Pictures/Screenshots/hesham.jpg");
+    save(url);
+    qDebug(url.toLatin1());
+    emit dataChanged();
+    if(old)
+        delete old;
+}
+
+void Pixmap::save(QString &imageFileName)
+{
+    QImageWriter writer(imageFileName);
+    if(writer.write(pixmap->toImage()))
+        qDebug("Image saved");
 }
 

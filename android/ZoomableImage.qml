@@ -9,6 +9,8 @@ Flickable {
     property alias source: image.source
     property alias status: image.status
     property alias progress: image.progress
+    property alias paintedWidth: image.paintedWidth
+    property alias paintedHeight: image.paintedHeight
     property string remoteSource: ''
     property string localSource: ''
     signal swipeLeft()
@@ -44,15 +46,9 @@ Flickable {
                 }
                 prevScale = scale;
             }
-//            onStatusChanged: {
-//                if (status == Image.Ready) {
-//                    console.log(image.width);
-//                    // calculateSize();
-//                    playing = true
-//                } else if (status == Image.Error &&image.source != remoteSource) {
-//                    image.source = remoteSource
-//                }
-//            }
+            onStatusChanged: {
+
+            }
             //            Behavior on scale {NumberAnimation{duration: 200}}
         }
     }
