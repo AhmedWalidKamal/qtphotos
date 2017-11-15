@@ -11,7 +11,7 @@ class QBoundingRectangle : public QRubberBand
 public:
     QBoundingRectangle(QWidget *parent);
 
-    void initBoundingRectangle(QPoint initialPoint);
+    void initBoundingRectangle(QPoint initialPoint, QWidget *widget);
     void initMoving(QPoint point);
     void updateRectPosition(QPoint newPoint);
     void moveRubberBand(QPoint point);
@@ -23,7 +23,6 @@ public:
     bool validSize();
     bool contains(QPoint point);
     bool rubberBandIsMoving();
-    void resizeEvent(QResizeEvent *);
 private:
     QPoint origin;
     QRect rubberBandRect;
@@ -32,7 +31,8 @@ private:
     bool isMoving;
     QPoint movingOffset;
 
-//    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *);
+    bool outOfBounds(QPoint topLeft);
 };
 
 #endif // BOUNDINGRECTANGLE_H

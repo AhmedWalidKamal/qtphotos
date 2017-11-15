@@ -78,7 +78,7 @@ void QImageLabel::mousePressEvent(QMouseEvent *event)
                 boundingRect = nullptr;
             }
             boundingRect = new QBoundingRectangle(this);
-            boundingRect->initBoundingRectangle(event->pos());
+            boundingRect->initBoundingRectangle(event->pos(), this);
         }
         break;
     case ROTATING: {
@@ -106,8 +106,9 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         }
         if (boundingRect->rubberBandIsMoving()) {
             boundingRect->moveRubberBand(event->pos());
+        } else {
+            boundingRect->updateRectPosition(event->pos());
         }
-        boundingRect->updateRectPosition(event->pos());
         break;
     case ROTATING: {
         qDebug() << "Rotating: Entered Mouse Move";
