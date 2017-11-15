@@ -161,6 +161,7 @@ void QImageLabel::crop() {
     double imageWidth = pixmap()->width();
     double scaleX = imageWidth / width();
     double scaleY = imageHeight / height();
+    qDebug() << "Scale X: " << scaleX << "Scale Y: " << scaleY;
     boundingRect->scale(scaleX, scaleY);
     QPixmap cropped = pixmap()->copy(boundingRect->getBoundingRect());
     QLabel::setPixmap(cropped);
@@ -182,6 +183,11 @@ void QImageLabel::zoom(double ratio, bool isZoomIn) {
         break;
     }
     case SELECTING:
+//        if (boundingRect != nullptr) {
+//            resize( width() * (double) parentWidget()->width() / boundingRect->width(),
+//                    height() * (double) parentWidget()->height() / boundingRect->height());
+//            qDebug() << size() << parentWidget()->size() << boundingRect->size();
+//        }
         break;
     default:
         break;

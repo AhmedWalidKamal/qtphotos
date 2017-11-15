@@ -296,9 +296,7 @@ void QtPhotos::on_actionZoom_In_triggered()
     if (curZoom == ZOOM_LEVELS_COUNT - 1) {
         return;
     }
-    if (ui->imageLabel->getState() == QImageLabel::SELECTING) {
-
-    } else {
+    if (ui->imageLabel->getState() == QImageLabel::ACTIVE) {
         curZoom++;
     }
     ui->imageLabel->zoom(zoomLevel[curZoom], true);
@@ -310,9 +308,7 @@ void QtPhotos::on_actionZoom_Out_triggered()
     if (curZoom == 0) {
         return;
     }
-    if (ui->imageLabel->getState() == QImageLabel::SELECTING) {
-
-    } else {
+    if (ui->imageLabel->getState() == QImageLabel::ACTIVE) {
         curZoom--;
     }
     ui->imageLabel->zoom(zoomLevel[curZoom], false);
