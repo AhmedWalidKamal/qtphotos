@@ -2,6 +2,7 @@
 #include <QHBoxLayout>
 #include <QSizeGrip>
 #include <QDebug>
+#include <QMouseEvent>
 
 QBoundingRectangle::QBoundingRectangle(QWidget *parent): QRubberBand(QRubberBand::Rectangle, parent)
 {
@@ -30,11 +31,6 @@ void QBoundingRectangle::setupBoundingRect()
     rubberBandRect = geometry().normalized();
 }
 
-void QBoundingRectangle::stopMoving()
-{
-    isMoving = false;
-}
-
 QRect QBoundingRectangle::getBoundingRect()
 {
     return rubberBandRect;
@@ -46,15 +42,26 @@ void QBoundingRectangle::reset()
 }
 
 void QBoundingRectangle::mousePressEvent(QMouseEvent *event) {
-    qDebug() << "Mouse pressed on rect, hurray";
+    movingOffset = event->pos();
+    isMoving = true;
 }
 
 void QBoundingRectangle::mouseMoveEvent(QMouseEvent *event) {
-
+    QPoint topLeft = event->pos() - movingOffset + rubberBandRect.topLeft();
+    if (!outOfBounds(topLeft)) {
+        move(event->pos() - movingOffset + rubberBandRect.topLeft());
+        rubberBandRect = geometry().normalized();
+    }
 }
 
 void QBoundingRectangle::mouseReleaseEvent(QMouseEvent *event) {
+    isMoving = false;
+}
 
+
+void QBoundingRectangle::resizeEvent(QResizeEvent *) {
+    resize(size());
+    rubberBandRect = geometry().normalized();
 }
 
 bool QBoundingRectangle::validSize()
@@ -73,15 +80,11 @@ bool QBoundingRectangle::rubberBandIsMoving()
     return isMoving;
 }
 
-void QBoundingRectangle::resizeEvent(QResizeEvent *) {
-    resize(size());
-}
-
 bool QBoundingRectangle::outOfBounds(QPoint topLeft)
 {
-    qDebug() << "Parent Widget Size: " << parentWidget()->size();
-    qDebug() << "Top Left point " << topLeft;
-    qDebug() << "height: " << height() << ", width: " << width();
+//    qDebug() << "Parent Widget Size: " << parentWidget()->size();
+//    qDebug() << "Top Left point " << topLeft;
+//    qDebug() << "height: " << height() << ", width: " << width();
     if (topLeft.x() < 0 || topLeft.y() < 0
             || topLeft.y() + height() > parentWidget()->size().height()
             || topLeft.x() + width() > parentWidget()->size().width()) {
@@ -98,24 +101,9 @@ void QBoundingRectangle::initBoundingRectangle(QPoint initialPoint, QWidget *wid
     this->activateWindow();
 }
 
-void QBoundingRectangle::initMoving(QPoint point)
-{
-    movingOffset = point - pos();
-    isMoving = true;
-}
-
 void QBoundingRectangle::updateRectPosition(QPoint newPoint)
 {
     setGeometry(QRect(origin, newPoint).normalized());
-}
-
-void QBoundingRectangle::moveRubberBand(QPoint point)
-{
-    QPoint topLeft = point - movingOffset;
-    if (!outOfBounds(topLeft)) {
-        move(point - movingOffset);
-        rubberBandRect = geometry().normalized();
-    }
 }
 
 void QBoundingRectangle::scale(double scaleX, double scaleY) {

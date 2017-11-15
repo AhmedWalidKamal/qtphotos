@@ -15,11 +15,8 @@ public:
     virtual ~QBoundingRectangle();
 
     void initBoundingRectangle(QPoint initialPoint, QWidget *widget);
-    void initMoving(QPoint point);
     void updateRectPosition(QPoint newPoint);
-    void moveRubberBand(QPoint point);
     void setupBoundingRect();
-    void stopMoving();
     QRect getBoundingRect();
     void scale(double scaleX, double scaleY);
     void reset();

@@ -69,17 +69,13 @@ void QImageLabel::mousePressEvent(QMouseEvent *event)
 {
     switch(currState) {
     case SELECTING:
-        if (boundingRect != nullptr && boundingRect->contains(event->pos())) {
-            boundingRect->initMoving(event->pos());
-        } else {
-            if (boundingRect != nullptr) {
-                boundingRect->reset();
-                delete boundingRect;
-                boundingRect = nullptr;
-            }
-            boundingRect = new QBoundingRectangle(this);
-            boundingRect->initBoundingRectangle(event->pos(), this);
+        if (boundingRect != nullptr) {
+            boundingRect->reset();
+            delete boundingRect;
+            boundingRect = nullptr;
         }
+        boundingRect = new QBoundingRectangle(this);
+        boundingRect->initBoundingRectangle(event->pos(), this);
         break;
     case ROTATING: {
         QPoint endPoint = event->pos();
@@ -104,11 +100,7 @@ void QImageLabel::mouseMoveEvent(QMouseEvent *event)
         if (boundingRect == nullptr) {
             break;
         }
-        if (boundingRect->rubberBandIsMoving()) {
-            boundingRect->moveRubberBand(event->pos());
-        } else {
-            boundingRect->updateRectPosition(event->pos());
-        }
+        boundingRect->updateRectPosition(event->pos());
         break;
     case ROTATING: {
         qDebug() << "Rotating: Entered Mouse Move";
@@ -141,11 +133,7 @@ void QImageLabel::mouseReleaseEvent(QMouseEvent *event)
         return;
     switch(currState) {
     case SELECTING:
-        if (boundingRect->rubberBandIsMoving()) {
-            boundingRect->stopMoving();
-        } else {
-            boundingRect->setupBoundingRect();
-        }
+        boundingRect->setupBoundingRect();
         boundingRect->raise();
         lower();
         qDebug() << "Selected Area: " << boundingRect->getBoundingRect();
